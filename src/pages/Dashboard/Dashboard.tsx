@@ -1,71 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCountdown } from '../../hooks/useCountdown';
 import { DashboardTile } from '../../components/DashboardTile/DashboardTile';
 import { Button } from '../../components/Button/Button';
 import { ToolsCarousel } from '../../components/ToolsCarousel/ToolsCarousel';
-import { youtubeService, YouTubeVideo } from '../../services/youtubeService';
 import { Styles as S } from './styles';
 
 export const Dashboard: React.FC = () => {
   const timeUntilNextVideo = useCountdown();
-  const [latestVideo, setLatestVideo] = useState<YouTubeVideo | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchLatestVideo = async () => {
-      try {
-        const video = await youtubeService.getLatestVideo();
-        setLatestVideo(video);
-      } catch (error) {
-        console.error('Error fetching latest video:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchLatestVideo();
-  }, []);
-
+  // Static video embed
   const renderVideoContent = () => {
-    if (isLoading) {
-      return (
-        <S.VideoEmbed>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            backgroundColor: 'var(--blue-3)'
-          }}>
-            <i className='bx bx-loader-alt bx-spin' style={{ fontSize: '2rem', color: 'var(--blue-9)' }} />
-          </div>
-        </S.VideoEmbed>
-      );
-    }
-
-    if (!latestVideo) {
-      return (
-        <S.VideoEmbed>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            backgroundColor: 'var(--blue-3)',
-            color: 'var(--blue-11)'
-          }}>
-            Unable to load video
-          </div>
-        </S.VideoEmbed>
-      );
-    }
-
     return (
       <S.VideoEmbed>
         <iframe
-          src={`https://www.youtube.com/embed/${latestVideo.id}`}
-          title={latestVideo.title}
+          src="https://www.youtube.com/embed/TMvD8sElvRE"
+          title="YouTube Video"
           allowFullScreen
         />
       </S.VideoEmbed>
@@ -136,7 +86,6 @@ export const Dashboard: React.FC = () => {
           <ToolsCarousel />
         </DashboardTile>
       </S.RegularTiles>
-
 
       {/* Store Section */}
       <S.FullWidthTile>
