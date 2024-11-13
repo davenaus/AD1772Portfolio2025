@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 import { Theme } from './theme';
 
 export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+  /* Remove the @import and use <link> in index.html instead */
   
   * {
     margin: 0;
@@ -12,7 +12,7 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   }
 
   body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: ${({ theme }) => theme.colors.blue1};
     color: ${({ theme }) => theme.colors.blue12};
     min-height: 100vh;
