@@ -1,4 +1,6 @@
+// src/pages/Tools/Tools.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import * as S from './styles';
 
@@ -9,9 +11,11 @@ interface Tool {
   icon: string;
   category: string;
   tags: string[];
+  url: string;
   isNew?: boolean;
   isBeta?: boolean;
 }
+
 
 const YOUTUBE_CHANNEL = 'https://www.youtube.com/channel/UCg_JArLpHeN9P34qMd9W5rQ';
 
@@ -23,6 +27,7 @@ const tools: Tool[] = [
     icon: 'bx bx-chart',
     category: 'Analytics',
     tags: ['YouTube', 'Analytics', 'Metrics'],
+    url: '/tools/video-analyzer',
     isNew: true,
   },
   {
@@ -32,6 +37,7 @@ const tools: Tool[] = [
     icon: 'bx bx-line-chart',
     category: 'Analytics',
     tags: ['Channel', 'Growth', 'Insights'],
+    url: '/tools/channel-analyzer',
   },
 
   {
@@ -41,6 +47,7 @@ const tools: Tool[] = [
     icon: 'bx bx-trophy',
     category: 'SEO',
     tags: ['Views', 'Analysis', 'Discovery'],
+    url: '/tools/outlier-finder',
   },
   {
     id: 'channel-consultant',
@@ -49,6 +56,7 @@ const tools: Tool[] = [
     icon: 'bx bx-user-circle',
     category: 'SEO',
     tags: ['AI', 'Assistant', 'Strategy'],
+    url: '/tools/channel-consultant',
   },
   {
     id: 'comment-downloader',
@@ -57,6 +65,7 @@ const tools: Tool[] = [
     icon: 'bx bx-download',
     category: 'Utilities',
     tags: ['Comments', 'Analysis', 'Data'],
+    url: '/tools/comment-downloader',
   },
   {
     id: 'playlist-analyzer',
@@ -65,6 +74,7 @@ const tools: Tool[] = [
     icon: 'bx bx-list-ul',
     category: 'Analytics',
     tags: ['Playlist', 'Analytics', 'Insights'],
+    url: '/tools/playlist-analyzer',
   },
   {
     id: 'channel-comparer',
@@ -73,6 +83,7 @@ const tools: Tool[] = [
     icon: 'bx bx-analyse',
     category: 'Analytics',
     tags: ['Comparison', 'Analytics', 'Insights'],
+    url: '/tools/channel-comparer',
   },
   {
     id: 'youtube-calculator',
@@ -81,6 +92,7 @@ const tools: Tool[] = [
     icon: 'bx bx-dollar-circle',
     category: 'Utilities',
     tags: ['Monetization', 'Calculator', 'Earnings'],
+    url: '/tools/youtube-calculator',
   },
   {
     id: 'qr-code-generator',
@@ -89,6 +101,7 @@ const tools: Tool[] = [
     icon: 'bx bx-qr-scan',
     category: 'Utilities',
     tags: ['QR Code', 'Generator', 'Links'],
+    url: '/tools/qr-code-generator',
   },
   {
     id: 'thumbnail-downloader',
@@ -97,6 +110,7 @@ const tools: Tool[] = [
     icon: 'bx bx-photo-album',
     category: 'Utilities',
     tags: ['Thumbnails', 'Download', 'Images'],
+    url: '/tools/thumbnail-downloader',
   },
   {
     id: 'thumbnail-tester',
@@ -105,6 +119,7 @@ const tools: Tool[] = [
     icon: 'bx bx-book-content',
     category: 'SEO',
     tags: ['Thumbnails', 'Preview', 'Testing'],
+    url: '/tools/thumbnail-tester',
   },
   {
     id: 'tag-generator',
@@ -113,6 +128,7 @@ const tools: Tool[] = [
     icon: 'bx bx-purchase-tag-alt',
     category: 'SEO',
     tags: ['SEO', 'Tags', 'Keywords'],
+    url: '/tools/tag-generator',
     isBeta: true,
   },
 ];
@@ -120,7 +136,9 @@ const tools: Tool[] = [
 const categories = Array.from(new Set(tools.map(tool => tool.category)));
 
 export const Tools: React.FC = () => {
-  const handleToolClick = () => {
+  const navigate = useNavigate();
+
+  const handleGuideClick = () => {
     window.open(YOUTUBE_CHANNEL, '_blank');
   };
 
@@ -165,14 +183,14 @@ export const Tools: React.FC = () => {
                     <Button
                       variant="primary"
                       icon="bx bx-right-arrow-alt"
-                      onClick={handleToolClick}
+                      onClick={() => navigate(tool.url)}
                     >
                       Launch Tool
                     </Button>
                     <Button
                       variant="secondary"
                       icon="bx bx-help-circle"
-                      onClick={handleToolClick}
+                      onClick={handleGuideClick}
                     >
                       Guide
                     </Button>
