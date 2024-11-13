@@ -1,5 +1,5 @@
-// src/pages/Tools/components/PlaylistAnalyzer/PlaylistAnalyzer.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
 interface VideoStats {
@@ -58,17 +58,42 @@ const videoCategories: { [key: string]: string } = {
 };
 
 export const PlaylistAnalyzer: React.FC = () => {
+  const { playlistId } = useParams<{ playlistId: string }>();
+  const navigate = useNavigate();
   const [playlistUrl, setPlaylistUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [analysis, setAnalysis] = useState<PlaylistAnalysis | null>(null);
 
+  useEffect(() => {
+    if (playlistId) {
+      setPlaylistUrl(playlistId);
+      analyzePlaylist(playlistId);
+    }
+  }, [playlistId]);
+
   const extractPlaylistId = (url: string): string | null => {
     try {
-      const urlParams = new URLSearchParams(new URL(url).search);
-      return urlParams.get('list');
+      // First check if it's a direct playlist ID
+      if (url.match(/^[A-Za-z0-9_-]+$/)) {
+        return url;
+      }
+
+      const urlObj = new URL(url);
+      // Check for playlist ID in URL
+      const listParam = urlObj.searchParams.get('list');
+      if (listParam) return listParam;
+
+      // If no playlist ID found but there's a video ID, try to get its playlist
+      const videoId = urlObj.searchParams.get('v');
+      if (videoId) {
+        return videoId; // You might want to handle this case differently
+      }
+
+      return null;
     } catch {
-      return url; // If not a URL, assume it's a direct playlist ID
+      // If not a URL, assume it's a direct playlist ID
+      return url.match(/^[A-Za-z0-9_-]+$/) ? url : null;
     }
   };
 
@@ -103,8 +128,17 @@ export const PlaylistAnalyzer: React.FC = () => {
     }
   };
 
-  const analyzePlaylist = async () => {
-    const playlistId = extractPlaylistId(playlistUrl);
+  const handleSearch = () => {
+    const extractedId = extractPlaylistId(playlistUrl);
+    if (extractedId) {
+      navigate(`/tools/playlist-analyzer/${extractedId}`);
+    } else {
+      alert('Invalid playlist URL or ID');
+    }
+  };
+
+  const analyzePlaylist = async (id?: string) => {
+    const playlistId = id || extractPlaylistId(playlistUrl);
     if (!playlistId) {
       alert('Invalid playlist URL or ID');
       return;
@@ -131,7 +165,6 @@ export const PlaylistAnalyzer: React.FC = () => {
       const languages: { [key: string]: number } = {};
 
       do {
-        // Fetch playlist items
         const playlistResponse = await fetch(
           `https://www.googleapis.com/youtube/v3/playlistItems?` +
           `part=contentDetails,snippet&playlistId=${playlistId}&` +
@@ -140,7 +173,6 @@ export const PlaylistAnalyzer: React.FC = () => {
         const playlistData = await playlistResponse.json();
         if (!playlistData.items) break;
 
-        // Fetch video details
         const videoIds = playlistData.items
           .map((item: any) => item.contentDetails.videoId)
           .join(',');
@@ -151,7 +183,6 @@ export const PlaylistAnalyzer: React.FC = () => {
         );
         const videoData = await videoResponse.json();
 
-        // Process video data
         for (const video of videoData.items) {
           const viewCount = parseInt(video.statistics.viewCount);
           totalViews += viewCount;
@@ -169,16 +200,13 @@ export const PlaylistAnalyzer: React.FC = () => {
 
           videoCount++;
 
-          // Duration
           const durationInSeconds = convertDurationToSeconds(video.contentDetails.duration);
           totalDuration += durationInSeconds;
 
-          // Oldest and Newest Video
           const publishedAt = new Date(video.snippet.publishedAt);
           if (publishedAt < oldestVideo) oldestVideo = publishedAt;
           if (publishedAt > newestVideo) newestVideo = publishedAt;
 
-          // Most and Least Viewed Video
           if (viewCount > mostViewedVideo.views) {
             mostViewedVideo = { title: video.snippet.title, views: viewCount };
           }
@@ -186,18 +214,15 @@ export const PlaylistAnalyzer: React.FC = () => {
             leastViewedVideo = { title: video.snippet.title, views: viewCount };
           }
 
-          // Tags
           if (video.snippet.tags) {
             video.snippet.tags.forEach((tag: string) => {
               tags[tag] = (tags[tag] || 0) + 1;
             });
           }
 
-          // Categories
           const categoryId = video.snippet.categoryId;
           categories[categoryId] = (categories[categoryId] || 0) + 1;
 
-          // Languages
           const language = video.snippet.defaultAudioLanguage || 'Unknown';
           languages[language] = (languages[language] || 0) + 1;
         }
@@ -205,7 +230,6 @@ export const PlaylistAnalyzer: React.FC = () => {
         nextPageToken = playlistData.nextPageToken;
       } while (nextPageToken);
 
-      // Fetch channel details
       await Promise.all(
         Array.from(channels.entries()).map(async ([channelId, channelInfo]) => {
           const channelDetails = await getChannelDetails(channelId);
@@ -219,7 +243,6 @@ export const PlaylistAnalyzer: React.FC = () => {
         })
       );
 
-      // Prepare analysis results
       const analysisResult: PlaylistAnalysis = {
         totalViews,
         totalVideos: videoCount,
@@ -260,10 +283,10 @@ export const PlaylistAnalyzer: React.FC = () => {
           value={playlistUrl}
           onChange={(e) => setPlaylistUrl(e.target.value)}
           placeholder="Enter Playlist ID or Video URL"
-          onKeyPress={(e) => e.key === 'Enter' && analyzePlaylist()}
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           disabled={isLoading}
         />
-        <S.SearchButton onClick={analyzePlaylist} disabled={isLoading}>
+        <S.SearchButton onClick={handleSearch} disabled={isLoading}>
           <i className='bx bx-search'></i>
         </S.SearchButton>
       </S.SearchBar>

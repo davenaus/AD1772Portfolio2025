@@ -85,11 +85,17 @@ export const Portfolio: React.FC = () => {
 />
         </S.HeroVideo>
         <S.HeroContent>
-          <S.HeroTitle>Professional Video Editor</S.HeroTitle>
-          <S.HeroSubtitle>
-            Crafting visual stories that inspire and engage.
-          </S.HeroSubtitle>
-        </S.HeroContent>
+  <S.HeroTitle>Professional Video Editor</S.HeroTitle>
+  <S.HeroSubtitle>
+    Crafting visual stories that inspire and engage.
+  </S.HeroSubtitle>
+  <S.AnalyticsButton 
+    href="/tools/playlist-analyzer/PLDZjxSO4MSJoA638nQvykQaevGgc-sV2B"
+  >
+    <i className='bx bx-stats'></i>
+    View My Complete Portfolio Analytics
+  </S.AnalyticsButton>
+</S.HeroContent>
       </S.Hero>
 
       <S.Categories id="categories">

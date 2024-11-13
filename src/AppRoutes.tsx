@@ -28,15 +28,22 @@ export const AppRoutes: React.FC = () => {
       <Route path="/" element={<Dashboard />} />
       <Route path="/tools" element={<Tools />} />
       <Route path="/tools/outlier-finder" element={<OutlierFinder />} />
+      <Route path="/tools/outlier-finder/:searchQuery/:type" element={<OutlierFinder />} />
       <Route path="/tools/video-analyzer" element={<VideoAnalyzer />} />
+      <Route path="/tools/video-analyzer/:videoId" element={<VideoAnalyzer />} />
       <Route path="/tools/channel-analyzer" element={<ChannelAnalyzer />} />
+      <Route path="/tools/channel-analyzer/:channelId" element={<ChannelAnalyzer />} />
       <Route path="/tools/channel-comparer" element={<ChannelComparer />} />
       <Route path="/tools/channel-consultant" element={<ChannelConsultant />} />
       <Route path="/tools/comment-downloader" element={<CommentDownloader />} />
+      <Route path="/tools/comment-downloader/:videoId" element={<CommentDownloader />} />
       <Route path="/tools/playlist-analyzer" element={<PlaylistAnalyzer />} />
+      <Route path="/tools/playlist-analyzer/:playlistId" element={<PlaylistAnalyzer />} />
       <Route path="/tools/qr-code-generator" element={<QRCodeGenerator />} />
       <Route path="/tools/tag-generator" element={<TagGenerator />} />
+      <Route path="/tools/tag-generator/:searchTitle" element={<TagGenerator />} />
       <Route path="/tools/thumbnail-downloader" element={<ThumbnailDownloader />} />
+      <Route path="/tools/thumbnail-downloader/:videoId" element={<ThumbnailDownloader />} />
       <Route path="/tools/thumbnail-tester" element={<ThumbnailTester />} />
       <Route path="/tools/youtube-calculator" element={<YouTubeCalculator />} />
       <Route path="/blog" element={<Blog />} />

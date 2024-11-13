@@ -1,5 +1,6 @@
 // src/components/Layout/styles.ts
 import styled from 'styled-components';
+import { Link as RouterLink } from 'react-router-dom'; // Add this import
 
 const LayoutContainer = styled.div`
   min-height: 100vh;
@@ -147,6 +148,61 @@ const SocialGrid = styled.div`
   }
 `;
 
+const NavLinkWrapper = styled(RouterLink)<{ $isActive: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  color: ${({ $isActive, theme }) => 
+    $isActive ? theme.colors.blue9 : theme.colors.blue11};
+  background-color: ${({ $isActive, theme }) => 
+    $isActive ? theme.colors.blue3 : 'transparent'};
+  transition: all 0.2s ease;
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.blue9};
+    background-color: ${({ theme }) => theme.colors.blue3};
+    transform: translateX(4px);
+  }
+
+  &:active {
+    transform: translateX(2px);
+  }
+
+  i {
+    font-size: 1.25rem;
+  }
+`;
+
+const SocialLink = styled.a`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.blue3};
+  border-radius: 8px;
+  color: ${({ theme }) => theme.colors.blue11};
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 1.25rem;
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.blue9};
+    background-color: ${({ theme }) => theme.colors.blue4};
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+`;
+
+// Fix the exports object (add comma after SocialGrid)
 export const Styles = {
   LayoutContainer,
   Sidebar,
@@ -160,5 +216,7 @@ export const Styles = {
   NavTitle,
   NavLinks,
   SocialLinks,
-  SocialGrid
+  SocialGrid,  // Add comma here
+  NavLinkWrapper,
+  SocialLink
 };

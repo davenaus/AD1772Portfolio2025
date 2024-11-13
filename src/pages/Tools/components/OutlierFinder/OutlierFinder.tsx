@@ -1,5 +1,6 @@
 // src/pages/Tools/components/OutlierFinder/OutlierFinder.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 import { YouTubeVideo, YouTubeChannel } from '../../../../types';
 
@@ -10,14 +11,31 @@ interface OutlierResult {
 }
 
 export const OutlierFinder: React.FC = () => {
+  const { searchQuery, type } = useParams<{ searchQuery: string; type: string }>();
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isShorts, setIsShorts] = useState(false);
   const [results, setResults] = useState<OutlierResult[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  const handleSearch = async () => {
-    if (!query.trim()) {
+  useEffect(() => {
+    if (searchQuery) {
+      // Decode the URL-encoded query
+      const decodedQuery = decodeURIComponent(searchQuery);
+      setQuery(decodedQuery);
+      setIsShorts(type === 'shorts');
+      handleAnalyze(decodedQuery, type === 'shorts');
+    }
+  }, [searchQuery, type]);
+
+  const handleSearch = () => {
+    const encodedQuery = encodeURIComponent(query);
+    navigate(`/tools/outlier-finder/${encodedQuery}/${isShorts ? 'shorts' : 'videos'}`);
+  };
+
+  const handleAnalyze = async (searchQuery: string, isShorts: boolean) => {
+    if (!searchQuery.trim()) {
       alert('Please enter a search query');
       return;
     }
@@ -26,8 +44,8 @@ export const OutlierFinder: React.FC = () => {
     setShowResults(false);
 
     try {
-      const videos = await searchVideos();
-      const videoDetails = await getVideoDetails(videos);
+      const videos = await searchVideos(searchQuery);
+      const videoDetails = await getVideoDetails(videos, isShorts);
       const channelDetails = await getChannelDetails(videos);
       const outliers = calculateOutliers(videoDetails, channelDetails);
       setResults(outliers);
@@ -40,19 +58,19 @@ export const OutlierFinder: React.FC = () => {
     }
   };
 
-  const searchVideos = async () => {
+  const searchVideos = async (searchQuery: string) => {
     const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?` +
-      `part=snippet&q=${encodeURIComponent(query)}&` +
-      `type=video&maxResults=25&key=${API_KEY}`  // Changed from 50 to 25 since we only need 6
+      `part=snippet&q=${encodeURIComponent(searchQuery)}&` +
+      `type=video&maxResults=25&key=${API_KEY}`
     );
     const data = await response.json();
     if (data.error) throw new Error(data.error.message);
     return data.items || [];
   };
 
-  const getVideoDetails = async (videos: any[]) => {
+  const getVideoDetails = async (videos: any[], isShorts: boolean) => {
     const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
     const videoIds = videos.map(video => video.id.videoId).join(',');
     const response = await fetch(
@@ -62,7 +80,7 @@ export const OutlierFinder: React.FC = () => {
     );
     const data = await response.json();
     if (data.error) throw new Error(data.error.message);
-
+  
     return data.items.filter((video: any) => {
       const duration = parseDuration(video.contentDetails.duration);
       return isShorts ? duration <= 60 : duration > 60;
@@ -118,6 +136,13 @@ export const OutlierFinder: React.FC = () => {
     });
   };
 
+  const handleToggle = (shorts: boolean) => {
+    setIsShorts(shorts);
+    if (query) {
+      navigate(`/tools/outlier-finder/${encodeURIComponent(query)}/${shorts ? 'shorts' : 'videos'}`);
+    }
+  };
+
   return (
     <S.Container>
       <S.Header>
@@ -139,9 +164,19 @@ export const OutlierFinder: React.FC = () => {
         </S.SearchBar>
 
         <S.ToggleContainer>
-          <S.Toggle onClick={() => setIsShorts(!isShorts)}>
-            <S.ToggleOption active={!isShorts}>Videos</S.ToggleOption>
-            <S.ToggleOption active={isShorts}>Shorts</S.ToggleOption>
+          <S.Toggle>
+            <S.ToggleOption 
+              active={!isShorts} 
+              onClick={() => handleToggle(false)}
+            >
+              Videos
+            </S.ToggleOption>
+            <S.ToggleOption 
+              active={isShorts} 
+              onClick={() => handleToggle(true)}
+            >
+              Shorts
+            </S.ToggleOption>
           </S.Toggle>
         </S.ToggleContainer>
       </S.SearchContainer>

@@ -1,8 +1,10 @@
-// src/pages/Tools/components/CommentDownloader/CommentDownloader.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
 export const CommentDownloader: React.FC = () => {
+  const { videoId } = useParams<{ videoId: string }>();
+  const navigate = useNavigate();
   const [videoUrl, setVideoUrl] = useState('');
   const [status, setStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +14,14 @@ export const CommentDownloader: React.FC = () => {
   const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
   const MAX_RESULTS = 100;
   const MAX_PAGES = 10;
+
+  useEffect(() => {
+    if (videoId) {
+      const videoUrl = `https://youtube.com/watch?v=${videoId}`;
+      setVideoUrl(videoUrl);
+      handleDownload(videoId);
+    }
+  }, [videoId]);
 
   const extractVideoId = (url: string): string | false => {
     // Regular video URL pattern
@@ -28,21 +38,24 @@ export const CommentDownloader: React.FC = () => {
       return shortsMatch[2];
     }
 
+    // Direct video ID
+    if (url.match(/^[A-Za-z0-9_-]{11}$/)) {
+      return url;
+    }
+
     return false;
   };
 
-  const fetchComments = async () => {
-    if (!videoUrl) {
-      setStatus('Please enter a YouTube video URL.');
-      return;
-    }
-
-    const videoId = extractVideoId(videoUrl);
-    if (!videoId) {
+  const handleSearch = () => {
+    const extractedId = extractVideoId(videoUrl);
+    if (extractedId) {
+      navigate(`/tools/comment-downloader/${extractedId}`);
+    } else {
       setStatus('Invalid YouTube URL. Please enter a valid YouTube video URL.');
-      return;
     }
+  };
 
+  const handleDownload = async (id: string) => {
     setIsLoading(true);
     setShowResults(false);
     setStatus('Fetching comments...');
@@ -52,7 +65,7 @@ export const CommentDownloader: React.FC = () => {
       let nextPageToken = '';
       for (let i = 0; i < MAX_PAGES; i++) {
         const url = `https://www.googleapis.com/youtube/v3/commentThreads?` +
-                   `part=snippet&videoId=${videoId}&key=${API_KEY}&` +
+                   `part=snippet&videoId=${id}&key=${API_KEY}&` +
                    `maxResults=${MAX_RESULTS}&pageToken=${nextPageToken}`;
         
         setStatus(`Fetching comments... (Page ${i + 1})`);
@@ -98,7 +111,7 @@ export const CommentDownloader: React.FC = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      fetchComments();
+      handleSearch();
     }
   };
 
@@ -118,7 +131,7 @@ export const CommentDownloader: React.FC = () => {
             onKeyPress={handleKeyPress}
             disabled={isLoading}
           />
-          <S.SearchButton onClick={fetchComments} disabled={isLoading}>
+          <S.SearchButton onClick={handleSearch} disabled={isLoading}>
             <i className='bx bx-download'></i>
           </S.SearchButton>
         </S.SearchBar>

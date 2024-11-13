@@ -97,6 +97,18 @@ export const BlogPostPage: React.FC = () => {
           <img src={post.image_url} alt={post.title} />
         </S.HeroImage>
       )}
+      {post.youtube_video_id && (
+  <S.VideoContainer>
+    <S.VideoWrapper>
+      <iframe
+        src={`https://www.youtube.com/embed/${post.youtube_video_id}`}
+        title="YouTube video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </S.VideoWrapper>
+  </S.VideoContainer>
+)}
 
       <S.ArticleContent>
         <ReactMarkdown>{post.content}</ReactMarkdown>

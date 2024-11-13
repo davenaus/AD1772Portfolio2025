@@ -161,3 +161,27 @@ export const ArticleContent = styled.article`
     }
   }
 `;
+
+
+// In styles.ts, add:
+
+export const VideoContainer = styled.div`
+  margin: 2rem 0;
+`;
+
+export const VideoWrapper = styled.div`
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+`;

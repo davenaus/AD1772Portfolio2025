@@ -1,5 +1,5 @@
-// src/pages/Tools/components/ThumbnailDownloader/ThumbnailDownloader.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
 interface ThumbnailData {
@@ -8,12 +8,27 @@ interface ThumbnailData {
 }
 
 export const ThumbnailDownloader: React.FC = () => {
+  const { videoId } = useParams<{ videoId: string }>();
+  const navigate = useNavigate();
   const [url, setUrl] = useState('');
   const [thumbnailData, setThumbnailData] = useState<ThumbnailData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
+  useEffect(() => {
+    if (videoId) {
+      const videoUrl = `https://youtube.com/watch?v=${videoId}`;
+      setUrl(videoUrl);
+      handleAnalyze(videoId);
+    }
+  }, [videoId]);
+
   const extractVideoId = (url: string): string | null => {
+    // Handle direct video ID
+    if (url.match(/^[A-Za-z0-9_-]{11}$/)) {
+      return url;
+    }
+
     const patterns = [
       /v=([^&]+)/,          // Regular youtube.com/watch?v=ID
       /youtu\.be\/([^?]+)/, // youtu.be/ID
@@ -27,6 +42,36 @@ export const ThumbnailDownloader: React.FC = () => {
     }
 
     return null;
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!url.trim()) {
+      alert('Please enter a YouTube video URL');
+      return;
+    }
+
+    const extractedId = extractVideoId(url);
+    if (extractedId) {
+      navigate(`/tools/thumbnail-downloader/${extractedId}`);
+    } else {
+      alert('Invalid YouTube URL. Please check the URL and try again.');
+    }
+  };
+
+  const handleAnalyze = async (id: string) => {
+    setIsLoading(true);
+    try {
+      const data = await fetchThumbnail(id);
+      setThumbnailData(data);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to fetch thumbnail. Please try again.');
+      setThumbnailData(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchThumbnail = async (videoId: string) => {
@@ -91,36 +136,9 @@ export const ThumbnailDownloader: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!url.trim()) {
-      alert('Please enter a YouTube video URL');
-      return;
-    }
-
-    const videoId = extractVideoId(url);
-    if (!videoId) {
-      alert('Invalid YouTube URL. Please check the URL and try again.');
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const data = await fetchThumbnail(videoId);
-      setThumbnailData(data);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to fetch thumbnail. Please try again.');
-      setThumbnailData(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleSubmit(e as unknown as React.FormEvent);
+      handleSearch(e as unknown as React.FormEvent);
     }
   };
 
@@ -131,7 +149,7 @@ export const ThumbnailDownloader: React.FC = () => {
       </S.Header>
 
       <S.SearchContainer>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSearch}>
           <S.SearchBar>
             <S.SearchInput
               type="text"
@@ -153,7 +171,7 @@ export const ThumbnailDownloader: React.FC = () => {
                 src={thumbnailData.url} 
                 alt={thumbnailData.title} 
               />
-           <S.DownloadButton 
+              <S.DownloadButton 
                 onClick={downloadThumbnail}
                 disabled={isDownloading}
               >

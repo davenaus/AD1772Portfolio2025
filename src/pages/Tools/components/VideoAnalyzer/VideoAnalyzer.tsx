@@ -1,5 +1,6 @@
 // src/pages/Tools/components/VideoAnalyzer/VideoAnalyzer.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import * as S from './styles';
 
@@ -41,6 +42,8 @@ const cpmRates = {
 };
 
 export const VideoAnalyzer: React.FC = () => {
+  const { videoId } = useParams<{ videoId: string }>();
+  const navigate = useNavigate();
   const [videoUrl, setVideoUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [videoData, setVideoData] = useState<any>(null);
@@ -48,7 +51,19 @@ export const VideoAnalyzer: React.FC = () => {
   const [analysisResults, setAnalysisResults] = useState<VideoAnalysis | null>(null);
   const [showResults, setShowResults] = useState(false);
 
+  useEffect(() => {
+    if (videoId) {
+      setVideoUrl(`https://youtube.com/watch?v=${videoId}`);
+      handleAnalyze(videoId);
+    }
+  }, [videoId]);
+
   const extractVideoId = (url: string): string | null => {
+    // First check if it's a direct video ID
+    if (url.match(/^[A-Za-z0-9_-]{11}$/)) {
+      return url;
+    }
+
     const regExpVideo = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const regExpShorts = /^.*(youtu.be\/|shorts\/)([^#\&\?]*).*/;
     
@@ -63,9 +78,19 @@ export const VideoAnalyzer: React.FC = () => {
     return null;
   };
 
-  const handleAnalyze = async () => {
-    if (!videoUrl.trim()) {
-      alert('Please enter a YouTube video URL');
+  const handleSearch = () => {
+    const extractedId = extractVideoId(videoUrl);
+    if (extractedId) {
+      navigate(`/tools/video-analyzer/${extractedId}`);
+    } else {
+      alert('Invalid YouTube URL or video ID');
+    }
+  };
+
+  const handleAnalyze = async (id?: string) => {
+    const targetId = id || extractVideoId(videoUrl);
+    if (!targetId) {
+      alert('Please enter a valid YouTube video URL or ID');
       return;
     }
 
@@ -73,12 +98,7 @@ export const VideoAnalyzer: React.FC = () => {
     setShowResults(false);
 
     try {
-      const videoId = extractVideoId(videoUrl);
-      if (!videoId) {
-        throw new Error('Invalid YouTube URL');
-      }
-
-      const video = await fetchVideoData(videoId);
+      const video = await fetchVideoData(targetId);
       const channel = await fetchChannelData(video.snippet.channelId);
       
       setVideoData(video);
@@ -257,9 +277,9 @@ export const VideoAnalyzer: React.FC = () => {
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
             placeholder="Enter YouTube video URL"
-            onKeyPress={(e) => e.key === 'Enter' && handleAnalyze()}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           />
-          <S.SearchButton onClick={handleAnalyze} disabled={isLoading}>
+          <S.SearchButton onClick={handleSearch} disabled={isLoading}>
             <i className='bx bx-search'></i>
           </S.SearchButton>
         </S.SearchBar>

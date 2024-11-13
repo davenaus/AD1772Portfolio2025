@@ -30,7 +30,7 @@ interface SocialLink {
 const socialLinks: SocialLink[] = [
   { url: 'https://www.youtube.com/@AustinDavenport', icon: 'bx bxl-youtube' },
   { url: 'https://twitter.com/Tool_Creator', icon: 'bx bxl-twitter' },
-  { url: 'https://discord.com/invite/vuKtEXJ', icon: 'bx bxl-discord' },
+  { url: 'https://discord.com/invite/vuKtEXJ', icon: 'bx bxl-discord-alt' },
   { url: 'https://www.tiktok.com/@austindavenport_', icon: 'bx bxl-tiktok' }
 ];
 
@@ -44,24 +44,19 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const NavLink = ({ item }: { item: NavItem }) => (
-    <Link
-      to={item.path}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.75rem',
-        padding: '0.75rem',
-        borderRadius: '8px',
-        color: location.pathname === item.path ? '#fafcff' : '#b1b4b8',
-        backgroundColor: location.pathname === item.path ? '#282a2d' : 'transparent',
-        transition: 'all 0.2s ease'
-      }}
-    >
-      <i className={item.icon}></i>
-      {item.label}
-    </Link>
-  );
+  const NavLink = ({ item }: { item: NavItem }) => {
+    const isActive = location.pathname === item.path;
+    
+    return (
+      <S.NavLinkWrapper
+        to={item.path}
+        $isActive={isActive} // Use $ prefix for transient props
+      >
+        <i className={item.icon}></i>
+        {item.label}
+      </S.NavLinkWrapper>
+    );
+  };
 
   return (
     <S.LayoutContainer>
@@ -103,29 +98,18 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         </nav>
 
         <S.SocialLinks>
-          <S.SocialGrid>
-            {socialLinks.map((link) => (
-              <a
-                key={link.url}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: '#212326',
-                  borderRadius: '8px',
-                  color: '#b1b4b8',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <i className={link.icon}></i>
-              </a>
-            ))}
-          </S.SocialGrid>
+        <S.SocialGrid>
+  {socialLinks.map((link) => (
+    <S.SocialLink
+      key={link.url}
+      href={link.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i className={link.icon}></i>
+    </S.SocialLink>
+  ))}
+</S.SocialGrid>
         </S.SocialLinks>
       </S.Sidebar>
 

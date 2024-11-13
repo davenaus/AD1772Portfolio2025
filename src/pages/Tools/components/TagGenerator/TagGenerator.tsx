@@ -1,5 +1,5 @@
-// src/pages/Tools/components/TagGenerator/TagGenerator.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
 interface VideoDetails {
@@ -19,15 +19,35 @@ interface TagScore {
 }
 
 export const TagGenerator: React.FC = () => {
+  const { searchTitle } = useParams<{ searchTitle: string }>();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
 
-  const handleSearch = async (e: React.FormEvent) => {
+  useEffect(() => {
+    if (searchTitle) {
+      const decodedTitle = decodeURIComponent(searchTitle);
+      setSearchTerm(decodedTitle);
+      handleAnalyze(decodedTitle);
+    }
+  }, [searchTitle]);
+
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchTerm.trim()) {
+      alert('Please enter a video title');
+      return;
+    }
+
+    const encodedTitle = encodeURIComponent(searchTerm);
+    navigate(`/tools/tag-generator/${encodedTitle}`);
+  };
+
+  const handleAnalyze = async (title: string) => {
+    if (!title.trim()) {
       alert('Please enter a video title');
       return;
     }
@@ -35,7 +55,7 @@ export const TagGenerator: React.FC = () => {
     setIsLoading(true);
     setShowResults(false);
     try {
-      const generatedTags = await generateTags(searchTerm);
+      const generatedTags = await generateTags(title);
       setTags(generatedTags);
       setShowResults(true);
     } catch (error) {
@@ -133,7 +153,8 @@ export const TagGenerator: React.FC = () => {
   };
 
   const removeTag = (indexToRemove: number) => {
-    setTags(tags.filter((_, index) => index !== indexToRemove));
+    const newTags = tags.filter((_, index) => index !== indexToRemove);
+    setTags(newTags);
   };
 
   const handleCopyTags = () => {
@@ -148,6 +169,7 @@ export const TagGenerator: React.FC = () => {
     setTags([]);
     setSearchTerm('');
     setShowResults(false);
+    navigate('/tools/tag-generator');
   };
 
   return (
@@ -170,6 +192,12 @@ export const TagGenerator: React.FC = () => {
             </S.SearchButton>
           </S.SearchBar>
         </form>
+
+        {isLoading && (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <i className='bx bx-loader-alt bx-spin' style={{ fontSize: '2rem' }}></i>
+          </div>
+        )}
 
         <S.TagBox visible={showResults}>
           <S.TagList>

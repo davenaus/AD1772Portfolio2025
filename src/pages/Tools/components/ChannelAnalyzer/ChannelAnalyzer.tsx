@@ -1,5 +1,6 @@
 // src/pages/Tools/components/ChannelAnalyzer/ChannelAnalyzer.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import * as S from './styles';
 
@@ -29,6 +30,8 @@ const flaggableWords = [
 ];
 
 export const ChannelAnalyzer: React.FC = () => {
+  const { channelId } = useParams<{ channelId: string }>();
+  const navigate = useNavigate();
   const [channelUrl, setChannelUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [channelData, setChannelData] = useState<any>(null);
@@ -37,7 +40,15 @@ export const ChannelAnalyzer: React.FC = () => {
   const [analysisResults, setAnalysisResults] = useState<ChannelAnalysis | null>(null);
   const [showResults, setShowResults] = useState(false);
 
+  useEffect(() => {
+    if (channelId) {
+      setChannelUrl(`https://youtube.com/channel/${channelId}`);
+      handleAnalyze(channelId);
+    }
+  }, [channelId]);
+
   const getChannelId = async (input: string): Promise<string> => {
+    // First check if it's a direct channel ID
     if (/^UC[\w-]{22}$/.test(input)) {
       return input;
     }
@@ -69,6 +80,51 @@ export const ChannelAnalyzer: React.FC = () => {
 
     throw new Error('Invalid channel URL or ID');
   };
+
+  const handleSearch = async () => {
+    try {
+      const extractedId = await getChannelId(channelUrl);
+      if (extractedId) {
+        navigate(`/tools/channel-analyzer/${extractedId}`);
+      } else {
+        alert('Invalid channel URL or ID');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Invalid channel URL or ID');
+    }
+  };
+
+  const handleAnalyze = async (id?: string) => {
+    if (!id && !channelUrl.trim()) {
+      alert('Please enter a YouTube channel URL');
+      return;
+    }
+
+    setIsLoading(true);
+    setShowResults(false);
+
+    try {
+      const channelId = id || await getChannelId(channelUrl);
+      const channel = await fetchChannelData(channelId);
+      const playlists = await fetchPlaylistData(channelId);
+      const latestVideo = await fetchLatestVideoData(channelId);
+
+      setChannelData(channel);
+      setPlaylistData(playlists);
+      setLatestVideoData(latestVideo);
+
+      const analysis = analyzeChannelData(latestVideo, channel, playlists);
+      setAnalysisResults(analysis);
+      setShowResults(true);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while analyzing the channel');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const fetchChannelData = async (channelId: string) => {
     const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
@@ -219,35 +275,7 @@ export const ChannelAnalyzer: React.FC = () => {
     return '⭐'.repeat(finalScore) + '🌑'.repeat(5 - finalScore);
   };
 
-  const handleAnalyze = async () => {
-    if (!channelUrl.trim()) {
-      alert('Please enter a YouTube channel URL');
-      return;
-    }
 
-    setIsLoading(true);
-    setShowResults(false);
-
-    try {
-      const channelId = await getChannelId(channelUrl);
-      const channel = await fetchChannelData(channelId);
-      const playlists = await fetchPlaylistData(channelId);
-      const latestVideo = await fetchLatestVideoData(channelId);
-
-      setChannelData(channel);
-      setPlaylistData(playlists);
-      setLatestVideoData(latestVideo);
-
-      const analysis = analyzeChannelData(latestVideo, channel, playlists);
-      setAnalysisResults(analysis);
-      setShowResults(true);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while analyzing the channel');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <S.Container>
@@ -262,9 +290,9 @@ export const ChannelAnalyzer: React.FC = () => {
             value={channelUrl}
             onChange={(e) => setChannelUrl(e.target.value)}
             placeholder="Enter YouTube channel URL..."
-            onKeyPress={(e) => e.key === 'Enter' && handleAnalyze()}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           />
-          <S.SearchButton onClick={handleAnalyze} disabled={isLoading}>
+          <S.SearchButton onClick={handleSearch} disabled={isLoading}>
             <i className='bx bx-search'></i>
           </S.SearchButton>
         </S.SearchBar>

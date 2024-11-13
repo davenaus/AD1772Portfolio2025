@@ -7,6 +7,7 @@ export interface BlogPost {
   content: string;
   category: string;
   image_url: string;
+  youtube_video_id?: string; // Add this line
   featured: boolean;
   published: boolean;
   read_time: number;
