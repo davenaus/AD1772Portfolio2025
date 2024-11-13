@@ -92,7 +92,7 @@ export const Contact: React.FC = () => {
               <i className='bx bxl-twitter'></i>
             </a>
             <a href="https://discord.com/invite/vuKtEXJ" target="_blank" rel="noopener noreferrer">
-              <i className='bx bxl-discord'></i>
+              <i className='bx bxl-discord-alt'></i>
             </a>
           </S.SocialLinks>
         </S.ContactInfo>
@@ -131,8 +131,8 @@ export const Contact: React.FC = () => {
               required
             >
               <option value="">Select a project type</option>
+              <option value="sponsorship">Sponsorship</option>
               <option value="youtube">YouTube Video</option>
-              <option value="commercial">Commercial</option>
               <option value="music">Music Video</option>
               <option value="gaming">Gaming Content</option>
               <option value="other">Other</option>

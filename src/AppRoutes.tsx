@@ -20,6 +20,7 @@ import { TagGenerator } from './pages/Tools/components/TagGenerator/TagGenerator
 import { ThumbnailDownloader } from './pages/Tools/components/ThumbnailDownloader/ThumbnailDownloader';
 import { ThumbnailTester } from './pages/Tools/components/ThumbnailTester/ThumbnailTester';
 import { YouTubeCalculator } from './pages/Tools/components/YouTubeCalculator/YouTubeCalculator';
+import { Resume } from './pages/Resume/Resume';
 
 
 export const AppRoutes: React.FC = () => {
@@ -46,6 +47,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/tools/thumbnail-downloader/:videoId" element={<ThumbnailDownloader />} />
       <Route path="/tools/thumbnail-tester" element={<ThumbnailTester />} />
       <Route path="/tools/youtube-calculator" element={<YouTubeCalculator />} />
+      <Route path="/resume" element={<Resume />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
       <Route path="/assets" element={<Assets />} />
