@@ -92,11 +92,7 @@ export const BlogPostPage: React.FC = () => {
         </S.Metadata>
       </S.ArticleHeader>
 
-      {post.image_url && (
-        <S.HeroImage>
-          <img src={post.image_url} alt={post.title} />
-        </S.HeroImage>
-      )}
+
       {post.youtube_video_id && (
   <S.VideoContainer>
     <S.VideoWrapper>
