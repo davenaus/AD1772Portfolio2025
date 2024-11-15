@@ -42,7 +42,7 @@ export const Dashboard: React.FC = () => {
         </S.TileContent>
         <S.PreviewBox>
           <img
-            src="https://64.media.tumblr.com/fc99516989bfda082f841096679d3815/6c0f466b487a20d6-7b/s2048x3072/f7127aae5f69f09c63095623bc1373759f3522c3.pnj"
+            src="https://64.media.tumblr.com/2b4fc6ec0ab07be5a7eb95f3a33cdc51/cc21b18983fb870d-4b/s2048x3072/df9836cc3b379a03ad02cc5b0e0224df73c4d059.pnj"
             alt="Austin Davenport"
           />
         </S.PreviewBox>
