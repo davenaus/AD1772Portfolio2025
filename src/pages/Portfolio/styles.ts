@@ -1,23 +1,4 @@
-// src/pages/Portfolio/styles.ts
 import styled, { keyframes } from 'styled-components';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -29,10 +10,6 @@ const bounce = keyframes`
   40% { transform: translateY(-10px); }
   60% { transform: translateY(-5px); }
 `;
-
-
-
-
 
 export const ScrollIndicator = styled.div`
   position: absolute;
@@ -59,21 +36,6 @@ export const ScrollIndicator = styled.div`
   }
 `;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const HeroVideo = styled.div`
   position: absolute;
   top: 50%;
@@ -90,7 +52,7 @@ export const HeroVideo = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); // Slightly darker overlay for better text contrast
+    background: rgba(0, 0, 0, 0.5);
   }
 
   iframe {
@@ -98,38 +60,19 @@ export const HeroVideo = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 177.77777778vh; // 16:9 aspect ratio
-    height: 56.25vw; // 16:9 aspect ratio
+    width: 177.77777778vh;
+    height: 56.25vw;
     min-width: 100%;
     min-height: 100%;
     pointer-events: none;
     opacity: 0.6;
 
     @media (max-width: 768px) {
-      width: 300%; // Wider on mobile to ensure full coverage
+      width: 300%;
       height: 100%;
     }
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const VideoModal = styled.div<{ isOpen: boolean }>`
   position: fixed;
@@ -188,42 +131,15 @@ export const CloseButton = styled.button`
   }
 `;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const Categories = styled.div`
   background: ${({ theme }) => theme.colors.blue2};
-    position: sticky;
-    margin-top: 16px;
-    top: 0;
-    z-index: 10;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 100%;
+  position: sticky;
+  margin-top: 16px;
+  top: 0;
+  z-index: 10;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 100%;
   
   @media (max-width: 768px) {
     background: ${({ theme }) => theme.colors.blue1};
@@ -242,7 +158,7 @@ export const CategoriesScroll = styled.div`
   scrollbar-width: none;
   border-radius: 6px;
   width: 100%;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   
   &::-webkit-scrollbar {
     display: none;
@@ -264,7 +180,11 @@ export const CategoryButton = styled.button<{ active: boolean }>`
   white-space: nowrap;
   transition: all 0.2s ease;
   font-size: 0.9rem;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue5};
+  }
   
   @media (max-width: 768px) {
     padding: 0.4rem 0.8rem;
@@ -273,7 +193,6 @@ export const CategoryButton = styled.button<{ active: boolean }>`
   }
 `;
 
-// Hero section adjustments
 export const Hero = styled.div`
   height: 80vh;
   display: flex;
@@ -306,7 +225,6 @@ export const HeroContent = styled.div`
 export const HeroTitle = styled.h1`
   font-size: 3.5rem;
   color: ${({ theme }) => theme.colors.blue9};
-  margin-bottom: 1rem;
   font-weight: 700;
   
   @media (max-width: 768px) {
@@ -340,7 +258,11 @@ export const AnalyticsButton = styled.a`
   font-weight: 500;
   transition: all 0.2s ease;
   text-decoration: none;
-  border: .5px solid white;
+  
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue4};
+    transform: translateY(-1px);
+  }
   
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
@@ -348,32 +270,6 @@ export const AnalyticsButton = styled.a`
     margin: 0 1rem;
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const Container = styled.div`
   width: 100%;
@@ -401,6 +297,41 @@ export const VideoGrid = styled.div`
   }
 `;
 
+// First, declare VideoOverlay
+export const VideoOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  
+  i {
+    font-size: 3rem;
+    color: white;
+    transform: scale(0.9);
+    transition: transform 0.2s ease;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+
+    i {
+      transform: scale(1);
+    }
+  }
+`;
+
+// Then, declare VideoCard that references VideoOverlay
 export const VideoCard = styled.div`
   position: relative;
   border-radius: 12px;
@@ -409,6 +340,15 @@ export const VideoCard = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   transition: all 0.3s ease;
   cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    ${VideoOverlay} {
+      opacity: 1;
+    }
+  }
 
   @media (max-width: 768px) {
     border-radius: 8px;
@@ -451,7 +391,6 @@ export const VideoDescription = styled.p`
   }
 `;
 
-// Mobile Filter Components
 export const MobileFilter = styled.div`
   position: relative;
   padding: 0.75rem;
@@ -472,6 +411,11 @@ export const FilterButton = styled.button`
   align-items: center;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue4};
+  }
 
   i {
     font-size: 1.2rem;
@@ -490,21 +434,6 @@ export const FilterDropdown = styled.div`
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const FilterOption = styled.button<{ active: boolean }>`
   width: 100%;
@@ -526,7 +455,6 @@ export const FilterOption = styled.button<{ active: boolean }>`
   }
 `;
 
-// Existing styles with mobile optimization...
 export const VideoThumbnail = styled.div<{ bgImage: string }>`
   width: 100%;
   aspect-ratio: 16/9;
@@ -535,25 +463,3 @@ export const VideoThumbnail = styled.div<{ bgImage: string }>`
   background-position: center;
 `;
 
-export const VideoOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  
-  i {
-    font-size: 2rem;
-    color: white;
-    
-    @media (max-width: 768px) {
-      font-size: 1.5rem;
-    }
-  }
-`;
