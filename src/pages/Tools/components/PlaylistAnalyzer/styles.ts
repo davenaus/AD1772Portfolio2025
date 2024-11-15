@@ -193,3 +193,25 @@ export const ChannelItem = styled.div`
     padding: 0.75rem;
   }
 `;
+
+
+export const ViewPlaylistButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem auto;
+  padding: 0.75rem 1.25rem;
+  background: ${({ theme }) => theme.colors.blue2};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transform: translateY(0);
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue3};
+    transform: translateY(-2px);
+  }
+`;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
+import { ExternalLink } from 'lucide-react';
 
 interface VideoStats {
   title: string;
@@ -271,6 +272,10 @@ export const PlaylistAnalyzer: React.FC = () => {
     }
   };
 
+  const getPlaylistUrl = (playlistId: string) => {
+    return `https://www.youtube.com/playlist?list=${playlistId}`;
+  };
+
   return (
     <S.Container>
       <S.Header>
@@ -297,7 +302,14 @@ export const PlaylistAnalyzer: React.FC = () => {
             <i className='bx bx-loader-alt bx-spin' style={{ fontSize: '2rem' }}></i>
           </div>
         ) : analysis ? (
-          <S.ResultsGrid>
+          <>
+            <S.ViewPlaylistButton
+              onClick={() => window.open(getPlaylistUrl(playlistId || ''), '_blank')}
+            >
+              <ExternalLink size={20} />
+              View Playlist
+            </S.ViewPlaylistButton>
+            <S.ResultsGrid>
             <S.GridItem>
               <S.SectionTitle>Playlist Metrics</S.SectionTitle>
               <S.StatsList>
@@ -360,7 +372,8 @@ export const PlaylistAnalyzer: React.FC = () => {
                 ))}
               </S.StatsList>
             </S.GridItem>
-          </S.ResultsGrid>
+            </S.ResultsGrid>
+          </>
         ) : null}
       </S.ResultsContainer>
     </S.Container>
