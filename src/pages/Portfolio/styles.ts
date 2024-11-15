@@ -217,13 +217,16 @@ export const CloseButton = styled.button`
 
 export const Categories = styled.div`
   background: ${({ theme }) => theme.colors.blue2};
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  width: 100%;
-  max-width: 100%;
+    position: sticky;
+    margin-top: 16px;
+    top: 0;
+    z-index: 10;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 100%;
   
   @media (max-width: 768px) {
+    background: ${({ theme }) => theme.colors.blue1};
     margin: 0;
     border-radius: 0;
     padding: 0.5rem 0;
@@ -234,10 +237,12 @@ export const CategoriesScroll = styled.div`
   display: flex;
   gap: 0.75rem;
   overflow-x: auto;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  border-radius: 6px;
   width: 100%;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   
   &::-webkit-scrollbar {
     display: none;
@@ -259,6 +264,7 @@ export const CategoryButton = styled.button<{ active: boolean }>`
   white-space: nowrap;
   transition: all 0.2s ease;
   font-size: 0.9rem;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   
   @media (max-width: 768px) {
     padding: 0.4rem 0.8rem;
@@ -449,8 +455,9 @@ export const VideoDescription = styled.p`
 export const MobileFilter = styled.div`
   position: relative;
   padding: 0.75rem;
-  background: ${({ theme }) => theme.colors.blue2};
+  background: ${({ theme }) => theme.colors.blue1};
   z-index: 20;
+  margin-top: 6px;
 `;
 
 export const FilterButton = styled.button`
