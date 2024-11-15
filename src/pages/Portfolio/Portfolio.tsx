@@ -11,14 +11,23 @@ export const Portfolio: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedVideo, setSelectedVideo] = useState<PortfolioVideo | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch videos from Supabase
         const portfolioVideos = await getPortfolioVideos();
-        
-        // Fetch YouTube details for each video
         const videosWithDetails = await Promise.all(
           portfolioVideos.map(async (video) => {
             const details = await youtubeService.getVideoDetails(video.video_id);
@@ -31,8 +40,6 @@ export const Portfolio: React.FC = () => {
         );
         
         setVideos(videosWithDetails);
-        
-        // Fetch unique tags
         const tags = await getUniqueTags();
         setCategories(['All', ...tags]);
       } catch (error) {
@@ -67,48 +74,77 @@ export const Portfolio: React.FC = () => {
     );
   }
 
-  const handleScrollDown = () => {
-    const categoriesSection = document.querySelector('#categories');
-    categoriesSection?.scrollIntoView({ behavior: 'smooth' });
+
+  const handleFilterClick = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    setIsFilterOpen(false);
   };
 
   return (
     <S.Container>
       <S.Hero>
         <S.HeroVideo>
-        <iframe
-  src="https://www.youtube.com/embed/QPRYfLCxA1g?autoplay=1&mute=1&loop=1&playlist=QPRYfLCxA1g&controls=0&showinfo=0&modestbranding=1&rel=0"
-  title="Showreel"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>
+          <iframe
+            src="https://www.youtube.com/embed/QPRYfLCxA1g?autoplay=1&mute=1&loop=1&playlist=QPRYfLCxA1g&controls=0&showinfo=0&modestbranding=1&rel=0"
+            title="Showreel"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
         </S.HeroVideo>
         <S.HeroContent>
-  <S.HeroTitle>Professional Video Editor</S.HeroTitle>
-  <S.HeroSubtitle>
-    Crafting visual stories that inspire and engage.
-  </S.HeroSubtitle>
-  <S.AnalyticsButton 
-    href="/tools/playlist-analyzer/PLDZjxSO4MSJoA638nQvykQaevGgc-sV2B"
-  >
-    <i className='bx bx-stats'></i>
-    View My Complete Portfolio Analytics
-  </S.AnalyticsButton>
-</S.HeroContent>
-      </S.Hero>
-
-      <S.Categories id="categories">
-        {categories.map(category => (
-          <S.CategoryButton
-            key={category}
-            active={selectedCategory === category}
-            onClick={() => setSelectedCategory(category)}
+          <S.HeroTitle>Professional Video Editor</S.HeroTitle>
+          <S.HeroSubtitle>
+            Crafting visual stories that inspire and engage.
+          </S.HeroSubtitle>
+          <S.AnalyticsButton 
+            href="/tools/playlist-analyzer/PLDZjxSO4MSJoA638nQvykQaevGgc-sV2B"
           >
-            {category}
-          </S.CategoryButton>
-        ))}
-      </S.Categories>
+            <i className='bx bx-stats'></i>
+            {isMobile ? 'View Analytics' : 'View My Complete Portfolio Analytics'}
+          </S.AnalyticsButton>
+        </S.HeroContent>
+       </S.Hero>
+
+      {isMobile ? (
+        <S.MobileFilter>
+          <S.FilterButton onClick={handleFilterClick}>
+            <span>{selectedCategory}</span>
+            <i className='bx bx-chevron-down'></i>
+          </S.FilterButton>
+          {isFilterOpen && (
+            <S.FilterDropdown>
+              {categories.map(category => (
+                <S.FilterOption
+                  key={category}
+                  onClick={() => handleCategorySelect(category)}
+                  active={selectedCategory === category}
+                >
+                  {category}
+                </S.FilterOption>
+              ))}
+            </S.FilterDropdown>
+          )}
+        </S.MobileFilter>
+      ) : (
+        <S.Categories id="categories">
+          <S.CategoriesScroll>
+            {categories.map(category => (
+              <S.CategoryButton
+                key={category}
+                active={selectedCategory === category}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </S.CategoryButton>
+            ))}
+          </S.CategoriesScroll>
+        </S.Categories>
+      )}
 
       <S.VideoGrid>
         {filteredVideos.map(video => (
@@ -131,9 +167,7 @@ export const Portfolio: React.FC = () => {
             <S.CloseButton onClick={handleCloseModal}>
               <i className='bx bx-x'></i>
             </S.CloseButton>
-            <iframe
-              width="100%"
-              height="675"
+            <S.ResponsiveIframe
               src={`https://www.youtube.com/embed/${selectedVideo.video_id}`}
               title={selectedVideo.title || ''}
               frameBorder="0"
