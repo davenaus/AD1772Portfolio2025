@@ -105,7 +105,7 @@ export const Dashboard: React.FC = () => {
           </p>
           <Button
             icon="bx bx-shopping-bag"
-            onClick={() => window.open('https://bit.ly/austindavenportstore', '_blank')}
+            onClick={() => window.open('https://bit.ly/shopaustindavenport', '_blank')}
           >
             View All Assets
           </Button>
@@ -117,7 +117,7 @@ export const Dashboard: React.FC = () => {
             rel="noopener noreferrer"
           >
             <img
-              src="https://imgproxy.fourthwall.com/o9dEw4Qd_EB4aWTjDFG_9C4p2VgtK-rsDvoA00XgFVQ/w:900/sm:1/enc/YTNkMGRlMDhhMTdh/NDI0N2mFxBJEoc49/EqsoAbGC32c1IXvG/vQXU07bEWCW5uIKs/r5EZ3rY-V_MVeFVN/dBKPuItyCeNcTZQR/ZhBFdg6jBcRGBY0_/SuAuN5Yxo0BUQZWR/bJ1mmF-w8pyscKoY/zBDZSIq0mmo9iBN3/VKYa93nC8jE3pRGH/LhyxZ75D-J4-l7b_/f32eDMXxPqisHgA-/bDXVzg.webp"
+              src="https://imgproxy.fourthwall.com/GVzJ1JxNmPVEeuaRpJKf1xrGKh6dQiIsweKij4N3gpA/w:900/sm:1/enc/ZWI0NGFkNjMzYjJh/YzdiZo9hrRNXK67i/aIov9MeXeWn0V-s-/0F4_cqFqrKG1phKX/mf4cJZyhTasDRFhh/zEMuFGz5ectkxzGA/WJDdo0p58u84YPaE/yJbmq_-7c5_vIooS/GIaqQ6DKId4h3GPq/-I4iOqxNrG1seOZ0/-zJ6rg48pfYSegfN/yFpNjCWoMrOwi8zo/7AuRKoBlMfsURrx5/RZlvOQ.webp"
               alt="Link in Bio Maker"
             />
             <S.StoreItemOverlay>Link in Bio Page Maker</S.StoreItemOverlay>

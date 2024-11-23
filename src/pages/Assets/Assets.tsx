@@ -4,8 +4,9 @@ import { Styles as S } from './styles';
 export const Assets: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.location.href = 'https://bit.ly/austindavenportstore';
-    }, 1500);
+      // Open in new tab using window.open()
+      window.open('https://bit.ly/shopaustindavenport', '_blank', 'noopener,noreferrer');
+    }, 0);
 
     return () => clearTimeout(timer);
   }, []);
@@ -15,7 +16,7 @@ export const Assets: React.FC = () => {
       <S.LoadingSpinner>
         <i className='bx bx-loader-alt'></i>
       </S.LoadingSpinner>
-      <S.LoadingText>Redirecting to store...</S.LoadingText>
+      <S.LoadingText>Opening store in new tab...</S.LoadingText>
     </S.LoadingContainer>
   );
 };
