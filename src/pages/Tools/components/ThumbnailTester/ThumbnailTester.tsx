@@ -1,4 +1,3 @@
-// src/pages/Tools/components/ThumbnailTester/ThumbnailTester.tsx
 import React, { useState, useEffect } from 'react';
 import * as S from './styles';
 
@@ -8,12 +7,19 @@ interface PreviewScenario {
   showProfile: boolean;
 }
 
+interface ChannelVideo {
+  thumbnail: string;
+  title: string;
+  channelTitle: string;
+  profilePicture: string;
+}
+
 const previewScenarios: PreviewScenario[] = [
-    { name: 'Home: Large', class: 'home-large', showProfile: true },
-    { name: 'Home: Small', class: 'home-small', showProfile: false },
-    { name: 'Sidebar', class: 'sidebar', showProfile: false },
-    { name: 'Mobile: Column', class: 'mobile-column', showProfile: false }
-  ];
+  { name: 'Home: Large', class: 'home-large', showProfile: true },
+  { name: 'Home: Small', class: 'home-small', showProfile: false },
+  { name: 'Sidebar', class: 'sidebar', showProfile: false },
+  { name: 'Mobile: Column', class: 'mobile-column', showProfile: false }
+];
 
 export const ThumbnailTester: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -22,10 +28,18 @@ export const ThumbnailTester: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [isChannelMode, setIsChannelMode] = useState(false);
+  const [channelUrl, setChannelUrl] = useState('');
   const [popularVideos, setPopularVideos] = useState<any[]>([]);
+  const [channelVideos, setChannelVideos] = useState<ChannelVideo[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  const handleChannelUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChannelUrl(e.target.value);
   };
 
   const handleThumbnailUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,10 +67,23 @@ export const ThumbnailTester: React.FC = () => {
     }
   };
 
+  const extractChannelId = (url: string): string | null => {
+    const patterns = [
+      /youtube\.com\/channel\/([\w-]+)/,
+      /youtube\.com\/c\/([\w-]+)/,
+      /youtube\.com\/@([\w-]+)/
+    ];
+    
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+    return null;
+  };
 
-// Update the ThumbnailTester.tsx file - modify the fetchYouTubeVideos function:
-const fetchYouTubeVideos = async () => {
+  const fetchYouTubeVideos = async () => {
     const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+    setIsLoading(true);
     try {
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/videos?` +
@@ -67,7 +94,6 @@ const fetchYouTubeVideos = async () => {
       );
       const data = await response.json();
   
-      // Fetch channel data for profile pictures
       const channelIds = data.items.map((item: any) => item.snippet.channelId).join(',');
       const channelResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?` +
@@ -90,7 +116,6 @@ const fetchYouTubeVideos = async () => {
         profilePicture: channelIcons[item.snippet.channelId] || 'https://via.placeholder.com/36'
       }));
   
-      // Create user's video object
       const userVideo = {
         isUser: true,
         thumbnail: thumbnailUrl,
@@ -99,19 +124,124 @@ const fetchYouTubeVideos = async () => {
         profilePicture: profileUrl || 'https://via.placeholder.com/36'
       };
   
-      // Insert user's video at a random position
       const randomIndex = Math.floor(Math.random() * (populatedVideos.length + 1));
       populatedVideos.splice(randomIndex, 0, userVideo);
   
       setPopularVideos(populatedVideos);
-      setShowPopup(true);
     } catch (error) {
       console.error('Error fetching YouTube data:', error);
       alert('Failed to load YouTube comparison. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
-  
 
+  const fetchChannelVideos = async () => {
+    const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+    const channelId = extractChannelId(channelUrl);
+    
+    if (!channelId) {
+      alert('Please enter a valid YouTube channel URL');
+      return;
+    }
+  
+    setIsLoading(true);
+    try {
+      // Get channel details
+      const channelResponse = await fetch(
+        `https://www.googleapis.com/youtube/v3/channels?` +
+        `part=snippet&id=${channelId}&key=${API_KEY}`
+      );
+      const channelData = await channelResponse.json();
+      const channelIcon = channelData.items[0]?.snippet.thumbnails.default.url;
+      const channelTitle = channelData.items[0]?.snippet.title;
+  
+      // Get channel videos with contentDetails to check duration
+      const videosResponse = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?` +
+        `part=snippet&channelId=${channelId}&` +
+        `order=date&maxResults=50&type=video&key=${API_KEY}`
+      );
+      const videosData = await videosResponse.json();
+  
+      // Get video details including duration
+      const videoIds = videosData.items.map((item: any) => item.id.videoId).join(',');
+      const videoDetailsResponse = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?` +
+        `part=contentDetails,snippet&` +
+        `id=${videoIds}&` +
+        `key=${API_KEY}`
+      );
+      const videoDetailsData = await videoDetailsResponse.json();
+  
+      // Filter out shorts (videos less than 1 minute) and map to our format
+      const videos = videoDetailsData.items
+        .filter((item: any) => {
+          const duration = item.contentDetails.duration;
+          const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+          const hours = parseInt(match[1] || '0');
+          const minutes = parseInt(match[2] || '0');
+          const seconds = parseInt(match[3] || '0');
+          const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+          return totalSeconds >= 60; // Filter videos longer than 1 minute
+        })
+        .slice(0, 11) // Take only first 11 non-shorts videos
+        .map((item: any) => ({
+          thumbnail: item.snippet.thumbnails.medium.url,
+          title: item.snippet.title,
+          channelTitle: channelTitle,
+          profilePicture: channelIcon
+        }));
+  
+      // Add user's video
+      const userVideo = {
+        thumbnail: thumbnailUrl,
+        title: title || 'Your Video Title',
+        channelTitle: channelTitle,
+        profilePicture: profileUrl || channelIcon
+      };
+  
+      // Insert user's video at random position
+      const randomIndex = Math.floor(Math.random() * (videos.length + 1));
+      videos.splice(randomIndex, 0, userVideo);
+  
+      setChannelVideos(videos);
+    } catch (error) {
+      console.error('Error fetching channel data:', error);
+      alert('Failed to load channel videos. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  const handleCompareChannel = async () => {
+    if (channelUrl.trim()) {
+      await fetchChannelVideos();
+    } else {
+      alert('Please enter a channel URL');
+    }
+  };
+
+
+  // Update the handleModeChange function in the ThumbnailTester component
+const handleModeChange = async () => {
+  setIsChannelMode(!isChannelMode);
+  if (isChannelMode) { // If switching from channel to trending
+    setChannelVideos([]);
+    await fetchYouTubeVideos();
+  } else {
+    setPopularVideos([]); // Clear trending videos when switching to channel mode
+  }
+};
+
+// Also update the handleCompareClick function to avoid reloading if videos exist
+const handleCompareClick = async () => {
+  setShowPopup(true);
+  if (!isChannelMode && popularVideos.length === 0) {
+    await fetchYouTubeVideos();
+  }
+};
   const renderPreview = () => {
     if (!thumbnailUrl) return null;
 
@@ -145,10 +275,12 @@ const fetchYouTubeVideos = async () => {
     ));
   };
 
-  const renderYouTubeComparison = () => {
+  const renderComparison = () => {
+    const videos = isChannelMode ? channelVideos : popularVideos;
+
     return (
       <S.YouTubeGrid>
-        {popularVideos.map((video, index) => (
+        {videos.map((video, index) => (
           <S.YouTubeVideo key={index}>
             <S.ThumbnailImage src={video.thumbnail} alt={video.title} />
             <S.VideoInfo>
@@ -201,22 +333,22 @@ const fetchYouTubeVideos = async () => {
                 onChange={handleProfileUpload}
               />
             </S.FileInputLabel>
-            <S.CompareButton onClick={fetchYouTubeVideos}>
-              YouTube Comparison
+            <S.CompareButton onClick={handleCompareClick} disabled={isLoading}>
+              Compare
             </S.CompareButton>
           </S.ButtonRow>
 
           <S.DarkModeToggle>
-            <S.ToggleInput
-              type="checkbox"
-              checked={isDarkMode}
-              onChange={(e) => setIsDarkMode(e.target.checked)}
-            />
-            <S.Slider isChecked={isDarkMode}>
-              <i className='bx bx-sun'></i>
-              <i className='bx bx-moon'></i>
-            </S.Slider>
-          </S.DarkModeToggle>
+  <S.ToggleInput
+    type="checkbox"
+    checked={isDarkMode}
+    onChange={(e) => setIsDarkMode(e.target.checked)}
+  />
+  <S.ThemeSlider isChecked={isDarkMode}>
+    <i className='bx bx-sun'></i>
+    <i className='bx bx-moon'></i>
+  </S.ThemeSlider>
+</S.DarkModeToggle>
         </S.InputSection>
 
         <S.PreviewSection 
@@ -229,8 +361,36 @@ const fetchYouTubeVideos = async () => {
 
       <S.YouTubePopup style={{ display: showPopup ? 'block' : 'none' }}>
         <S.PopupContent>
-          <S.ClosePopup onClick={() => setShowPopup(false)}>×</S.ClosePopup>
-          {renderYouTubeComparison()}
+          <S.PopupHeader>
+            <S.ClosePopup onClick={() => setShowPopup(false)}>×</S.ClosePopup>
+            <S.PopupControls>
+  <S.ModeToggleContainer>
+    <S.ToggleInput
+      type="checkbox"
+      checked={isChannelMode}
+      onChange={handleModeChange}
+    />
+    <S.ModeSlider isChecked={isChannelMode}>
+      <span>Trending</span>
+      <span>Channel</span>
+    </S.ModeSlider>
+  </S.ModeToggleContainer>
+  {isChannelMode && (
+    <S.ChannelInputContainer>
+      <S.TitleInput
+        type="text"
+        value={channelUrl}
+        onChange={handleChannelUrlChange}
+        placeholder="Enter YouTube channel URL"
+      />
+      <S.CompareButton onClick={handleCompareChannel} disabled={isLoading}>
+        {isLoading ? 'Loading...' : 'Load Channel'}
+      </S.CompareButton>
+    </S.ChannelInputContainer>
+  )}
+</S.PopupControls>
+          </S.PopupHeader>
+          {renderComparison()}
         </S.PopupContent>
       </S.YouTubePopup>
     </S.Container>

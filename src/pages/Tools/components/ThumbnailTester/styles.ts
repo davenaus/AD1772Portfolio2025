@@ -10,6 +10,120 @@ interface PreviewItemProps extends DarkModeProps {
 }
 
 
+export const ThumbnailContainer = styled.div<{ layout?: string }>`
+  position: relative;
+  width: ${({ layout }) => {
+    switch (layout) {
+      case 'home-small': return '246px';
+      case 'sidebar': return '168px';
+      case 'mobile-column': return '168px';
+      default: return '100%';
+    }
+  }};
+  float: ${({ layout }) => layout?.includes('small') || layout?.includes('sidebar') ? 'left' : 'none'};
+  margin-right: ${({ layout }) => layout?.includes('small') || layout?.includes('sidebar') ? '12px' : '0'};
+
+  @media (max-width: 768px) {
+    width: ${({ layout }) => {
+      switch (layout) {
+        case 'home-large': return '100%';
+        case 'sidebar': return '168px';
+        case 'mobile-column': return '100%';
+        default: return '100%';
+      }
+    }};
+    float: none;
+    margin-right: ${({ layout }) => layout?.includes('sidebar') ? '12px' : '0'};
+  }
+`;
+
+
+
+export const VideoInfo = styled.div`
+  padding: 8px;
+  display: flex;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    &.sidebar {
+      padding-left: 0;
+    }
+
+    &.mobile-column {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+`;
+
+export const VideoDetails = styled.div<DarkModeProps>`
+  flex-grow: 1;
+  font-size: 12px;
+  font-family: 'Poppins', sans-serif;
+
+  @media (max-width: 768px) {
+    .mobile-column & {
+      text-align: left;
+      padding-left: 12px;
+    }
+  }
+`;
+
+
+export const PreviewItem = styled.div<PreviewItemProps>`
+  background-color: ${({ isDarkMode, theme }) => 
+    isDarkMode ? theme.colors.blue2 : theme.colors.blue10};
+  margin-bottom: 25px;
+  overflow: hidden;
+  border-radius: 15px;
+  padding: 10px;
+  color: ${({ isDarkMode, theme }) => 
+    isDarkMode ? theme.colors.blue9 : theme.colors.blue11};
+
+  @media (max-width: 768px) {
+    &.home-small {
+      display: none;
+    }
+
+    &.home-large {
+      .video-info {
+        flex-direction: row;
+      }
+    }
+
+    &.sidebar {
+      display: flex;
+      flex-direction: row;
+      align-items: start;
+
+      ${ThumbnailContainer} {
+        width: 168px;
+        flex-shrink: 0;
+        margin-right: 12px;
+      }
+
+      ${VideoInfo} {
+        flex: 1;
+      }
+    }
+
+    &.mobile-column {
+      ${ThumbnailContainer} {
+        width: 100%;
+        margin-bottom: 12px;
+      }
+
+      ${VideoInfo} {
+        flex-direction: row;
+      }
+
+      ${VideoDetails} {
+        text-align: left;
+      }
+    }
+  }
+`;
+
 
 
 
@@ -54,6 +168,8 @@ export const FileInput = styled.input`
 
 
 
+
+
 export const DarkModeToggle = styled.label`
   position: relative;
   display: inline-block;
@@ -68,90 +184,6 @@ export const ToggleInput = styled.input`
   height: 0;
 `;
 
-export const Slider = styled.span<{ isChecked: boolean }>`
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${({ isChecked, theme }) => 
-    isChecked ? theme.colors.blue4 : theme.colors.blue3};
-  transition: .4s;
-  border-radius: 34px;
-
-  i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    z-index: 1;
-    
-    &.bx-sun {
-      right: 8px;
-      color: ${({ isChecked, theme }) => 
-        isChecked ? theme.colors.blue9 : theme.colors.blue11};
-    }
-    
-    &.bx-moon {
-      left: 8px;
-      color: ${({ isChecked, theme }) => 
-        isChecked ? theme.colors.blue11 : theme.colors.blue9};
-    }
-  }
-
-  &:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: ${({ theme }) => theme.colors.blue9};
-    transition: .4s;
-    border-radius: 50%;
-    transform: ${({ isChecked }) => isChecked ? 'translateX(26px)' : 'translateX(0)'};
-    z-index: 2;
-  }
-`;
-
-// In styles.ts
-export const PreviewItem = styled.div<PreviewItemProps>`
-  background-color: ${({ isDarkMode, theme }) => 
-    isDarkMode ? theme.colors.blue2 : theme.colors.blue10};
-  margin-bottom: 25px;
-  overflow: hidden;
-  border-radius: 15px;
-  padding: 10px;
-  color: ${({ isDarkMode, theme }) => 
-    isDarkMode ? theme.colors.blue9 : theme.colors.blue11};
-
-  @media (max-width: 768px) {
-    &.home-small {
-      display: none;
-    }
-
-    &.home-large {
-      .video-info {
-        flex-direction: row;
-      }
-    }
-
-    &.sidebar {
-      .video-info {
-        padding-left: 0;
-      }
-    }
-
-    &.mobile-column {
-      .video-info {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-    }
-  }
-`;
 
 export const PreviewTitle = styled.div<DarkModeProps>`
   padding: 8px;
@@ -171,11 +203,7 @@ export const ThumbnailImage = styled.img`
   border-radius: 12px;
 `;
 
-export const VideoInfo = styled.div`
-  padding: 8px;
-  display: flex;
-  align-items: flex-start;
-`;
+
 
 export const ProfilePicture = styled.img`
   width: 36px;
@@ -185,11 +213,7 @@ export const ProfilePicture = styled.img`
   object-fit: cover;
 `;
 
-export const VideoDetails = styled.div<DarkModeProps>`
-  flex-grow: 1;
-  font-size: 12px;
-  font-family: 'Poppins', sans-serif;
-`;
+
 
 export const VideoTitle = styled.div<DarkModeProps>`
   font-weight: 500;
@@ -231,10 +255,6 @@ export const YouTubePopup = styled.div`
 
 
 
-
-
-
-
 export const YouTubeVideo = styled.div`
   background-color: ${({ theme }) => theme.colors.blue2};
   border-radius: 12px;
@@ -248,24 +268,6 @@ export const YouTubeVideo = styled.div`
     background: ${({ theme }) => theme.colors.blue3};
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// src/pages/Tools/components/ThumbnailTester/styles.ts
-
 
 
 
@@ -316,11 +318,6 @@ export const YouTubeGrid = styled.div`
 
 
 
-
-
-
-
-
 export const Header = styled.div`
   text-align: center;
   margin-bottom: 2rem;
@@ -335,88 +332,11 @@ export const Title = styled.h1`
 `;
 
 
-
-
-
-
-
-
-
-
-
-// Update ClosePopup to ensure it's always on top
-export const ClosePopup = styled.span`
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 24px;
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.blue9};
-  z-index: 1002; // Higher than PopupContent's z-index
-  background: ${({ theme }) => theme.colors.blue2};
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.colors.blue3};
-`;
-
-// Update PopupContent to ensure proper stacking context
-export const PopupContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: ${({ theme }) => theme.colors.blue2};
-  padding: 40px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 1200px;
-  max-height: 80%;
-  overflow-y: auto;
-  z-index: 1001;
-  border: 1px solid ${({ theme }) => theme.colors.blue3};
-
-  @media (max-width: 768px) {
-    padding: 20px;
-    width: 95%;
-  }
-`;
-
-
-
-
-
-
-
 export const PopupVideoTitle = styled.div`
   font-weight: 500;
   margin-bottom: 2px;
   color: ${({ theme }) => theme.colors.blue9};
   font-size: 14px;
-`;
-
-// Update the preview container styles for mobile
-export const ThumbnailContainer = styled.div<{ layout?: string }>`
-  position: relative;
-  width: ${({ layout }) => {
-    switch (layout) {
-      case 'home-small': return '246px';
-      case 'sidebar': return '168px';
-      case 'mobile-column': return '168px';
-      default: return '100%';
-    }
-  }};
-  float: ${({ layout }) => layout?.includes('small') || layout?.includes('sidebar') ? 'left' : 'none'};
-  margin-right: ${({ layout }) => layout?.includes('small') || layout?.includes('sidebar') ? '12px' : '0'};
-
-  @media (max-width: 768px) {
-    width: 100%;
-    float: none;
-    margin-right: 0;
-  }
 `;
 
 
@@ -477,9 +397,6 @@ export const FileInputLabel = styled.label`
 `;
 
 
-
-
-
 // Update the MainContainer styling in styles.ts
 export const MainContainer = styled.div<{ isExpanded: boolean }>`
   display: flex;
@@ -523,3 +440,309 @@ export const InputSection = styled.div<{ isExpanded: boolean }>`
     padding: 0 1rem;
   }
 `;
+
+// Add these new styled components to your styles.ts file
+
+export const PopupHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+`;
+
+export const PopupControls = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+`;
+
+
+export const PopupTitle = styled.h2`
+  color: ${({ theme }) => theme.colors.blue9};
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center;
+`;
+
+// Update PopupContent to accommodate new header
+export const PopupContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: ${({ theme }) => theme.colors.blue2};
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    width: 95%;
+    max-height: 95vh;
+  }
+`;
+
+// Update ClosePopup positioning for new header
+export const ClosePopup = styled.span`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 24px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.blue9};
+  z-index: 1002;
+  background: ${({ theme }) => theme.colors.blue2};
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue3};
+    transform: scale(1.1);
+  }
+`;
+
+export const ModeToggle = styled(DarkModeToggle)`
+  width: 200px; // Increased from 120px
+  margin: 0 auto;
+  height: 40px;
+`;
+
+export const Slider = styled.span<{ isChecked: boolean }>`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${({ isChecked, theme }) => 
+    isChecked ? theme.colors.blue4 : theme.colors.blue3};
+  transition: .4s;
+  border-radius: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  span {
+    color: ${({ theme }) => theme.colors.blue11};
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1;
+    transition: .4s;
+    
+    &:first-child {
+      color: ${({ isChecked, theme }) => 
+        isChecked ? theme.colors.blue11 : theme.colors.blue11};
+    }
+    
+    &:last-child {
+      color: ${({ isChecked, theme }) => 
+        isChecked ? theme.colors.blue11 : theme.colors.blue11};
+    }
+  }
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 32px;
+    width: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: ${({ theme }) => theme.colors.blue5};
+    transition: .4s;
+    border-radius: 34px;
+    transform: ${({ isChecked }) => isChecked ? 'translateX(calc(100% - 8px))' : 'translateX(0)'};
+    z-index: 0;
+  }
+`;
+
+export const ChannelInputContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  ${TitleInput} {
+    flex: 1;
+    border: 1.8px solid ${({ theme }) => theme.colors.blue3};
+    border-radius: 12px;
+    background: ${({ theme }) => theme.colors.blue2};
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: ${({ theme }) => theme.colors.blue4};
+      outline: none;
+      background: ${({ theme }) => theme.colors.blue3};
+    }
+  }
+
+  ${CompareButton} {
+    width: auto;
+    min-width: 120px;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    
+    ${CompareButton} {
+      width: 100%;
+    }
+  }
+`;
+
+
+
+
+
+
+
+
+
+
+
+
+// Regular dark/light mode toggle styles
+
+
+export const ThemeSlider = styled.span<{ isChecked: boolean }>`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${({ isChecked, theme }) => 
+    isChecked ? theme.colors.blue4 : theme.colors.blue3};
+  transition: .4s;
+  border-radius: 34px;
+
+  i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    z-index: 1;
+    
+    &.bx-sun {
+      right: 8px;
+      color: ${({ isChecked, theme }) => 
+        isChecked ? theme.colors.blue9 : theme.colors.blue11};
+    }
+    
+    &.bx-moon {
+      left: 8px;
+      color: ${({ isChecked, theme }) => 
+        isChecked ? theme.colors.blue11 : theme.colors.blue9};
+    }
+  }
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: ${({ theme }) => theme.colors.blue9};
+    transition: .4s;
+    border-radius: 50%;
+    transform: ${({ isChecked }) => isChecked ? 'translateX(26px)' : 'translateX(0)'};
+    z-index: 2;
+  }
+`;
+
+// Mode toggle (Trending/Channel) styles
+export const ModeToggleContainer = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  height: 40px;
+  margin: 0 auto;
+`;
+
+
+
+export const ModeSlider = styled.span<{ isChecked: boolean }>`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${({ isChecked, theme }) => 
+    isChecked ? theme.colors.blue4 : theme.colors.blue3};
+  transition: .4s;
+  border-radius: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1;
+    transition: .4s;
+    
+    /* Trending text */
+    &:first-child {
+      color: ${({ isChecked, theme }) => 
+        isChecked ? theme.colors.blue11 : theme.colors.blue11};
+    }
+    
+    /* Channel text */
+    &:last-child {
+      color: ${({ isChecked, theme }) => 
+        isChecked ? theme.colors.blue11 : theme.colors.blue11};
+    }
+  }
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: 32px;
+    width: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: ${({ theme }) => theme.colors.blue5};
+    transition: .4s;
+    border-radius: 34px;
+    transform: ${({ isChecked }) => isChecked ? 'translateX(calc(100% - 8px))' : 'translateX(0)'};
+    z-index: 0;
+  }
+`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
