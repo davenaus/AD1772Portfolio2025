@@ -1,4 +1,3 @@
-// src/AppRoutes.tsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Dashboard } from './pages/Dashboard/Dashboard';
@@ -21,15 +20,16 @@ import { TagGenerator } from './pages/Tools/components/TagGenerator/TagGenerator
 import { ThumbnailDownloader } from './pages/Tools/components/ThumbnailDownloader/ThumbnailDownloader';
 import { ThumbnailTester } from './pages/Tools/components/ThumbnailTester/ThumbnailTester';
 import { YouTubeCalculator } from './pages/Tools/components/YouTubeCalculator/YouTubeCalculator';
+import { YouTubeTranscript } from './pages/Tools/components/YouTubeTranscript/YouTubeTranscript';
 import { Resume } from './pages/Resume/Resume';
 import { TiktokLinks } from './pages/TiktokLinks/TiktokLinks';
-
 
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/tools" element={<Tools />} />
+      <Route path="/tools/youtube-transcript" element={<YouTubeTranscript />} />
       <Route path="/tools/youtube-blueprint" element={<YouTubeBlueprint />} />
       <Route path="/tools/outlier-finder" element={<OutlierFinder />} />
       <Route path="/tools/outlier-finder/:searchQuery/:type" element={<OutlierFinder />} />
