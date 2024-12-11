@@ -125,6 +125,18 @@ export const ChannelAnalyzer: React.FC = () => {
     }
   };
 
+  const getFullSizeBannerUrl = (bannerUrl: string): string => {
+    if (!bannerUrl) return '';
+    
+    // Check if the URL already has parameters
+    if (bannerUrl.includes('=w')) {
+      // Replace existing parameters with full size ones
+      return bannerUrl.replace(/=w\d+-.+/, '=w2120-fcrop64=1,00000000ffffffff-k-c0xffffffff-no-nd-rj');
+    }
+    
+    // Add parameters for full size if none exist
+    return `${bannerUrl}=w2120-fcrop64=1,00000000ffffffff-k-c0xffffffff-no-nd-rj`;
+  };
 
   const fetchChannelData = async (channelId: string) => {
     const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
@@ -348,39 +360,39 @@ export const ChannelAnalyzer: React.FC = () => {
               <S.GridItem>
                 <S.SectionTitle>Channel Branding</S.SectionTitle>
                 <S.BrandingContainer>
-                  <S.BrandingItem>
-                    <S.ImageContainer>
-                      <S.PreviewImage
-                        src={channelData.snippet.thumbnails.medium.url}
-                        alt="Profile Picture"
-                      />
-                    </S.ImageContainer>
-                    <S.DownloadButton
-                      href={channelData.snippet.thumbnails.high.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View Full Size
-                    </S.DownloadButton>
-                  </S.BrandingItem>
-                  {channelData.brandingSettings?.image?.bannerExternalUrl && (
-                    <S.BrandingItem>
-                      <S.ImageContainer>
-                        <S.PreviewImage
-                          src={channelData.brandingSettings.image.bannerExternalUrl}
-                          alt="Banner Image"
-                        />
-                      </S.ImageContainer>
-                      <S.DownloadButton
-                        href={channelData.brandingSettings.image.bannerExternalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Full Size
-                      </S.DownloadButton>
-                    </S.BrandingItem>
-                  )}
-                </S.BrandingContainer>
+  <S.BrandingItem>
+    <S.ImageContainer>
+      <S.PreviewImage
+        src={channelData.snippet.thumbnails.medium.url}
+        alt="Profile Picture"
+      />
+    </S.ImageContainer>
+    <S.DownloadButton
+      href={channelData.snippet.thumbnails.high.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View Full Size
+    </S.DownloadButton>
+  </S.BrandingItem>
+  {channelData.brandingSettings?.image?.bannerExternalUrl && (
+    <S.BrandingItem>
+      <S.ImageContainer>
+        <S.PreviewImage
+          src={getFullSizeBannerUrl(channelData.brandingSettings.image.bannerExternalUrl)}
+          alt="Banner Image"
+        />
+      </S.ImageContainer>
+      <S.DownloadButton
+        href={getFullSizeBannerUrl(channelData.brandingSettings.image.bannerExternalUrl)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View Full Size
+      </S.DownloadButton>
+    </S.BrandingItem>
+  )}
+</S.BrandingContainer>
               </S.GridItem>
 
               <S.GridItem>

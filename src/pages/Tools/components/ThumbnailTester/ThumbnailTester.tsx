@@ -69,17 +69,22 @@ export const ThumbnailTester: React.FC = () => {
 
   const extractChannelId = (url: string): string | null => {
     const patterns = [
-      /youtube\.com\/channel\/([\w-]+)/,
-      /youtube\.com\/c\/([\w-]+)/,
-      /youtube\.com\/@([\w-]+)/
+      /youtube\.com\/channel\/([\w-]+)/,     // Regular channel ID
+      /youtube\.com\/@([\w-]+)/,             // Handle @username format
+      /youtube\.com\/c\/([\w-]+)/,           // Custom URL format
+      /youtube\.com\/user\/([\w-]+)/,        // Legacy user format
+      /youtube\.com\/([\w-]+)/,              // Direct channel name without @
     ];
     
     for (const pattern of patterns) {
       const match = url.match(pattern);
-      if (match) return match[1];
+      if (match && match[1] !== 'c' && match[1] !== 'user' && match[1] !== 'channel') {
+        return match[1];
+      }
     }
     return null;
   };
+  
 
   const fetchYouTubeVideos = async () => {
     const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
@@ -147,34 +152,65 @@ export const ThumbnailTester: React.FC = () => {
   
     setIsLoading(true);
     try {
-      // Get channel details
+      // First try to get channel directly with the extracted ID
       const channelResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/channels?` +
-        `part=snippet&id=${channelId}&key=${API_KEY}`
+        `part=snippet,contentDetails&` +
+        `id=${channelId}&key=${API_KEY}`
       );
-      const channelData = await channelResponse.json();
-      const channelIcon = channelData.items[0]?.snippet.thumbnails.default.url;
-      const channelTitle = channelData.items[0]?.snippet.title;
+      let channelData = await channelResponse.json();
   
-      // Get channel videos with contentDetails to check duration
+      // If not found, try searching by username for @handle channels
+      if (!channelData.items?.length && channelUrl.includes('@')) {
+        const searchResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?` +
+          `part=snippet&type=channel&` +
+          `q=${channelId}&key=${API_KEY}`
+        );
+        const searchData = await searchResponse.json();
+        if (searchData.items?.length) {
+          const foundChannelId = searchData.items[0].id.channelId;
+          const newChannelResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?` +
+            `part=snippet,contentDetails&` +
+            `id=${foundChannelId}&key=${API_KEY}`
+          );
+          channelData = await newChannelResponse.json();
+        }
+      }
+  
+      if (!channelData.items?.length) {
+        throw new Error('Channel not found');
+      }
+  
+      const channelIcon = channelData.items[0].snippet.thumbnails.default.url;
+      const channelTitle = channelData.items[0].snippet.title;
+      const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+  
+      // Get videos from the channel's uploads playlist
       const videosResponse = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?` +
-        `part=snippet&channelId=${channelId}&` +
-        `order=date&maxResults=50&type=video&key=${API_KEY}`
+        `https://www.googleapis.com/youtube/v3/playlistItems?` +
+        `part=snippet&playlistId=${uploadsPlaylistId}&` +
+        `maxResults=50&key=${API_KEY}`
       );
       const videosData = await videosResponse.json();
   
-      // Get video details including duration
-      const videoIds = videosData.items.map((item: any) => item.id.videoId).join(',');
+      if (!videosData.items?.length) {
+        throw new Error('No videos found');
+      }
+  
+      // Get video details for duration filtering
+      const videoIds = videosData.items
+        .map((item: any) => item.snippet.resourceId.videoId)
+        .join(',');
+  
       const videoDetailsResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/videos?` +
-        `part=contentDetails,snippet&` +
-        `id=${videoIds}&` +
-        `key=${API_KEY}`
+        `part=contentDetails&id=${videoIds}&key=${API_KEY}`
       );
       const videoDetailsData = await videoDetailsResponse.json();
   
-      // Filter out shorts (videos less than 1 minute) and map to our format
+      // Filter out shorts and create final video array
       const videos = videoDetailsData.items
         .filter((item: any) => {
           const duration = item.contentDetails.duration;
@@ -183,17 +219,23 @@ export const ThumbnailTester: React.FC = () => {
           const minutes = parseInt(match[2] || '0');
           const seconds = parseInt(match[3] || '0');
           const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-          return totalSeconds >= 60; // Filter videos longer than 1 minute
+          return totalSeconds >= 61; // Filter videos longer than 1 minute
         })
-        .slice(0, 11) // Take only first 11 non-shorts videos
-        .map((item: any) => ({
-          thumbnail: item.snippet.thumbnails.medium.url,
-          title: item.snippet.title,
-          channelTitle: channelTitle,
-          profilePicture: channelIcon
-        }));
+        .slice(0, 11)
+        .map((item: any) => {
+          const videoData = videosData.items.find(
+            (v: any) => v.snippet.resourceId.videoId === item.id
+          );
+          return {
+            thumbnail: videoData.snippet.thumbnails.medium?.url || 
+                      videoData.snippet.thumbnails.default?.url,
+            title: videoData.snippet.title,
+            channelTitle: channelTitle,
+            profilePicture: channelIcon
+          };
+        });
   
-      // Add user's video
+      // Add user's video at random position
       const userVideo = {
         thumbnail: thumbnailUrl,
         title: title || 'Your Video Title',
@@ -201,14 +243,13 @@ export const ThumbnailTester: React.FC = () => {
         profilePicture: profileUrl || channelIcon
       };
   
-      // Insert user's video at random position
       const randomIndex = Math.floor(Math.random() * (videos.length + 1));
       videos.splice(randomIndex, 0, userVideo);
   
       setChannelVideos(videos);
     } catch (error) {
       console.error('Error fetching channel data:', error);
-      alert('Failed to load channel videos. Please try again.');
+      alert('Failed to load channel videos. Please make sure the channel URL is correct and try again.');
     } finally {
       setIsLoading(false);
     }
