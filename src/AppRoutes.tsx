@@ -21,6 +21,8 @@ import { ThumbnailDownloader } from './pages/Tools/components/ThumbnailDownloade
 import { ThumbnailTester } from './pages/Tools/components/ThumbnailTester/ThumbnailTester';
 import { YouTubeCalculator } from './pages/Tools/components/YouTubeCalculator/YouTubeCalculator';
 import { YouTubeTranscript } from './pages/Tools/components/YouTubeTranscript/YouTubeTranscript';
+import { CommentPicker } from './pages/Tools/components/CommentPicker/CommentPicker';
+import { SubscribeLinkGenerator } from './pages/Tools/components/SubscribeLinkGenerator/SubscribeLinkGenerator';
 import { Resume } from './pages/Resume/Resume';
 import { TiktokLinks } from './pages/TiktokLinks/TiktokLinks';
 
@@ -41,9 +43,12 @@ export const AppRoutes: React.FC = () => {
       <Route path="/tools/channel-consultant" element={<ChannelConsultant />} />
       <Route path="/tools/comment-downloader" element={<CommentDownloader />} />
       <Route path="/tools/comment-downloader/:videoId" element={<CommentDownloader />} />
+      <Route path="/tools/comment-picker" element={<CommentPicker />} />
+      <Route path="/tools/comment-picker/:videoId" element={<CommentPicker />} />
       <Route path="/tools/playlist-analyzer" element={<PlaylistAnalyzer />} />
       <Route path="/tools/playlist-analyzer/:playlistId" element={<PlaylistAnalyzer />} />
       <Route path="/tools/qr-code-generator" element={<QRCodeGenerator />} />
+      <Route path="/tools/subscribe-link-generator" element={<SubscribeLinkGenerator />} />
       <Route path="/tools/tag-generator" element={<TagGenerator />} />
       <Route path="/tools/tag-generator/:searchTitle" element={<TagGenerator />} />
       <Route path="/tools/thumbnail-downloader" element={<ThumbnailDownloader />} />

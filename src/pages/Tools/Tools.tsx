@@ -91,7 +91,7 @@ const tools: Tool[] = [
     description: 'Estimate your potential YouTube earnings based on views, video length, and content category.',
     icon: 'bx bx-dollar-circle',
     category: 'Utilities',
-    tags: ['Monetization', 'Calculator', 'Earnings'],
+    tags: ['Monetization', 'Calculator'],
     url: '/tools/youtube-calculator',
   },
   {
@@ -130,6 +130,26 @@ const tools: Tool[] = [
     tags: ['SEO', 'Tags', 'Keywords'],
     url: '/tools/tag-generator',
     isBeta: true,
+  },
+  {
+    id: 'comment-picker',
+    name: 'Comment Picker',
+    description: 'Randomly select a winner from your YouTube video comments for giveaways and contests.',
+    icon: 'bx bx-gift',
+    category: 'Utilities',
+    tags: ['Comments', 'Giveaway', 'Contest'],
+    url: '/tools/comment-picker',
+    isNew: true,
+  },
+  {
+    id: 'subscribe-link-generator',
+    name: 'Subscribe Link Generator',
+    description: 'Create personalized subscription links for your YouTube channel.',
+    icon: 'bx bx-link',
+    category: 'Utilities',
+    tags: ['Subscribe', 'Channel', 'Growth'],
+    url: '/tools/subscribe-link-generator',
+    isBeta: false,
   },
 ];
 
