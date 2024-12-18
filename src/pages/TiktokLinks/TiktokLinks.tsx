@@ -66,7 +66,7 @@ export const TiktokLinks: React.FC = () => {
       <S.Profile>
         <S.ProfileImage>
           <img 
-            src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj" 
+            src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s2048x3072/cd2e6fdd67cb4fe3ad30bf06ef4b75c42291e2f6.pnj" 
             alt="Profile Picture" 
           />
         </S.ProfileImage>
