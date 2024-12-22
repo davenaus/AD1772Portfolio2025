@@ -23,6 +23,7 @@ import { YouTubeCalculator } from './pages/Tools/components/YouTubeCalculator/Yo
 import { YouTubeTranscript } from './pages/Tools/components/YouTubeTranscript/YouTubeTranscript';
 import { CommentPicker } from './pages/Tools/components/CommentPicker/CommentPicker';
 import { SubscribeLinkGenerator } from './pages/Tools/components/SubscribeLinkGenerator/SubscribeLinkGenerator';
+import { ColorPalette } from './pages/Tools/components/ColorPalette/ColorPalette';
 import { Resume } from './pages/Resume/Resume';
 import { TiktokLinks } from './pages/TiktokLinks/TiktokLinks';
 
@@ -55,6 +56,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/tools/thumbnail-downloader/:videoId" element={<ThumbnailDownloader />} />
       <Route path="/tools/thumbnail-tester" element={<ThumbnailTester />} />
       <Route path="/tools/youtube-calculator" element={<YouTubeCalculator />} />
+      <Route path="/tools/color-palette" element={<ColorPalette />} />
       <Route path="/resume" element={<Resume />} />
       <Route path="/links" element={<TiktokLinks />} />
       <Route path="/blog" element={<Blog />} />

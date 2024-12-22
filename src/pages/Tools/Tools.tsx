@@ -131,6 +131,16 @@ const tools: Tool[] = [
     guideLink: 'https://youtu.be/emDLfwxuozg',
   },
   {
+    id: 'color-palette',
+    name: 'Color Palette Generator',
+    description: 'Extract color palettes from images and generate beautiful gradients. Perfect for content creators and designers.',
+    icon: 'bx bx-palette',
+    category: 'Utilities',
+    tags: ['Colors', 'Design', 'Image Analysis'],
+    url: '/tools/color-palette',
+    isNew: true,
+  },
+  {
     id: 'youtube-calculator',
     name: 'YouTube Calculator',
     description: 'Estimate your potential YouTube earnings based on views, video length, and content category.',
@@ -149,7 +159,6 @@ const tools: Tool[] = [
     tags: ['Comments', 'Giveaway', 'Contest'],
     url: '/tools/comment-picker',
     guideLink: 'https://www.youtube.com/channel/UCg_JArLpHeN9P34qMd9W5rQ',
-    isNew: true,
   },
   {
     id: 'subscribe-link-generator',
