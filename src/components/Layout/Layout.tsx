@@ -14,11 +14,12 @@ const menuItems: NavItem[] = [
   { path: '/', icon: 'bx bx-grid-alt', label: 'Dashboard' },
   { path: '/tools', icon: 'bx bx-wrench', label: 'Tools' },
   { path: '/blog', icon: 'bx bx-pen', label: 'Blog' },
-  { path: '/assets', icon: 'bx bx-package', label: 'Assets' }
+  { path: '/assets', icon: 'bx bx-package', label: 'Assets' },
 ];
 
 const resourceItems: NavItem[] = [
   { path: '/portfolio', icon: 'bx bx-book-alt', label: 'Portfolio' },
+  { path: '/code-projects', icon: 'bx bx-code-block', label: 'Code Projects' },
   { path: '/contact', icon: 'bx bx-phone', label: 'Contact' }
 ];
 
@@ -98,18 +99,18 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         </nav>
 
         <S.SocialLinks>
-        <S.SocialGrid>
-  {socialLinks.map((link) => (
-    <S.SocialLink
-      key={link.url}
-      href={link.url}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <i className={link.icon}></i>
-    </S.SocialLink>
-  ))}
-</S.SocialGrid>
+          <S.SocialGrid>
+            {socialLinks.map((link) => (
+              <S.SocialLink
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className={link.icon}></i>
+              </S.SocialLink>
+            ))}
+          </S.SocialGrid>
         </S.SocialLinks>
       </S.Sidebar>
 

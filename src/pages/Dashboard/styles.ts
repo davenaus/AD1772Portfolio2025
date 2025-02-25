@@ -14,6 +14,88 @@ const RegularTiles = styled.div`
   position: relative;
 `;
 
+// New Hero Container for the split layout
+const HeroContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1.5rem;
+  
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+// Main content tile (replaces FullWidthTile for hero section)
+const MainContentTile = styled.div`
+  background-color: ${({ theme }) => theme.colors.blue2};
+  border-radius: 16px;
+  padding: 3.5rem;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    border-color: ${({ theme }) => theme.colors.blue4};
+  }
+`;
+
+// New stats tile with image background
+const StatsTile = styled.div`
+  background-image: url('https://64.media.tumblr.com/2b4fc6ec0ab07be5a7eb95f3a33cdc51/cc21b18983fb870d-4b/s2048x3072/df9836cc3b379a03ad02cc5b0e0224df73c4d059.pnj');
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 17, 19, 0.7);
+    border-radius: 16px;
+  }
+  
+  &:hover {
+    transform: translateY(-1px);
+    border-color: ${({ theme }) => theme.colors.blue4};
+  }
+`;
+
+// Individual stat item
+const StatItem = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  z-index: 1;
+  
+  i {
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.colors.blue9};
+  }
+  
+  span {
+    font-size: 1rem;
+    color: ${({ theme }) => theme.colors.blue9};
+    font-weight: 500;
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
 const FullWidthTile = styled.div`
   background-color: ${({ theme }) => theme.colors.blue2};
   border-radius: 16px;
@@ -267,6 +349,10 @@ export const Styles = {
   DashboardGrid,
   RegularTiles,
   FullWidthTile,
+  HeroContainer,
+  MainContentTile,
+  StatsTile,
+  StatItem,
   TileContent,
   HeroTitle,
   PreviewBox,

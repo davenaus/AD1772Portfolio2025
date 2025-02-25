@@ -24,29 +24,42 @@ export const Dashboard: React.FC = () => {
 
   return (
     <S.DashboardGrid>
-      {/* Hero Section */}
-      <S.FullWidthTile>
-        <S.TileContent>
-          <S.HeroTitle>Hey, I'm Austin Davenport</S.HeroTitle>
-          <p style={{ color: '#b1b4b8', fontSize: '1.125rem', marginBottom: '0.5rem' }}>
-            Professional Video Editor & Developer
-          </p>
-          <p style={{ color: '#b1b4b8', marginBottom: '1rem' }}>
-            I build time-saving tools to help creators grow their online presence.
-            Through my experience in development and content creation, I've helped thousands
-            of creators streamline their workflow and reach their audience.
-          </p>
-          <Button icon="bx bx-link-external" as={Link} to="/portfolio">
-            Portfolio
-          </Button>
-        </S.TileContent>
-        <S.PreviewBox>
-          <img
-            src="https://64.media.tumblr.com/2b4fc6ec0ab07be5a7eb95f3a33cdc51/cc21b18983fb870d-4b/s2048x3072/df9836cc3b379a03ad02cc5b0e0224df73c4d059.pnj"
-            alt="Austin Davenport"
-          />
-        </S.PreviewBox>
-      </S.FullWidthTile>
+      {/* Hero Section - Now split into two parts */}
+      <S.HeroContainer>
+        {/* Main Content Tile */}
+        <S.MainContentTile>
+          <S.TileContent>
+            <S.HeroTitle>Hey, I'm Austin Davenport</S.HeroTitle>
+            <p style={{ color: '#b1b4b8', fontSize: '1.125rem', marginBottom: '0.5rem' }}>
+              Professional Video Editor & Developer
+            </p>
+            <p style={{ color: '#b1b4b8', marginBottom: '1rem' }}>
+              I build time-saving tools to help creators grow their online presence.
+              Through my experience in development and content creation, I've helped thousands
+              of creators streamline their workflow and reach their audience.
+            </p>
+            <Button icon="bx bx-link-external" as={Link} to="/portfolio">
+              Portfolio
+            </Button>
+          </S.TileContent>
+        </S.MainContentTile>
+        
+        {/* Stats Tile */}
+        <S.StatsTile>
+          <S.StatItem>
+            <i className='bx bxl-youtube'></i>
+            <span>130+ million views</span>
+          </S.StatItem>
+          <S.StatItem>
+            <i className='bx bxl-discord-alt'></i>
+            <span>230 members</span>
+          </S.StatItem>
+          <S.StatItem>
+            <i className='bx bx-user'></i>
+            <span>6.5k subscribers</span>
+          </S.StatItem>
+        </S.StatsTile>
+      </S.HeroContainer>
 
       {/* Regular Tiles */}
       <S.RegularTiles>
@@ -63,10 +76,6 @@ export const Dashboard: React.FC = () => {
             <span>{timeUntilNextVideo}</span>
           </S.CountdownBox>
 
-          <p style={{ color: '#b1b4b8', marginBottom: '1rem' }}>
-            Join over 10,000 creators learning how to optimize their content and grow their online presence.
-            New videos every Saturday at 12 PM CST.
-          </p>
 
           {renderVideoContent()}
         </DashboardTile>
