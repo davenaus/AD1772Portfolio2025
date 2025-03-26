@@ -16,7 +16,7 @@ export const Blog: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
-  const postsPerPage = 6;
+  const postsPerPage = 50;
 
   // Debug Supabase connection on mount
   useEffect(() => {
