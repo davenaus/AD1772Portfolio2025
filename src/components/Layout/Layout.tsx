@@ -30,7 +30,7 @@ interface SocialLink {
 
 const socialLinks: SocialLink[] = [
   { url: 'https://www.youtube.com/@AustinDavenport', icon: 'bx bxl-youtube' },
-  { url: 'https://twitter.com/Tool_Creator', icon: 'bx bxl-twitter' },
+  { url: 'https://x.com/MrDavenportable', icon: 'bx bxl-twitter' },
   { url: 'https://discord.com/invite/vuKtEXJ', icon: 'bx bxl-discord-alt' },
   { url: 'https://www.tiktok.com/@austindavenport_', icon: 'bx bxl-tiktok' }
 ];
