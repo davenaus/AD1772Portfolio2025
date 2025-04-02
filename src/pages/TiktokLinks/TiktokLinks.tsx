@@ -7,16 +7,10 @@ import { S } from './styles';
 
 const linkItems: LinkItem[] = [
   {
-    href: "https://shop.austindavenport.com/products/the-youtube-blueprint-ebook",
-    icon: "bx-book-open",
-    title: "The YouTube Blueprint",
-    description: "Complete guide to growing your YouTube channel and optimizing your content"
-  },
-  {
-    href: "https://spoti.fi/3GNAwkd",
-    icon: "bx-music",
-    title: "DMCA Safe Streaming Music",
-    description: "80-hour playlist of copyright-free music for your streams"
+    href: "https://discord.com/invite/vuKtEXJ",
+    icon: "bxl-discord-alt",
+    title: "Join Discord",
+    description: "Connect with our community of content creators"
   },
   {
     href: "https://austindavenport.com/tools",
@@ -25,40 +19,57 @@ const linkItems: LinkItem[] = [
     description: "Comprehensive toolkit for optimizing your YouTube content"
   },
   {
-    href: "https://discord.com/template/CnvsmH38kruM",
-    icon: "bxl-discord-alt",
-    title: "FREE Discord Template",
-    description: "Pre-configured Discord server template for content creators"
+    href: "https://shop.austindavenport.com/collections/all",
+    icon: "bx-shopping-bag",
+    title: "Templates",
+    description: "Professional templates to enhance your content creation"
   },
   {
-    href: "https://www.youtube.com/watch?v=d50kxEBrcNA",
-    icon: "bx-target-lock",
-    title: "FREE Fortnite Custom Healthbar",
-    description: "Download our custom Fortnite healthbar template and enhance your gaming streams"
+    href: "#",
+    icon: "bx-envelope",
+    title: "Email",
+    description: "austin@austindavenport.com",
+    isCopyable: true
   },
   {
-    href: "https://www.youtube.com/watch?v=IpPc1be2PWY",
-    icon: "bx-target-lock",
-    title: "FREE Apex Legends Custom Banner",
-    description: "Get our professionally designed Apex Legends banner templates"
-  },
-  {
-    href: "https://www.youtube.com/watch?v=IliDU2wBgOs",
-    icon: "bx-target-lock",
-    title: "FREE Warzone 2.0 Custom Banner",
-    description: "Download our custom Warzone banner template for your streams"
-  },
-  {
-    href: "https://www.youtube.com/watch?v=q_KqhytxBAs",
-    icon: "bx-brush",
-    title: "FREE Transition Download",
-    description: "Professional streaming transitions to enhance your content"
+    href: "/extra-links",
+    icon: "bx-chevron-right",
+    title: "More",
+    description: "Discover additional resources and tools",
+    isInternalLink: true
   }
 ];
 
 export const TiktokLinks: React.FC = () => {
-  const handleExternalClick = (url: string) => {
+  const handleExternalClick = (url: string, isInternalLink = false) => {
+    if (isInternalLink) {
+      // Handle internal navigation
+      window.location.href = url;
+      return;
+    }
+    
     window.open(url, '_blank', 'noopener noreferrer');
+  };
+
+  const handleCopyEmail = (email: string) => {
+    navigator.clipboard.writeText(email)
+      .then(() => {
+        // Show copy notification
+        const emailTile = document.querySelector('[data-email-tile]');
+        if (emailTile) {
+          const notification = document.createElement('div');
+          notification.className = 'copy-notification';
+          notification.textContent = 'Email copied!';
+          emailTile.appendChild(notification);
+          
+          setTimeout(() => {
+            notification.remove();
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+      });
   };
 
   return (
@@ -71,14 +82,26 @@ export const TiktokLinks: React.FC = () => {
           />
         </S.ProfileImage>
         <S.ProfileInfo>
-          <h1>Austin's TikTok Links</h1>
-          <p>Content Creator</p>
+          <h1>Austin Davenport</h1>
+          <p>Teaching you how to edit like a Pro. Worked with Jordan Peterson, Brett Cooper, and The Money Guy Show</p>
         </S.ProfileInfo>
       </S.Profile>
 
+      <S.SocialIcons>
+        <a href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
+          <i className="bx bxl-youtube"></i>
+        </a>
+        <a href="https://x.com/MrDavenportable" target="_blank" rel="noopener noreferrer">
+          <i className="bx bxl-twitter"></i>
+        </a>
+        <a href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
+          <i className="bx bxl-tiktok"></i>
+        </a>
+      </S.SocialIcons>
+
       <S.MainTile>
         <S.MainTileContent>
-          <h2>Link-In-Bio Page Maker</h2>
+          <h2>My Linktree Alternative</h2>
           <p>Create your professional link-in-bio page with our easy-to-use tool. Perfect for content creators and social media enthusiasts.</p>
           <Button 
             onClick={() => handleExternalClick('https://bit.ly/link-in-bio-page-maker')}
@@ -98,8 +121,16 @@ export const TiktokLinks: React.FC = () => {
       <S.LinksGrid>
         {linkItems.map((item, index) => (
           <S.LinkTile 
-            key={index} 
-            onClick={() => handleExternalClick(item.href)}
+            key={index}
+            onClick={() => {
+              if (item.isCopyable) {
+                handleCopyEmail(item.description);
+              } else {
+                handleExternalClick(item.href, item.isInternalLink);
+              }
+            }}
+            data-email-tile={item.isCopyable ? true : undefined}
+            className={item.isInternalLink ? 'more-tile' : ''}
           >
             <S.TileIcon>
               <i className={`bx ${item.icon}`} />

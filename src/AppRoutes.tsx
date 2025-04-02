@@ -26,6 +26,7 @@ import { SubscribeLinkGenerator } from './pages/Tools/components/SubscribeLinkGe
 import { ColorPalette } from './pages/Tools/components/ColorPalette/ColorPalette';
 import { Resume } from './pages/Resume/Resume';
 import { TiktokLinks } from './pages/TiktokLinks/TiktokLinks';
+import { ExtraLinks } from './pages/ExtraLinks/ExtraLinks';
 import { CodeProjects } from './pages/CodeProjects/CodeProjects';
 import { CodeProject } from './pages/CodeProject/CodeProject';
 
@@ -61,6 +62,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/tools/color-palette" element={<ColorPalette />} />
       <Route path="/resume" element={<Resume />} />
       <Route path="/links" element={<TiktokLinks />} />
+      <Route path="/extra-links" element={<ExtraLinks />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
       <Route path="/code-projects" element={<CodeProjects />} />
