@@ -11,15 +11,15 @@ interface NavItem {
 }
 
 const menuItems: NavItem[] = [
-  { path: '/', icon: 'bx bx-grid-alt', label: 'Dashboard' },
-  { path: '/tools', icon: 'bx bx-wrench', label: 'Tools' },
-  { path: '/blog', icon: 'bx bx-pen', label: 'Blog' },
-  { path: '/assets', icon: 'bx bx-package', label: 'Assets' },
+  { path: '/', icon: 'bx bx-home', label: 'Home' },
+  { path: '/portfolio', icon: 'bx bx-book-alt', label: 'Portfolio' },
+  { path: '/projects', icon: 'bx bx-layer', label: 'Projects' }, 
 ];
 
 const resourceItems: NavItem[] = [
-  { path: '/portfolio', icon: 'bx bx-book-alt', label: 'Portfolio' },
-  { path: '/code-projects', icon: 'bx bx-code-block', label: 'Code Projects' },
+  { path: '/store', icon: 'bx bx-package', label: 'Store' },
+  { path: '/blog', icon: 'bx bx-pen', label: 'Blog' },
+  { path: '/tools', icon: 'bx bx-wrench', label: 'Tools' },
   { path: '/contact', icon: 'bx bx-phone', label: 'Contact' }
 ];
 

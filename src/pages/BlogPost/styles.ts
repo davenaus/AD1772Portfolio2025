@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 `;
@@ -183,5 +183,34 @@ export const VideoWrapper = styled.div`
     width: 100%;
     height: 100%;
     border: none;
+  }
+`;
+
+export const IframeContainer = styled.div`
+  margin: 2rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.blue2};
+  border: 1px solid ${({ theme }) => theme.colors.blue4};
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+`;
+
+export const IframeWrapper = styled.div`
+  position: relative;
+  height: 800px;
+  width: 100%;
+  
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: white;
+  }
+
+  @media (max-width: 768px) {
+    height: 500px;
   }
 `;

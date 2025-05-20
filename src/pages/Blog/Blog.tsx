@@ -176,51 +176,69 @@ export const Blog: React.FC = () => {
         </S.FilterBar>
       </S.Header>
 
-      {featuredPost && activeCategory === 'All' && (
-        <S.FeaturedPost onClick={() => handlePostClick(featuredPost.slug)}>
-          <S.FeaturedImage style={{ backgroundImage: `url(${featuredPost.image_url})` }} />
-          <S.FeaturedContent>
-            <S.CategoryBadge>{featuredPost.category}</S.CategoryBadge>
-            <S.PostTitle>{featuredPost.title}</S.PostTitle>
-            <S.PostExcerpt>{featuredPost.excerpt}</S.PostExcerpt>
-            <S.PostMeta>
-              <span>{formatDate(featuredPost.published_at)}</span>
-              <span>•</span>
-              <span>{featuredPost.read_time} min read</span>
-            </S.PostMeta>
-            <Button
-              icon="bx bx-right-arrow-alt"
-              style={{ marginTop: '1.5rem' }}
-            >
-              Read Article
-            </Button>
-          </S.FeaturedContent>
-        </S.FeaturedPost>
-      )}
-
-      <S.BlogGrid>
-        {posts.length > 0 ? (
-          posts.map(post => (
-            <S.BlogCard key={post.id} onClick={() => handlePostClick(post.slug)}>
-              <S.BlogImage style={{ backgroundImage: `url(${post.image_url})` }} />
-              <S.BlogContent>
-                <S.CategoryBadge>{post.category}</S.CategoryBadge>
-                <S.PostTitle>{post.title}</S.PostTitle>
-                <S.PostExcerpt>{post.excerpt}</S.PostExcerpt>
-                <S.PostMeta>
-                  <span>{formatDate(post.published_at)}</span>
-                  <span>•</span>
-                  <span>{post.read_time} min read</span>
-                </S.PostMeta>
-              </S.BlogContent>
-            </S.BlogCard>
-          ))
-        ) : (
-          <S.EmptyState>
-            <div>No posts found in this category.</div>
-          </S.EmptyState>
+{featuredPost && activeCategory === 'All' && (
+  <S.FeaturedPost onClick={() => handlePostClick(featuredPost.slug)}>
+    <S.FeaturedImage style={{ backgroundImage: `url(${featuredPost.image_url})` }} />
+    <S.FeaturedContent>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <S.CategoryBadge>{featuredPost.category}</S.CategoryBadge>
+        {/* Add this conditional rendering for the code badge */}
+        {featuredPost.html_code && (
+          <S.CodeBadge>
+            <i className='bx bx-code-alt' />
+            Interactive
+          </S.CodeBadge>
         )}
-      </S.BlogGrid>
+      </div>
+      <S.PostTitle>{featuredPost.title}</S.PostTitle>
+      <S.PostExcerpt>{featuredPost.excerpt}</S.PostExcerpt>
+      <S.PostMeta>
+        <span>{formatDate(featuredPost.published_at)}</span>
+        <span>•</span>
+        <span>{featuredPost.read_time} min read</span>
+      </S.PostMeta>
+      <Button
+        icon="bx bx-right-arrow-alt"
+        style={{ marginTop: '1.5rem' }}
+      >
+        Read Article
+      </Button>
+    </S.FeaturedContent>
+  </S.FeaturedPost>
+)}
+
+<S.BlogGrid>
+  {posts.length > 0 ? (
+    posts.map(post => (
+      <S.BlogCard key={post.id} onClick={() => handlePostClick(post.slug)}>
+        <S.BlogImage style={{ backgroundImage: `url(${post.image_url})` }} />
+        <S.BlogContent>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <S.CategoryBadge>{post.category}</S.CategoryBadge>
+            {/* Add this conditional rendering for the code badge */}
+            {post.html_code && (
+              <S.CodeBadge>
+                <i className='bx bx-code-alt' />
+                Interactive
+              </S.CodeBadge>
+            )}
+          </div>
+          <S.PostTitle>{post.title}</S.PostTitle>
+          <S.PostExcerpt>{post.excerpt}</S.PostExcerpt>
+          <S.PostMeta>
+            <span>{formatDate(post.published_at)}</span>
+            <span>•</span>
+            <span>{post.read_time} min read</span>
+          </S.PostMeta>
+        </S.BlogContent>
+      </S.BlogCard>
+    ))
+  ) : (
+    <S.EmptyState>
+      <div>No posts found in this category.</div>
+    </S.EmptyState>
+  )}
+</S.BlogGrid>
     </S.Container>
   );
 };

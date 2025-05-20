@@ -48,6 +48,7 @@ export const FilterButton = styled.button<{ active?: boolean }>`
 `;
 
 export const FeaturedPost = styled.div`
+  position: relative;
   background: ${({ theme }) => theme.colors.blue2};
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   border-radius: 16px;
@@ -89,6 +90,7 @@ export const BlogGrid = styled.div`
 `;
 
 export const BlogCard = styled.div`
+  position: relative;
   background: ${({ theme }) => theme.colors.blue2};
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   border-radius: 16px;
@@ -181,4 +183,24 @@ export const EmptyState = styled.div`
   color: ${({ theme }) => theme.colors.blue11};
   text-align: center;
   font-size: 1.1rem;
+`;
+
+export const CodeBadge = styled.span`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: ${({ theme }) => theme.colors.blue5};
+  color: ${({ theme }) => theme.colors.blue10};
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  z-index: 2; /* Keep it above other elements */
+  
+  i {
+    font-size: 1rem;
+  }
 `;

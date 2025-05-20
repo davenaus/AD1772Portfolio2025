@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Dashboard } from './pages/Dashboard/Dashboard';
+import { Home } from './pages/Home/Home';
 import { Tools } from './pages/Tools/Tools';
 import { Blog } from './pages/Blog/Blog';
 import { BlogPostPage } from './pages/BlogPost/BlogPost';
-import { Assets } from './pages/Assets/Assets';
+import { Store } from './pages/Store/Store';
 import { Portfolio } from './pages/Portfolio/Portfolio';
 import { Contact } from './pages/Contact/Contact';
 import { YouTubeBlueprint } from './pages/Tools/components/YouTubeBlueprint/YouTubeBlueprint';
@@ -24,16 +24,15 @@ import { YouTubeTranscript } from './pages/Tools/components/YouTubeTranscript/Yo
 import { CommentPicker } from './pages/Tools/components/CommentPicker/CommentPicker';
 import { SubscribeLinkGenerator } from './pages/Tools/components/SubscribeLinkGenerator/SubscribeLinkGenerator';
 import { ColorPalette } from './pages/Tools/components/ColorPalette/ColorPalette';
-import { Resume } from './pages/Resume/Resume';
 import { TiktokLinks } from './pages/TiktokLinks/TiktokLinks';
 import { ExtraLinks } from './pages/ExtraLinks/ExtraLinks';
-import { CodeProjects } from './pages/CodeProjects/CodeProjects';
-import { CodeProject } from './pages/CodeProject/CodeProject';
+import { Projects } from './pages/Projects/Projects';
+import { NotFound } from './pages/NotFound/NotFound';
 
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
+      <Route path="/" element={<Home />} />
       <Route path="/tools" element={<Tools />} />
       <Route path="/tools/youtube-transcript" element={<YouTubeTranscript />} />
       <Route path="/tools/youtube-blueprint" element={<YouTubeBlueprint />} />
@@ -60,16 +59,15 @@ export const AppRoutes: React.FC = () => {
       <Route path="/tools/thumbnail-tester" element={<ThumbnailTester />} />
       <Route path="/tools/youtube-calculator" element={<YouTubeCalculator />} />
       <Route path="/tools/color-palette" element={<ColorPalette />} />
-      <Route path="/resume" element={<Resume />} />
       <Route path="/links" element={<TiktokLinks />} />
       <Route path="/extra-links" element={<ExtraLinks />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
-      <Route path="/code-projects" element={<CodeProjects />} />
-      <Route path="/code-projects/:slug" element={<CodeProject />} />
-      <Route path="/assets" element={<Assets />} />
+      <Route path="/store" element={<Store />} />
       <Route path="/portfolio" element={<Portfolio />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/projects" element={<Projects />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
