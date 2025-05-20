@@ -24,12 +24,12 @@ export const Store: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Your Fourthwall storefront token
-  const STOREFRONT_TOKEN = "ptkn_a37e3524-be38-44ef-a8e0-26d5f7cad429";
-  const CURRENCY = "USD";
+  // Get environment variables with fallbacks
+  const STOREFRONT_TOKEN = process.env.REACT_APP_FOURTHWALL_STOREFRONT_TOKEN 
   
-  // Your Fourthwall store URL - replace with your actual store URL
-  const STORE_URL = "https://shop.austindavenport.com";
+  const CURRENCY = process.env.REACT_APP_FOURTHWALL_CURRENCY
+  
+  const STORE_URL = process.env.REACT_APP_FOURTHWALL_STORE_URL
   
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -202,7 +202,6 @@ export const Store: React.FC = () => {
                 <S.ProductTitle>{product.name}</S.ProductTitle>
                 
                 <S.PriceButtonContainer>
-                  
                   <S.ViewButton>
                     <span>View Product</span>
                     <i className='bx bx-right-arrow-alt'></i>
