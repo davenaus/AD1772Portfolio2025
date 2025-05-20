@@ -24,14 +24,19 @@ export const Store: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Get environment variables with fallbacks
-  const STOREFRONT_TOKEN = process.env.REACT_APP_FOURTHWALL_STOREFRONT_TOKEN 
-  
-  const CURRENCY = process.env.REACT_APP_FOURTHWALL_CURRENCY
-  
-  const STORE_URL = process.env.REACT_APP_FOURTHWALL_STORE_URL
+  // Get environment variables with NO fallbacks
+  const STOREFRONT_TOKEN = process.env.REACT_APP_FOURTHWALL_STOREFRONT_TOKEN;
+  const CURRENCY = process.env.REACT_APP_FOURTHWALL_CURRENCY;
+  const STORE_URL = process.env.REACT_APP_FOURTHWALL_STORE_URL;
   
   useEffect(() => {
+    // Validate environment variables first
+    if (!STOREFRONT_TOKEN || !CURRENCY || !STORE_URL) {
+      setError('Missing environment variables. Please check your configuration.');
+      setLoading(false);
+      return;
+    }
+    
     const fetchInitialData = async () => {
       try {
         setLoading(true);
@@ -68,7 +73,7 @@ export const Store: React.FC = () => {
     };
     
     fetchInitialData();
-  }, []);
+  }, [STOREFRONT_TOKEN, CURRENCY, STORE_URL]);
   
   const fetchAllProducts = async () => {
     try {
@@ -82,12 +87,6 @@ export const Store: React.FC = () => {
       }
       
       const productsData = await productsResponse.json();
-      
-      // Log one full product to see its complete structure
-      if (productsData.results && productsData.results.length > 0) {
-        console.log('Example product structure:', JSON.stringify(productsData.results[0], null, 2));
-      }
-      
       setProducts(productsData.results || []);
     } catch (err) {
       console.error('Error fetching products:', err);
@@ -122,21 +121,8 @@ export const Store: React.FC = () => {
   };
   
   const getProductUrl = (productSlug: string) => {
+    if (!STORE_URL) return '#';
     return `${STORE_URL}/products/${productSlug}`;
-  };
-  
-  // Function to find the product price from variants
-  const getProductPrice = (product: Product): string => {
-    // Check if variants exist and the first variant has a price
-    if (product.variants && 
-        product.variants.length > 0 && 
-        product.variants[0].price && 
-        typeof product.variants[0].price.amount === 'number') {
-      return product.variants[0].price.amount.toFixed(2);
-    }
-    
-    // If no valid price found, return a fallback
-    return "N/A";
   };
   
   return (
@@ -215,7 +201,7 @@ export const Store: React.FC = () => {
       
       <S.StoreFooter>
         <S.ViewStoreButton 
-          href={STORE_URL}
+          href={STORE_URL || "#"}
           target="_blank"
           rel="noopener noreferrer"
         >
