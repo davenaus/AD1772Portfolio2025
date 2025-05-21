@@ -146,6 +146,7 @@ const HeroStats = styled.div`
   display: flex;
   gap: 2rem;
   margin-bottom: 2rem;
+  align-items: center;
   
   @media (max-width: 768px) {
     justify-content: center;
@@ -153,7 +154,9 @@ const HeroStats = styled.div`
   }
   
   @media (max-width: 480px) {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
