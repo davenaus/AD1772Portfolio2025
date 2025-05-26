@@ -88,8 +88,6 @@ export const BlogPostPage: React.FC = () => {
           <span>{formatDate(post.published_at)}</span>
           <span>•</span>
           <span>{post.read_time} min read</span>
-          <span>•</span>
-          <span>{post.views} views</span>
         </S.Metadata>
       </S.ArticleHeader>
 

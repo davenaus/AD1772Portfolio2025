@@ -91,7 +91,7 @@ export const TiktokLinks: React.FC = () => {
         <a href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
           <i className="bx bxl-youtube"></i>
         </a>
-        <a href="https://x.com/MrDavenportable" target="_blank" rel="noopener noreferrer">
+        <a href="https://x.com/A__Davenport" target="_blank" rel="noopener noreferrer">
           <i className="bx bxl-twitter"></i>
         </a>
         <a href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
