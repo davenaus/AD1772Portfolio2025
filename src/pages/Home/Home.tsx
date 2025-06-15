@@ -153,7 +153,7 @@ export const Home: React.FC = () => {
                 <S.HeroHeadline>Austin Davenport</S.HeroHeadline>
                 <S.HeroTagline>Professional Video Editor</S.HeroTagline>
                 <S.HeroDescription>
-                  I'm a video editor first. With over 10 years of experience working with top creators, I've edited content with over 130M+ views.
+                  I'm a video editor with over 10 years of experience working with top creators, I've edited content with over 130M+ views.
                 </S.HeroDescription>
                 <S.HeroStats>
                   <S.StatItem>
@@ -192,9 +192,9 @@ export const Home: React.FC = () => {
             <S.CardContent>
               <S.SectionTitle>About Me</S.SectionTitle>
               <S.AboutText>
-                I'm a video editor and developer building tools to make content creation faster, better, and more fun. I blend technical expertise with creative vision to deliver compelling content that resonates with audiences.
+                I'm a video editor who also found a liking for building tools to make content creation faster, better, and more fun. I blend technical expertise with creative vision to deliver compelling content that resonates with audiences.
                 <br /><br />
-                With a background in both video production and software development, I understand the unique challenges creators face and build solutions that address real needs.
+                With a background in creating systems for both video production and post production, I understand the unique challenges creators face and build solutions that address real needs.
               </S.AboutText>
               <S.Button onClick={() => window.open('https://youtube.com/@AustinDavenport', '_blank')}>
                 Visit My YouTube
@@ -274,7 +274,7 @@ export const Home: React.FC = () => {
       {/* Projects Section */}
       <S.Section>
         <S.SectionHeader>
-          <h2>Projects & Tools</h2>
+          <h2>My Projects & Tools</h2>
           <S.ViewAllButton href="/projects">
             View All
             <i className='bx bx-right-arrow-alt'></i>
