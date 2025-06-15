@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 // Global style
 const GlobalStyle = createGlobalStyle`
   :root {
+    --blue0:rgb(13, 14, 16);
     --blue1: #0F1113;
     --blue2: #151719;
     --blue3: #1F2123;
@@ -56,8 +57,6 @@ const Container = styled.div`
   }
 `;
 
-
-
 // Hero Section
 const HeroSection = styled.section`
   padding: 2rem 0;
@@ -71,11 +70,44 @@ const HeroSection = styled.section`
   }
 `;
 
+// Hero Card - Darker version of the regular cards
+const HeroCard = styled.div`
+  background-color: var(--blue0);
+  border-radius: 16px;
+  border: 1px solid var(--blue3);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue4);
+  }
+`;
+
+const HeroCardContent = styled.div`
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  
+  @media (max-width: 768px) {
+    padding: 2rem;
+    min-height: auto;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+  }
+`;
+
 const HeroContent = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 3rem;
+  gap: 4rem;
   align-items: center;
+  width: 100%;
+  max-width: 1000px;
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -84,9 +116,15 @@ const HeroContent = styled.div`
   }
 `;
 
+const ProfileImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const ProfileImage = styled.img`
-  width: 250px;
-  height: 250px;
+  width: 280px;
+  height: 280px;
   border-radius: 16px;
   object-fit: cover;
   border: 1px solid var(--blue3);
@@ -98,9 +136,23 @@ const ProfileImage = styled.img`
   }
   
   @media (max-width: 768px) {
-    width: 180px;
-    height: 180px;
-    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+  }
+`;
+
+const HeroTextContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  @media (max-width: 768px) {
+    align-items: center;
   }
 `;
 
@@ -111,11 +163,11 @@ const HeroHeadline = styled.h1`
   color: var(--blue9);
   
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 1.4rem;
   }
   
   @media (max-width: 480px) {
-    font-size: 2rem;
+    font-size: 1rem;
   }
 `;
 
@@ -133,12 +185,14 @@ const HeroTagline = styled.h2`
 const HeroDescription = styled.p`
   font-size: 1.1rem;
   color: var(--blue11);
-  margin: 0 0 1.5rem;
+  margin: 0 0 2rem;
   max-width: 600px;
+  line-height: 1.6;
   
   @media (max-width: 768px) {
     font-size: 1rem;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 2rem;
+    text-align: center;
   }
 `;
 
@@ -169,7 +223,7 @@ const StatItem = styled.div`
   
   i {
     font-size: 1.25rem;
-    color: var(--gray2);
+    color: var(--gray3);
   }
   
   span {
@@ -198,7 +252,7 @@ const Button = styled.button`
   border: none;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   display: flex;
@@ -219,7 +273,7 @@ const Button = styled.button`
 `;
 
 const PrimaryButton = styled(Button)`
-  background-color: var(--gray1);
+  background-color: var(--blue3);
   
   &:hover {
     background-color: var(--gray2);
@@ -229,25 +283,25 @@ const PrimaryButton = styled(Button)`
 
 const SecondaryButton = styled(Button)`
   background-color: transparent;
-  border: 1px solid var(--gray1);
+  border: 1px solid var(--gray2);
   
   &:hover {
     background-color: var(--blue2);
-    border-color: var(--gray2);
+    border-color: var(--gray3);
   }
 `;
 
 // Sections
 const Section = styled.section`
-  margin-bottom: 6rem;
-  margin-top: 4rem;
+  margin-bottom: 4rem;
+  margin-top: 1.2rem;
   
   @media (max-width: 768px) {
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
   }
   
   @media (max-width: 480px) {
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
   }
 `;
 
@@ -425,196 +479,173 @@ const ProjectDescription = styled.p`
   color: var(--blue11);
 `;
 
-// Client Section - New Layout Based on Images
-const ClientsSection = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 12rem;
-  margin-bottom: 1rem;
+// NEW: Redesigned Clients Section as a Card
+const ClientsCard = styled.div`
+  background-color: var(--blue2);
+  border-radius: 16px;
+  border: 1px solid var(--blue3);
+  overflow: hidden;
+  transition: all 0.3s ease;
   
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  &:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue6);
   }
 `;
 
-const ClientsTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+const ClientsCardContent = styled.div`
+  padding: 2rem;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+`;
+
+const ClientsHeader = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
   
   h2 {
     font-size: 1.75rem;
     font-weight: 600;
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.5rem;
     color: var(--blue9);
   }
   
   p {
     color: var(--blue11);
     font-size: 1rem;
+    margin: 0;
     line-height: 1.5;
   }
   
-  @media (max-width: 768px) {
-    text-align: center;
+  @media (max-width: 480px) {
     h2 {
-      margin-bottom: 0.75rem;
+      font-size: 1.5rem;
+    }
+    
+    p {
+      font-size: 0.9rem;
     }
   }
 `;
 
-const ClientsDisplayContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  
-  @media (max-width: 768px) {
-    margin-bottom: 3rem;
-  }
-`;
-
-const ClientCardContainer = styled.div`
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ClientCard = styled.div`
-  display: flex;
-  align-items: center;
+const ClientsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  background-color: var(--gray1);
-  border: 1px solid var(--gray2);
-  border-radius: 12px;
-  padding: 1.5rem;
-  width: 100%;
-  transition: all 0.3s ease;
   
-  &:hover {
-    transform: translateY(-5px);
-    border-color: var(--gray3);
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
   }
   
   @media (max-width: 768px) {
-    padding: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
   
   @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
+const ClientItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background-color: var(--blue3);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--blue4);
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
     padding: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    flex-direction: row;
+    text-align: left;
     gap: 1rem;
   }
 `;
 
-const ClientNavArrow = styled.button<{ position: string }>`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--gray1);
-  border: none;
-  color: var(--blue9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  ${props => props.position === 'left' ? 'left: -8px;' : 'right: -8px;'}
-  z-index: 10;
-  
-  i {
-    font-size: 1.5rem;
-  }
-  
-  &:hover {
-    background-color: var(--gray2);
-    transform: translateY(-50%) scale(1.1);
-  }
-  
-  &:active {
-    transform: translateY(-50%) scale(0.95);
-  }
-  
-  @media (max-width: 768px) {
-    top: 130%;
-    ${props => props.position === 'left' ? 'left: 10px;' : 'right: 10px;'}
-  }
-`;
-
 const ClientLogo = styled.img`
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  flex-shrink: 0;
+  border: 2px solid var(--blue4);
+  transition: border-color 0.3s ease;
+  
+  ${ClientItem}:hover & {
+    border-color: var(--blue6);
+  }
   
   @media (max-width: 768px) {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
   }
   
   @media (max-width: 480px) {
-    width: 48px;
-    height: 48px;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
   }
 `;
 
 const ClientInfo = styled.div`
-  overflow: hidden;
+  text-align: center;
+  
+  @media (max-width: 480px) {
+    text-align: left;
+    flex-grow: 1;
+  }
 `;
 
 const ClientName = styled.div`
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   color: var(--blue9);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
   
   @media (max-width: 768px) {
-    font-size: 1.1rem;
+    font-size: 0.85rem;
   }
   
   @media (max-width: 480px) {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 `;
 
 const ClientSubscribers = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--blue11);
+  line-height: 1.2;
   
   @media (max-width: 480px) {
     font-size: 0.8rem;
   }
 `;
 
-const ClientPagination = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin: 1rem auto 0;
-  width: 100%;
-  max-width: 500px;
-`;
-
-const PaginationDot = styled.button<{ active: boolean }>`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: ${props => props.active ? 'var(--gray3)' : 'var(--gray1)'};
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
+const ClientsShowMore = styled.div`
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--blue4);
   
-  &:hover {
-    transform: scale(1.2);
+  span {
+    color: var(--blue11);
+    font-size: 0.9rem;
+    font-style: italic;
   }
 `;
 
@@ -800,7 +831,7 @@ const SocialLink = styled.a`
   &:hover {
     background-color: var(--blue3);
     transform: translateY(-3px);
-    color: var(--gray3);
+    color: var(--gray4);
   }
 `;
 
@@ -868,8 +899,12 @@ export const Styles = {
   GlobalStyle,
   Container,
   HeroSection,
+  HeroCard,
+  HeroCardContent,
   HeroContent,
+  ProfileImageContainer,
   ProfileImage,
+  HeroTextContent,
   HeroHeadline,
   HeroTagline,
   HeroDescription,
@@ -895,18 +930,16 @@ export const Styles = {
   ProjectInfo,
   ProjectTitle,
   ProjectDescription,
-  ClientsSection,
-  ClientsTextContainer,
-  ClientsDisplayContainer,
-  ClientCardContainer,
-  ClientCard,
-  ClientNavArrow,
+  ClientsCard,
+  ClientsCardContent,
+  ClientsHeader,
+  ClientsGrid,
+  ClientItem,
   ClientLogo,
   ClientInfo,
   ClientName,
   ClientSubscribers,
-  ClientPagination,
-  PaginationDot,
+  ClientsShowMore,
   TwoColumnGrid,
   Card,
   AboutCard,

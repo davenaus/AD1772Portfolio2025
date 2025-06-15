@@ -88,7 +88,7 @@ export const Contact: React.FC = () => {
             <a href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
               <i className='bx bxl-youtube'></i>
             </a>
-            <a href="https://twitter.com/Tool_Creator" target="_blank" rel="noopener noreferrer">
+            <a href="https://twitter.com/A__Davenport" target="_blank" rel="noopener noreferrer">
               <i className='bx bxl-twitter'></i>
             </a>
             <a href="https://discord.com/invite/vuKtEXJ" target="_blank" rel="noopener noreferrer">

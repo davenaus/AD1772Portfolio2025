@@ -70,7 +70,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <S.Sidebar isOpen={isSidebarOpen}>
         <S.Profile>
           <S.ProfileImage style={{ 
-            backgroundImage: `url('https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj')`
+            backgroundImage: `url('https://64.media.tumblr.com/6301cf4c94d066c9579b2793781d7f2f/20c99a0f9ebff902-e0/s2048x3072/39d455383d100643b051d73059a46beac9b086a4.pnj')`
           }} />
           <S.ProfileInfo>
             <h2>Austin Davenport</h2>

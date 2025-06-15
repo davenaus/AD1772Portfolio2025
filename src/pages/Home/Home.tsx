@@ -5,28 +5,8 @@ export const Home: React.FC = () => {
   // For video modal
   const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string } | null>(null);
 
-  // For client carousel
-  const [currentClientIndex, setCurrentClientIndex] = useState(0);
-
   // Add window width state to track screen size
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 992);
-
-  // Client navigation handlers
-  const nextClient = () => {
-    setCurrentClientIndex((prev) =>
-      prev === clients.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevClient = () => {
-    setCurrentClientIndex((prev) =>
-      prev === 0 ? clients.length - 1 : prev - 1
-    );
-  };
-
-  const goToClient = (index: number) => {
-    setCurrentClientIndex(index);
-  };
 
   // Close modal when ESC key is pressed
   useEffect(() => {
@@ -91,27 +71,34 @@ export const Home: React.FC = () => {
       description: 'Premiere Pro plugin for easy copy-paste',
       background: 'https://imgproxy.fourthwall.com/NSD2usD9hYTysLDRn1nsl2le1Wj4LLGV3f-bqk1H1X0/w:720/sm:1/enc/OTk0NmI0NjQ1Yzli/YTczNN7v8sTooFr_/69APhnk512swjQmE/LU9wZ_gIvt3bh8II/9lan9TDd1fgslTKJ/_rVZKHQCjnTmPrYM/UTZavpQa9yN10avg/fBm3bDJjQOw1jAVI/S4jsp4uU7ius6dKQ/D20X9SLihVh0HP6e/8hBCkYiyyD_uUslv/E8aUFXGNSvdoX8no/KeRqwkLy-Jf2qmDF/OG5FrQ.webp',
       color: 'var(--project5)',
+      url: 'https://clipboard-it.com'
     },
     {
       title: 'Link-In-Bio Page Maker',
       description: 'A better alternative to LinkTree',
       background: 'https://imgproxy.fourthwall.com/-sRNLeEHYub1Mu4_xFNuPc95aDsiehM3lx357-MSABA/w:720/sm:1/enc/MzNhNjY2ZDQxNTgw/MTFjOOWDEr73rTRg/jwnx6r_nJ5Q8_Q4i/ON0Gp-3RzRCwFgkV/1sJ8rfpnzD8j-hv_/owsCCRovJvvByk81/45hia7fp97fjLYLh/OqcUnH2RioER1EPb/DqyBl2UODmnwBUiM/nXAeCzvDqreP605T/ag5EijuzGACLixFm/CnRSPj53pkbblXYN/Qrgts9LR--shPaga/z8WyYg.webp',
       color: 'var(--project6)',
+      url: 'https://shop.austindavenport.com/products/link-in-bio-page-maker'
     },
     {
       title: 'YouTool.io',
       description: 'Free YouTube Tools for Creators',
       background: 'https://64.media.tumblr.com/50753ce10c5438210c25f24188db3cd3/2620aeafa65bb74d-55/s1280x1920/e30d325175b45dec9dbb54cc617c9d26fcc1f722.pnj',
       color: 'var(--project4)',
+      url: 'https://www.youtool.io'
     }
   ];
 
   // Filter projects based on screen width for mobile
-  // Only show first 2 projects when screen width is below 768px (typical mobile breakpoint)
   const displayedProjects = windowWidth <= 768 ? featuredProjects.slice(0, 2) : featuredProjects;
 
-  // Clients data - complete list
-  const clients = [
+  // Function to handle project card clicks
+  const handleProjectClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  // Clients data - Show top 8 most prominent clients in grid
+  const featuredClients = [
     { name: 'Ben Shapiro', subscribers: '7.23M subscribers', image: 'https://yt3.ggpht.com/IwzYq-xS_iXyxcilUGmrrhP2AMTAi1F2siYICQVvE_35j-BX657pww-fZk1baN8TyyTtn6Zg=s88-c-k-c0x00ffffff-no-rj' },
     { name: 'Jordan Peterson', subscribers: '8.69M subscribers', image: 'https://yt3.ggpht.com/EjQNRQGTldnH7kUHaRRWa_yOa6Po-GODJN0xqJEmsji96cAVBdLggAgHlw2DbKSvomyo3xm2CX0=s800-c-k-c0x00ffffff-no-rj' },
     { name: 'The Daily Wire', subscribers: '146K subscribers', image: 'https://yt3.ggpht.com/DtCfJHbG0-AHij7NPr6b4ka84LoJlkHnLJVIxE_7Pmrv9KsAwIzFyiHITrbZK8zngUxaWCesiFw=s88-c-k-c0x00ffffff-no-rj' },
@@ -119,14 +106,10 @@ export const Home: React.FC = () => {
     { name: 'Matt Walsh', subscribers: '3.21M subscribers', image: 'https://yt3.ggpht.com/DLvOLEc5u6jeSz7XBOD0PUXGFVmK2DYYfh1SAAImRTGrOFDCVXLKNepkxtVpurVTTpYZiVzL=s88-c-k-c0x00ffffff-no-rj' },
     { name: 'Andrew Klavan', subscribers: '808K subscribers', image: 'https://yt3.ggpht.com/xGjur8_mrSCyqG0xHAr72BJvOVDQbW69w3n2VvnaMAWjJd-uf0p7DQPvymDzVFzU25XsIwFH=s88-c-k-c0x00ffffff-no-rj' },
     { name: 'The Comments Section', subscribers: '3.83M subscribers', image: 'https://yt3.ggpht.com/10_rFOtSfO_sn_rREl6gZR5QBdhaKX1YDzT5OdgtIeKW_beU9wtLnu1OCjDjn2COCe8VI7fd=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'DailyWire+', subscribers: '3.32M subscribers', image: 'https://yt3.ggpht.com/AW8dnBtJph6NI0a_hPk09hcv37bfpI4IIZKswvJOwh9epCuJvuR5QtWYZ0mx3U2-_DmqTNxx_g=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Hard Cut', subscribers: '12.3K subscribers', image: 'https://yt3.ggpht.com/HmrJaNgU1A9kXCPVNCY8F8dKDBy1KShenc98VvFoqg3sfnHGQsXK29N-cUX-ppGMSibUAPezOQM=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Cyndi Thomson', subscribers: '6.58K subscribers', image: 'https://yt3.ggpht.com/DNEAWCN549yeUhFojkXsoQneer4we8uZ59XGZpwivvnxx2GmCFU3TUhUrIlWm4qWNR3CcPBDvA=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Star Street', subscribers: '404 subscribers', image: 'https://yt3.ggpht.com/gN2fDxYL8h98Sh_bBmyg8_cqDfC5rZ2gaAiGeSfUhkYo9Kn5L8Xk9jBXkHsg-c8yO9NIlLnW=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Bloom Digital Weddings', subscribers: '69 subscribers', image: 'https://yt3.ggpht.com/0ZS9_Xu3mYETBmIu8LrB-C_0yazM5hJ1JmLBiB4MXGjQbIB4aDowXe2rnDVwMUy9QrMBb6UlY_o=s88-c-k-c0x00ffffff-no-rj' },
+    { name: 'DailyWire+', subscribers: '3.32M subscribers', image: 'https://yt3.ggpht.com/AW8dnBtJph6NI0a_hPk09hcv37bfpI4IIZKswvJOwh9epCuJvuR5QtWYZ0mx3U2-_DmqTNxx_g=s88-c-k-c0x00ffffff-no-rj' }
   ];
 
-  // Tech stack data - expanded
+  // Tech stack data
   const techStack = [
     {
       name: 'Premiere Pro',
@@ -160,98 +143,47 @@ export const Home: React.FC = () => {
 
       {/* Hero Section */}
       <S.HeroSection>
-        <S.HeroContent>
-          <S.ProfileImage src="https://64.media.tumblr.com/6301cf4c94d066c9579b2793781d7f2f/20c99a0f9ebff902-e0/s2048x3072/39d455383d100643b051d73059a46beac9b086a4.pnj" alt="Austin Davenport" />
-          <div>
-            <S.HeroHeadline>Austin Davenport</S.HeroHeadline>
-            <S.HeroTagline>Professional Video Editor</S.HeroTagline>
-            <S.HeroDescription>
-              I'm a video editor first. With over 10 years of experience working with top creators, I've edited content with over 130M+ views. I also build tools that help creators move faster and look better.
-            </S.HeroDescription>
-            <S.HeroStats>
-              <S.StatItem>
-                <i className='bx bxl-youtube'></i>
-                <span>130M+ views</span>
-              </S.StatItem>
-              <S.StatItem>
-                <i className='bx bx-video'></i>
-                <span>300+ videos</span>
-              </S.StatItem>
-              <S.StatItem>
-                <i className='bx bx-user'></i>
-                <span>20+ creators</span>
-              </S.StatItem>
-            </S.HeroStats>
-            <S.HeroActions>
-              <S.PrimaryButton onClick={() => setSelectedVideo({ id: 'QPRYfLCxA1g', title: 'Austin Davenport Showreel' })}>
-                <i className='bx bx-play-circle'></i>
-                Watch Showreel
-              </S.PrimaryButton>
-              <S.SecondaryButton onClick={() => window.location.href = '/portfolio'}>
-                <i className='bx bx-folder'></i>
-                View Portfolio
-              </S.SecondaryButton>
-            </S.HeroActions>
-          </div>
-        </S.HeroContent>
+        <S.HeroCard>
+          <S.HeroCardContent>
+            <S.HeroContent>
+              <S.ProfileImageContainer>
+                <S.ProfileImage src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj" alt="Austin Davenport" />
+              </S.ProfileImageContainer>
+              <S.HeroTextContent>
+                <S.HeroHeadline>Austin Davenport</S.HeroHeadline>
+                <S.HeroTagline>Professional Video Editor</S.HeroTagline>
+                <S.HeroDescription>
+                  I'm a video editor first. With over 10 years of experience working with top creators, I've edited content with over 130M+ views.
+                </S.HeroDescription>
+                <S.HeroStats>
+                  <S.StatItem>
+                    <i className='bx bxl-youtube'></i>
+                    <span>130M+ views</span>
+                  </S.StatItem>
+                  <S.StatItem>
+                    <i className='bx bx-video'></i>
+                    <span>300+ videos</span>
+                  </S.StatItem>
+                  <S.StatItem>
+                    <i className='bx bx-user'></i>
+                    <span>20+ creators</span>
+                  </S.StatItem>
+                </S.HeroStats>
+                <S.HeroActions>
+                  <S.PrimaryButton onClick={() => setSelectedVideo({ id: 'QPRYfLCxA1g', title: 'Austin Davenport Showreel' })}>
+                    <i className='bx bx-play-circle'></i>
+                    Watch Showreel
+                  </S.PrimaryButton>
+                  <S.SecondaryButton onClick={() => window.location.href = '/portfolio'}>
+                    <i className='bx bx-folder'></i>
+                    View Portfolio
+                  </S.SecondaryButton>
+                </S.HeroActions>
+              </S.HeroTextContent>
+            </S.HeroContent>
+          </S.HeroCardContent>
+        </S.HeroCard>
       </S.HeroSection>
-
-      {/* Featured Videos Section */}
-      <S.Section>
-        <S.SectionHeader>
-          <h2>Featured Work</h2>
-          <S.ViewAllButton href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
-            View All
-            <i className='bx bx-right-arrow-alt'></i>
-          </S.ViewAllButton>
-        </S.SectionHeader>
-        <S.VideoGrid>
-          {featuredVideos.map(video => (
-            <S.VideoCard key={video.id} onClick={() => setSelectedVideo(video)}>
-              <S.VideoThumbnail style={{ backgroundImage: `url(${video.thumbnail})` }}>
-                <S.VideoOverlay>
-                  <i className='bx bx-play-circle'></i>
-                </S.VideoOverlay>
-              </S.VideoThumbnail>
-              <S.VideoInfo>
-                <S.VideoTitle>{video.title}</S.VideoTitle>
-                <S.VideoViews>{video.subtext}</S.VideoViews>
-              </S.VideoInfo>
-            </S.VideoCard>
-          ))}
-        </S.VideoGrid>
-      </S.Section>
-
-      {/* Clients Section */}
-      <S.Section>
-        <S.ClientsSection>
-          <S.ClientsTextContainer>
-            <h2>I've Worked With</h2>
-            <p>Helping top creators deliver quality content that reaches millions of viewers</p>
-          </S.ClientsTextContainer>
-
-          <S.ClientsDisplayContainer>
-            <S.ClientNavArrow onClick={prevClient} position="left">
-              <i className='bx bx-chevron-left'></i>
-            </S.ClientNavArrow>
-
-            <S.ClientCardContainer>
-              <S.ClientCard>
-                <S.ClientLogo src={clients[currentClientIndex].image} alt={clients[currentClientIndex].name} />
-                <S.ClientInfo>
-                  <S.ClientName>{clients[currentClientIndex].name}</S.ClientName>
-                  <S.ClientSubscribers>{clients[currentClientIndex].subscribers}</S.ClientSubscribers>
-                </S.ClientInfo>
-              </S.ClientCard>
-            </S.ClientCardContainer>
-
-            <S.ClientNavArrow onClick={nextClient} position="right">
-              <i className='bx bx-chevron-right'></i>
-            </S.ClientNavArrow>
-          </S.ClientsDisplayContainer>
-        </S.ClientsSection>
-      </S.Section>
-
 
       {/* About Section with Tech Stack */}
       <S.Section>
@@ -287,7 +219,59 @@ export const Home: React.FC = () => {
         </S.TwoColumnGrid>
       </S.Section>
 
-      {/* Projects Section - UPDATED to use filtered projects */}
+      {/* Featured Videos Section */}
+      <S.Section>
+        <S.SectionHeader>
+          <h2>Featured Work</h2>
+          <S.ViewAllButton href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
+            View All
+            <i className='bx bx-right-arrow-alt'></i>
+          </S.ViewAllButton>
+        </S.SectionHeader>
+        <S.VideoGrid>
+          {featuredVideos.map(video => (
+            <S.VideoCard key={video.id} onClick={() => setSelectedVideo(video)}>
+              <S.VideoThumbnail style={{ backgroundImage: `url(${video.thumbnail})` }}>
+                <S.VideoOverlay>
+                  <i className='bx bx-play-circle'></i>
+                </S.VideoOverlay>
+              </S.VideoThumbnail>
+              <S.VideoInfo>
+                <S.VideoTitle>{video.title}</S.VideoTitle>
+                <S.VideoViews>{video.subtext}</S.VideoViews>
+              </S.VideoInfo>
+            </S.VideoCard>
+          ))}
+        </S.VideoGrid>
+      </S.Section>
+
+      {/* NEW: Redesigned Clients Section */}
+      <S.Section>
+        <S.ClientsCard>
+          <S.ClientsCardContent>
+            <S.ClientsHeader>
+              <h2>I've Worked With</h2>
+              <p>Helping top creators deliver quality content that reaches millions of viewers</p>
+            </S.ClientsHeader>
+            <S.ClientsGrid>
+              {featuredClients.map((client, index) => (
+                <S.ClientItem key={index}>
+                  <S.ClientLogo src={client.image} alt={client.name} />
+                  <S.ClientInfo>
+                    <S.ClientName>{client.name}</S.ClientName>
+                    <S.ClientSubscribers>{client.subscribers}</S.ClientSubscribers>
+                  </S.ClientInfo>
+                </S.ClientItem>
+              ))}
+            </S.ClientsGrid>
+            <S.ClientsShowMore>
+              <span>+ 12 more creators and counting</span>
+            </S.ClientsShowMore>
+          </S.ClientsCardContent>
+        </S.ClientsCard>
+      </S.Section>
+
+      {/* Projects Section */}
       <S.Section>
         <S.SectionHeader>
           <h2>Projects & Tools</h2>
@@ -298,7 +282,11 @@ export const Home: React.FC = () => {
         </S.SectionHeader>
         <S.ProjectsGrid>
           {displayedProjects.map((project, index) => (
-            <S.ProjectCard key={index} style={{ borderTopColor: project.color }}>
+            <S.ProjectCard 
+              key={index} 
+              style={{ borderTopColor: project.color, cursor: 'pointer' }}
+              onClick={() => handleProjectClick(project.url)}
+            >
               <S.ProjectImage style={{ backgroundImage: `url(${project.background})` }} />
               <S.ProjectInfo>
                 <S.ProjectTitle>{project.title}</S.ProjectTitle>
@@ -308,8 +296,6 @@ export const Home: React.FC = () => {
           ))}
         </S.ProjectsGrid>
       </S.Section>
-
-
 
       {/* Contact CTA Section */}
       <S.CtaSection>
