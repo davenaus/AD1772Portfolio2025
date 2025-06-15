@@ -172,7 +172,7 @@ export const Home: React.FC = () => {
                 <S.HeroActions>
                   <S.PrimaryButton onClick={() => setSelectedVideo({ id: 'QPRYfLCxA1g', title: 'Austin Davenport Showreel' })}>
                     <i className='bx bx-play-circle'></i>
-                    Watch Showreel
+                    Watch Demo Reel
                   </S.PrimaryButton>
                   <S.SecondaryButton onClick={() => window.location.href = '/portfolio'}>
                     <i className='bx bx-folder'></i>

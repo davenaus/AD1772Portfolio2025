@@ -3,6 +3,12 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 2rem;
+  transition: filter 0.3s ease;
+  
+  &.blurred {
+    filter: blur(4px);
+    pointer-events: none;
+  }
 `;
 
 export const Header = styled.div`
@@ -37,7 +43,7 @@ export const ToolCard = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-      font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
 
   &:hover {
     transform: translateY(-4px);
@@ -109,5 +115,176 @@ export const ButtonGroup = styled.div`
   display: flex;
   gap: 0.75rem;
   margin-top: auto;
-      font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
+`;
+
+// Mobile Modal Styles
+export const MobileModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Poppins', sans-serif;
+`;
+
+export const ModalBackdrop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(13, 14, 16, 0.95);
+  backdrop-filter: blur(8px);
+`;
+
+export const ModalContent = styled.div`
+  position: relative;
+  background: #151719;
+  border: 1px solid #1F2123;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  
+  @media (max-width: 640px) {
+    padding: 2rem;
+    margin: 1rem;
+  }
+`;
+
+export const ModalIcon = styled.div`
+  width: 80px;
+  height: 80px;
+  background: #292B2D;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  
+  i {
+    font-size: 2.5rem;
+    color: #EAECEE;
+  }
+`;
+
+export const ModalTitle = styled.h2`
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #EAECEE;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 640px) {
+    font-size: 1.5rem;
+  }
+`;
+
+export const ModalText = styled.p`
+  color: #B1B4B8;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  
+  @media (max-width: 640px) {
+    font-size: 0.9rem;
+  }
+`;
+
+export const ModalFeatures = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  text-align: left;
+`;
+
+export const FeatureItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  i {
+    color: #22c55e;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  span {
+    color: #B1B4B8;
+    font-size: 0.9rem;
+  }
+`;
+
+export const ModalButtons = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`;
+
+export const ModalButton = styled.button<{ variant: 'primary' | 'secondary' }>`
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  ${({ variant }) => variant === 'primary' 
+    ? `
+      background: #1F2123;
+      color: #EAECEE;
+      border: 1px solid #292B2D;
+      
+      &:hover {
+        background: #292B2D;
+        transform: translateY(-2px);
+      }
+    `
+    : `
+      background: transparent;
+      color: #B1B4B8;
+      border: 1px solid #292B2D;
+      
+      &:hover {
+        background: #1F2123;
+        color: #EAECEE;
+        transform: translateY(-2px);
+      }
+    `
+  }
+  
+  i {
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+`;
+
+export const ModalNote = styled.p`
+  color: #333336;
+  font-size: 0.8rem;
+  font-style: italic;
+  margin: 0;
 `;

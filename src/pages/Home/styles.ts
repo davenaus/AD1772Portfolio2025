@@ -42,13 +42,13 @@ const GlobalStyle = createGlobalStyle`
 // Container for the entire page
 const Container = styled.div`
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: .75rem auto;
   padding: 0 2rem;
   
   
   @media (max-width: 768px) {
-    padding: 0 1.5rem;
-    margin: 1.5rem auto;
+    padding: 0 1rem;
+    margin: 1rem auto;
   }
   
   @media (max-width: 480px) {

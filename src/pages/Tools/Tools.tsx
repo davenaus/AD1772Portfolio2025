@@ -1,5 +1,5 @@
 // src/pages/Tools/Tools.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import * as S from './styles';
@@ -174,73 +174,166 @@ const tools: Tool[] = [
 
 const categories = Array.from(new Set(tools.map(tool => tool.category)));
 
+// Mobile detection function
+const isMobileDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  const userAgent = navigator.userAgent || navigator.vendor;
+  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  
+  // Also check screen width as backup
+  const isMobileWidth = window.innerWidth <= 768;
+  
+  return mobileRegex.test(userAgent) || isMobileWidth;
+};
+
 export const Tools: React.FC = () => {
   const navigate = useNavigate();
+  const [showMobileModal, setShowMobileModal] = useState(false);
+  const [userForcedDesktop, setUserForcedDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      if (isMobileDevice() && !userForcedDesktop) {
+        setShowMobileModal(true);
+      } else {
+        setShowMobileModal(false);
+      }
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+    };
+  }, [userForcedDesktop]);
 
   const handleGuideClick = (guideLink?: string) => {
     const link = guideLink || 'https://www.youtube.com/channel/UCg_JArLpHeN9P34qMd9W5rQ';
     window.open(link, '_blank');
   };
 
+  const handleForceDesktop = () => {
+    setUserForcedDesktop(true);
+    setShowMobileModal(false);
+  };
+
+  const handleGoBack = () => {
+    navigate('/');
+  };
+
   return (
-    <S.Container>
-      <S.Header>
-        <S.Title>Austin's YouTube Tools</S.Title>
-        <S.Description>
-          A comprehensive collection of tools designed to help content creators analyze,
-          optimize, and grow their online presence. All tools are free to use and regularly
-          updated with new features.
-        </S.Description>
-      </S.Header>
+    <>
+      <S.Container className={showMobileModal ? 'blurred' : ''}>
+        <S.Header>
+          <S.Title>Austin's YouTube Tools</S.Title>
+          <S.Description>
+            A comprehensive collection of tools designed to help content creators analyze,
+            optimize, and grow their online presence. All tools are free to use and regularly
+            updated with new features.
+          </S.Description>
+        </S.Header>
 
-      {categories.map(category => (
-        <S.CategorySection key={category}>
-          <S.CategoryTitle>{category}</S.CategoryTitle>
-          <S.ToolsGrid>
-            {tools
-              .filter(tool => tool.category === category)
-              .map(tool => (
-                <S.ToolCard key={tool.id}>
-                  <S.ToolIcon>
-                    <i className={tool.icon}></i>
-                  </S.ToolIcon>
+        {categories.map(category => (
+          <S.CategorySection key={category}>
+            <S.CategoryTitle>{category}</S.CategoryTitle>
+            <S.ToolsGrid>
+              {tools
+                .filter(tool => tool.category === category)
+                .map(tool => (
+                  <S.ToolCard key={tool.id}>
+                    <S.ToolIcon>
+                      <i className={tool.icon}></i>
+                    </S.ToolIcon>
 
-                  <S.ToolName>
-                    {tool.name}
-                    {tool.isNew && <Tag>New</Tag>}
-                    {tool.isBeta && <Tag>Beta</Tag>}
-                  </S.ToolName>
+                    <S.ToolName>
+                      {tool.name}
+                      {tool.isNew && <Tag>New</Tag>}
+                      {tool.isBeta && <Tag>Beta</Tag>}
+                    </S.ToolName>
 
-                  <S.TagContainer>
-                    {tool.tags.map(tag => (
-                      <S.Tag key={tag}>{tag}</S.Tag>
-                    ))}
-                  </S.TagContainer>
+                    <S.TagContainer>
+                      {tool.tags.map(tag => (
+                        <S.Tag key={tag}>{tag}</S.Tag>
+                      ))}
+                    </S.TagContainer>
 
-                  <S.ToolDescription>{tool.description}</S.ToolDescription>
+                    <S.ToolDescription>{tool.description}</S.ToolDescription>
 
-                  <S.ButtonGroup>
-                    <Button
-                      variant="primary"
-                      icon="bx bx-right-arrow-alt"
-                      onClick={() => navigate(tool.url)}
-                    >
-                      Launch Tool
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      icon="bx bx-help-circle"
-                      onClick={() => handleGuideClick(tool.guideLink)}
-                    >
-                      Guide
-                    </Button>
-                  </S.ButtonGroup>
-                </S.ToolCard>
-              ))}
-          </S.ToolsGrid>
-        </S.CategorySection>
-      ))}
-    </S.Container>
+                    <S.ButtonGroup>
+                      <Button
+                        variant="primary"
+                        icon="bx bx-right-arrow-alt"
+                        onClick={() => navigate(tool.url)}
+                      >
+                        Launch Tool
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        icon="bx bx-help-circle"
+                        onClick={() => handleGuideClick(tool.guideLink)}
+                      >
+                        Guide
+                      </Button>
+                    </S.ButtonGroup>
+                  </S.ToolCard>
+                ))}
+            </S.ToolsGrid>
+          </S.CategorySection>
+        ))}
+      </S.Container>
+
+      {/* Mobile Modal */}
+      {showMobileModal && (
+        <S.MobileModal>
+          <S.ModalBackdrop />
+          <S.ModalContent>
+            <S.ModalIcon>
+              <i className="bx bx-desktop"></i>
+            </S.ModalIcon>
+            
+            <S.ModalTitle>Desktop Required</S.ModalTitle>
+            
+            <S.ModalText>
+              These YouTube tools are designed for desktop use and require a larger screen 
+              for optimal functionality. Please access this page from a computer or laptop 
+              for the best experience.
+            </S.ModalText>
+
+            <S.ModalFeatures>
+              <S.FeatureItem>
+                <i className="bx bx-check-circle"></i>
+                <span>Better data visualization</span>
+              </S.FeatureItem>
+              <S.FeatureItem>
+                <i className="bx bx-check-circle"></i>
+                <span>Enhanced user interface</span>
+              </S.FeatureItem>
+              <S.FeatureItem>
+                <i className="bx bx-check-circle"></i>
+                <span>Full feature access</span>
+              </S.FeatureItem>
+            </S.ModalFeatures>
+
+            <S.ModalButtons>
+              <S.ModalButton onClick={handleGoBack} variant="primary">
+                <i className="bx bx-arrow-back"></i>
+                Go Back Home
+              </S.ModalButton>
+              <S.ModalButton onClick={handleForceDesktop} variant="secondary">
+                <i className="bx bx-error-alt"></i>
+                Continue Anyway
+              </S.ModalButton>
+            </S.ModalButtons>
+
+            <S.ModalNote>
+              Tools may not function properly on mobile devices
+            </S.ModalNote>
+          </S.ModalContent>
+        </S.MobileModal>
+      )}
+    </>
   );
 };
 
