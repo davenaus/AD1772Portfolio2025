@@ -71,7 +71,7 @@ export const Home: React.FC = () => {
       description: 'Premiere Pro plugin for easy copy-paste',
       background: 'https://imgproxy.fourthwall.com/NSD2usD9hYTysLDRn1nsl2le1Wj4LLGV3f-bqk1H1X0/w:720/sm:1/enc/OTk0NmI0NjQ1Yzli/YTczNN7v8sTooFr_/69APhnk512swjQmE/LU9wZ_gIvt3bh8II/9lan9TDd1fgslTKJ/_rVZKHQCjnTmPrYM/UTZavpQa9yN10avg/fBm3bDJjQOw1jAVI/S4jsp4uU7ius6dKQ/D20X9SLihVh0HP6e/8hBCkYiyyD_uUslv/E8aUFXGNSvdoX8no/KeRqwkLy-Jf2qmDF/OG5FrQ.webp',
       color: 'var(--project5)',
-      url: 'https://clipboard-it.com'
+      url: 'https://clipboard.it.com'
     },
     {
       title: 'Link-In-Bio Page Maker',
