@@ -7,7 +7,6 @@ import { BlogPostPage } from './pages/BlogPost/BlogPost';
 import { Store } from './pages/Store/Store';
 import { Portfolio } from './pages/Portfolio/Portfolio';
 import { Contact } from './pages/Contact/Contact';
-import { YouTubeBlueprint } from './pages/Tools/components/YouTubeBlueprint/YouTubeBlueprint';
 import { OutlierFinder } from './pages/Tools/components/OutlierFinder/OutlierFinder';
 import { VideoAnalyzer } from './pages/Tools/components/VideoAnalyzer/VideoAnalyzer';
 import { ChannelAnalyzer } from './pages/Tools/components/ChannelAnalyzer/ChannelAnalyzer';
@@ -35,7 +34,6 @@ export const AppRoutes: React.FC = () => {
       <Route path="/" element={<Home />} />
       <Route path="/tools" element={<Tools />} />
       <Route path="/tools/youtube-transcript" element={<YouTubeTranscript />} />
-      <Route path="/tools/youtube-blueprint" element={<YouTubeBlueprint />} />
       <Route path="/tools/outlier-finder" element={<OutlierFinder />} />
       <Route path="/tools/outlier-finder/:searchQuery/:type" element={<OutlierFinder />} />
       <Route path="/tools/video-analyzer" element={<VideoAnalyzer />} />
