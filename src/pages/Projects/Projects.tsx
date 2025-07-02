@@ -78,7 +78,7 @@ export const Projects: React.FC = () => {
       <S.Header>
         <S.Title>Projects</S.Title>
         <S.Description>
-          Tools, products, and creative experiments I've built for content creators and the web
+          Small tools, products, and creative experiments I've built for content creators.
         </S.Description>
       </S.Header>
 

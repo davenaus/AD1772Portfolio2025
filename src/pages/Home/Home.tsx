@@ -83,7 +83,7 @@ export const Home: React.FC = () => {
     {
       title: 'YouTool.io',
       description: 'Free YouTube Tools for Creators',
-      background: 'https://64.media.tumblr.com/50753ce10c5438210c25f24188db3cd3/2620aeafa65bb74d-55/s1280x1920/e30d325175b45dec9dbb54cc617c9d26fcc1f722.pnj',
+      background: 'https://64.media.tumblr.com/377e88f933f314338ba9608900174dc9/7c0180d0d1212074-5a/s1280x1920/a048ccb1bec91251584811a90d7551c9f7b4ceb7.pnj',
       color: 'var(--project4)',
       url: 'https://www.youtool.io'
     }
@@ -192,7 +192,7 @@ export const Home: React.FC = () => {
             <S.CardContent>
               <S.SectionTitle>About Me</S.SectionTitle>
               <S.AboutText>
-                I'm a video editor who also found a liking for building tools to make content creation faster, better, and more fun. I blend technical expertise with creative vision to deliver compelling content that resonates with audiences.
+                Skilled professional video editor. I've also found a liking for building tools to make creating content faster. I blend technical expertise with creative vision to deliver compelling content that resonates with audiences.
                 <br /><br />
                 With a background in creating systems for both video production and post production, I understand the unique challenges creators face and build solutions that address real needs.
               </S.AboutText>

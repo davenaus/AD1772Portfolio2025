@@ -227,10 +227,9 @@ export const Tools: React.FC = () => {
     <>
       <S.Container className={showMobileModal ? 'blurred' : ''}>
         <S.Header>
-          <S.Title>Austin's YouTube Tools</S.Title>
+          <S.Title>My YouTube Tools</S.Title>
           <S.Description>
-            A comprehensive collection of tools designed to help content creators analyze,
-            optimize, and grow their online presence. All tools are free to use and regularly
+            Whenever I need a specific tool for YouTube, I'll normally end up building it for myself. So here are all the tools I've built. All tools are free to use and regularly
             updated with new features.
           </S.Description>
         </S.Header>
