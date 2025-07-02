@@ -84,7 +84,7 @@ export const Home: React.FC = () => {
       title: 'YouTool.io',
       description: 'Free YouTube Tools for Creators',
       background: 'https://64.media.tumblr.com/377e88f933f314338ba9608900174dc9/7c0180d0d1212074-5a/s1280x1920/a048ccb1bec91251584811a90d7551c9f7b4ceb7.pnj',
-      color: 'var(--project4)',
+      color: 'var(--project1)',
       url: 'https://www.youtool.io'
     }
   ];
