@@ -219,7 +219,7 @@ export const Home: React.FC = () => {
         </S.TwoColumnGrid>
       </S.Section>
 
-      {/* Featured Videos Section */}
+      {/* Featured Videos Section 
       <S.Section>
         <S.SectionHeader>
           <h2>Featured Work</h2>
@@ -243,7 +243,7 @@ export const Home: React.FC = () => {
             </S.VideoCard>
           ))}
         </S.VideoGrid>
-      </S.Section>
+      </S.Section> */}
 
       {/* NEW: Redesigned Clients Section */}
       <S.Section>
