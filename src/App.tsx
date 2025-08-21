@@ -5,6 +5,7 @@ import { Layout } from './components/Layout/Layout';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import { AppRoutes } from './AppRoutes';
+import { Analytics } from "@vercel/analytics/react";
 
 export const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ export const App: React.FC = () => {
         <Layout>
           <AppRoutes />
         </Layout>
+        <Analytics />
       </ThemeProvider>
     </BrowserRouter>
   );
