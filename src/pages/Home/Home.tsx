@@ -99,14 +99,14 @@ export const Home: React.FC = () => {
 
   // Clients data - Show top 8 most prominent clients in grid
   const featuredClients = [
-    { name: 'Ben Shapiro', subscribers: '7.23M subscribers', image: 'https://yt3.ggpht.com/IwzYq-xS_iXyxcilUGmrrhP2AMTAi1F2siYICQVvE_35j-BX657pww-fZk1baN8TyyTtn6Zg=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Jordan Peterson', subscribers: '8.69M subscribers', image: 'https://yt3.ggpht.com/EjQNRQGTldnH7kUHaRRWa_yOa6Po-GODJN0xqJEmsji96cAVBdLggAgHlw2DbKSvomyo3xm2CX0=s800-c-k-c0x00ffffff-no-rj' },
-    { name: 'The Daily Wire', subscribers: '146K subscribers', image: 'https://yt3.ggpht.com/DtCfJHbG0-AHij7NPr6b4ka84LoJlkHnLJVIxE_7Pmrv9KsAwIzFyiHITrbZK8zngUxaWCesiFw=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Michael Knowles', subscribers: '2.34M subscribers', image: 'https://yt3.ggpht.com/Hv7ouCTt_NaxfS_Y5q-uEqT3AWZH3Js2xvy79MNk17FQCKTjNP0P1FTgBSEzGjgM8Nh32BZRyg=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Matt Walsh', subscribers: '3.21M subscribers', image: 'https://yt3.ggpht.com/DLvOLEc5u6jeSz7XBOD0PUXGFVmK2DYYfh1SAAImRTGrOFDCVXLKNepkxtVpurVTTpYZiVzL=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'Andrew Klavan', subscribers: '808K subscribers', image: 'https://yt3.ggpht.com/xGjur8_mrSCyqG0xHAr72BJvOVDQbW69w3n2VvnaMAWjJd-uf0p7DQPvymDzVFzU25XsIwFH=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'The Comments Section', subscribers: '3.83M subscribers', image: 'https://yt3.ggpht.com/10_rFOtSfO_sn_rREl6gZR5QBdhaKX1YDzT5OdgtIeKW_beU9wtLnu1OCjDjn2COCe8VI7fd=s88-c-k-c0x00ffffff-no-rj' },
-    { name: 'DailyWire+', subscribers: '3.32M subscribers', image: 'https://yt3.ggpht.com/AW8dnBtJph6NI0a_hPk09hcv37bfpI4IIZKswvJOwh9epCuJvuR5QtWYZ0mx3U2-_DmqTNxx_g=s88-c-k-c0x00ffffff-no-rj' }
+    { name: 'Ben Shapiro', subscribers: '7.16M subscribers', image: 'https://yt3.ggpht.com/IwzYq-xS_iXyxcilUGmrrhP2AMTAi1F2siYICQVvE_35j-BX657pww-fZk1baN8TyyTtn6Zg=s88-c-k-c0x00ffffff-no-rj' },
+    { name: 'Jordan Peterson', subscribers: '8.8M subscribers', image: 'https://yt3.ggpht.com/EjQNRQGTldnH7kUHaRRWa_yOa6Po-GODJN0xqJEmsji96cAVBdLggAgHlw2DbKSvomyo3xm2CX0=s800-c-k-c0x00ffffff-no-rj' },
+    { name: 'Michael Knowles', subscribers: '2.57M subscribers', image: 'https://yt3.ggpht.com/Hv7ouCTt_NaxfS_Y5q-uEqT3AWZH3Js2xvy79MNk17FQCKTjNP0P1FTgBSEzGjgM8Nh32BZRyg=s88-c-k-c0x00ffffff-no-rj' },
+    { name: 'Matt Walsh', subscribers: '3.34M subscribers', image: 'https://yt3.ggpht.com/DLvOLEc5u6jeSz7XBOD0PUXGFVmK2DYYfh1SAAImRTGrOFDCVXLKNepkxtVpurVTTpYZiVzL=s88-c-k-c0x00ffffff-no-rj' },
+    { name: 'Andrew Klavan', subscribers: '812K subscribers', image: 'https://yt3.ggpht.com/xGjur8_mrSCyqG0xHAr72BJvOVDQbW69w3n2VvnaMAWjJd-uf0p7DQPvymDzVFzU25XsIwFH=s88-c-k-c0x00ffffff-no-rj' },
+    { name: 'The Money Guy Show', subscribers: '627K subscribers', image: 'https://yt3.ggpht.com/lBMDs2uWynRVfdkPeGU4RrZMBpMPiZYvfc3YPt4u5e12BKauK8_2Zu3dncl6ou5KNagDBVjb-w=s800-c-k-c0x00ffffff-no-rj' },
+    { name: 'MrSavior', subscribers: '132K subscribers', image: 'https://yt3.ggpht.com/DqsoBIUJ1rGd2Irl6oiEfla5mcn3nE-WSXfFXJVNRYVs077cRMAqCeAClnIdYW8RYOyatXVeIQ=s800-c-k-c0x00ffffff-no-rj' },
+    { name: 'Hard Cut Reviews', subscribers: '22K subscribers', image: 'https://yt3.ggpht.com/HmrJaNgU1A9kXCPVNCY8F8dKDBy1KShenc98VvFoqg3sfnHGQsXK29N-cUX-ppGMSibUAPezOQM=s800-c-k-c0x00ffffff-no-rj' }
   ];
 
   // Tech stack data
@@ -153,12 +153,12 @@ export const Home: React.FC = () => {
                 <S.HeroHeadline>Austin Davenport</S.HeroHeadline>
                 <S.HeroTagline>Professional Video Editor</S.HeroTagline>
                 <S.HeroDescription>
-                  I'm a video editor with over 10 years of experience working with top creators, I've edited content with over 130M+ views.
+                  I'm a video editor with over 10 years of experience working with top creators, I've edited content with over 145M+ views.
                 </S.HeroDescription>
                 <S.HeroStats>
                   <S.StatItem>
                     <i className='bx bxl-youtube'></i>
-                    <span>130M+ views</span>
+                    <span>145M+ views</span>
                   </S.StatItem>
                   <S.StatItem>
                     <i className='bx bx-video'></i>
