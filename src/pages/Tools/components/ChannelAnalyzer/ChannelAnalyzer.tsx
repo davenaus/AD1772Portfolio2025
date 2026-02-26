@@ -10,20 +10,6 @@ interface ChannelAnalysis {
   flaggedWords: string[];
 }
 
-interface ChannelMetrics {
-  totalViews: number;
-  totalVideos: number;
-  totalSubscribers: number;
-  averageViewsPerVideo: number;
-  viewsPerSubscriber: number;
-  creationDate: Date;
-  country: string;
-  channelId: string;
-  subscriberBenefitLevel: string;
-  madeForKids: boolean;
-  topicCategories: string[];
-}
-
 const flaggableWords = [
   "ahole", "anus", "ass", "asshole", "bastard", "bitch", "fuck", "shit", 
   // ... add more as needed from your list
@@ -35,7 +21,9 @@ export const ChannelAnalyzer: React.FC = () => {
   const [channelUrl, setChannelUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [channelData, setChannelData] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [playlistData, setPlaylistData] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [latestVideoData, setLatestVideoData] = useState<any>(null);
   const [analysisResults, setAnalysisResults] = useState<ChannelAnalysis | null>(null);
   const [showResults, setShowResults] = useState(false);
@@ -45,6 +33,7 @@ export const ChannelAnalyzer: React.FC = () => {
       setChannelUrl(`https://youtube.com/channel/${channelId}`);
       handleAnalyze(channelId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId]);
 
   const getChannelId = async (input: string): Promise<string> => {

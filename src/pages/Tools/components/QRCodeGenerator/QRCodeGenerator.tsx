@@ -1,5 +1,5 @@
 // src/pages/Tools/components/QRCodeGenerator/QRCodeGenerator.tsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './styles';
 
 export const QRCodeGenerator: React.FC = () => {
@@ -7,8 +7,6 @@ export const QRCodeGenerator: React.FC = () => {
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [fullSizeQR, setFullSizeQR] = useState<string | null>(null);
   const [showResults, setShowResults] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
   const generateQRCode = async () => {
     if (!url.trim()) {
       alert('Please enter a valid URL!');
@@ -137,6 +135,7 @@ export const QRCodeGenerator: React.FC = () => {
     };
 
     updatePreview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullSizeQR, logoFile]);
 
   return (

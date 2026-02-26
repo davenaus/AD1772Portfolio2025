@@ -1,7 +1,5 @@
 // src/pages/TiktokLinks/TiktokLinks.tsx - Glass/Neumorphism Version with Theme Colors
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '../../components/Button/Button';
 import { LinkItem } from './types';
 import { S } from './styles';
 

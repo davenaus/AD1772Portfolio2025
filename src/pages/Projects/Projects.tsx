@@ -43,6 +43,7 @@ export const Projects: React.FC = () => {
 
       return () => observer.disconnect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects, projectRefs.current]);
 
   const fetchProjects = async () => {

@@ -3,18 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import * as S from './styles';
 import { ExternalLink } from 'lucide-react';
 
-interface VideoStats {
-  title: string;
-  views: number;
-  likes: number;
-  comments: number;
-  publishedAt: string;
-  duration: string;
-  categoryId: string;
-  tags?: string[];
-  language?: string;
-}
-
 interface ChannelInfo {
   id: string;
   title: string;
@@ -71,6 +59,7 @@ export const PlaylistAnalyzer: React.FC = () => {
       setPlaylistUrl(playlistId);
       analyzePlaylist(playlistId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistId]);
 
   const extractPlaylistId = (url: string): string | null => {

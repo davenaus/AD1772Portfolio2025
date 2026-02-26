@@ -36,7 +36,8 @@ export const Home: React.FC = () => {
     };
   }, []);
 
-  // Featured videos data
+  // Featured videos data (used in commented-out section below)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const featuredVideos = [
     {
       id: 'oDWONMrEM5M',

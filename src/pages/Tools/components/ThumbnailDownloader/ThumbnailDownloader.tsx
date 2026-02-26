@@ -21,6 +21,7 @@ export const ThumbnailDownloader: React.FC = () => {
       setUrl(videoUrl);
       handleAnalyze(videoId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId]);
 
   const extractVideoId = (url: string): string | null => {

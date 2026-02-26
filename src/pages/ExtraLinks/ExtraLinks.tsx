@@ -1,7 +1,5 @@
 // src/pages/ExtraLinks/ExtraLinks.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '../../components/Button/Button';
 import { LinkItem } from './types';
 import { S } from './styles';
 
@@ -74,7 +72,7 @@ export const ExtraLinks: React.FC = () => {
         <S.ProfileImage>
           <img 
             src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s2048x3072/cd2e6fdd67cb4fe3ad30bf06ef4b75c42291e2f6.pnj" 
-            alt="Profile Picture" 
+            alt="Austin Davenport" 
           />
         </S.ProfileImage>
         <S.ProfileInfo>

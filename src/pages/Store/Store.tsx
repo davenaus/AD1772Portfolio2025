@@ -73,6 +73,7 @@ export const Store: React.FC = () => {
     };
     
     fetchInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [STOREFRONT_TOKEN, CURRENCY, STORE_URL]);
   
   const fetchAllProducts = async () => {

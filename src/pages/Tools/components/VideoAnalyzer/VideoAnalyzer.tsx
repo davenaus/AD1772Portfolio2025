@@ -56,6 +56,7 @@ export const VideoAnalyzer: React.FC = () => {
       setVideoUrl(`https://youtube.com/watch?v=${videoId}`);
       handleAnalyze(videoId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId]);
 
   const extractVideoId = (url: string): string | null => {
@@ -64,8 +65,8 @@ export const VideoAnalyzer: React.FC = () => {
       return url;
     }
 
-    const regExpVideo = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const regExpShorts = /^.*(youtu.be\/|shorts\/)([^#\&\?]*).*/;
+    const regExpVideo = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExpShorts = /^.*(youtu.be\/|shorts\/)([^#&?]*).*/;
     
     const matchVideo = url.match(regExpVideo);
     const matchShorts = url.match(regExpShorts);

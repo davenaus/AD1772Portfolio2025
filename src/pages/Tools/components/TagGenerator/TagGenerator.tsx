@@ -33,6 +33,7 @@ export const TagGenerator: React.FC = () => {
       setSearchTerm(decodedTitle);
       handleAnalyze(decodedTitle);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTitle]);
 
   const handleSearch = (e: React.FormEvent) => {

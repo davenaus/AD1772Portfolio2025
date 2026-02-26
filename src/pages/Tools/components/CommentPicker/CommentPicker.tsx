@@ -24,11 +24,11 @@ const CommentPickerComponent: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [winner, setWinner] = useState<Comment | null>(null);
-  const [stats, setStats] = useState('');
   const [animatingName, setAnimatingName] = useState<string>('');
   const [showResults, setShowResults] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [showAnimation, setShowAnimation] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [totalComments, setTotalComments] = useState(0);
 
   const extractVideoId = (url: string): string | null => {
@@ -191,9 +191,6 @@ const CommentPickerComponent: React.FC = () => {
       animate();
     });
   };
-  
-  // Simplify pickWinner to just return the promise
-  const pickWinner = () => Promise.resolve();
   
   // And modify handleSubmit to remove the separate pickWinner call
   const handleSubmit = async (e: React.FormEvent) => {

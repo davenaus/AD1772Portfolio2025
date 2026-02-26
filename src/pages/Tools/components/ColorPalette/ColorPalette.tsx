@@ -15,6 +15,7 @@ const ColorPaletteComponent: React.FC = () => {
   const [extractedColors, setExtractedColors] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<Set<string>>(new Set());
   const [imagePreview, setImagePreview] = useState<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [currentTab, setCurrentTab] = useState<'color-wheel' | 'image-picker'>('color-wheel');
@@ -173,6 +174,7 @@ const ColorPaletteComponent: React.FC = () => {
         gradientPreview.style.backgroundImage = `url(${gradientDataUrl})`;
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extractedColors, gradientSeed]);
 
   // Call generateGradient whenever colors or seed changes
@@ -214,6 +216,7 @@ const ColorPaletteComponent: React.FC = () => {
       generateGradient(colors);
     };
     img.src = dataUrl;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [generateGradient]);
 
   // Drag and drop handlers

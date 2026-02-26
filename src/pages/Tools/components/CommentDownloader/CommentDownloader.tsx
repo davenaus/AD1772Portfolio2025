@@ -21,6 +21,7 @@ export const CommentDownloader: React.FC = () => {
       setVideoUrl(videoUrl);
       handleDownload(videoId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId]);
 
   const extractVideoId = (url: string): string | false => {

@@ -15,7 +15,6 @@ export const Blog: React.FC = () => {
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPosts, setTotalPosts] = useState(0);
   const postsPerPage = 50;
 
   // Debug Supabase connection on mount
@@ -42,6 +41,7 @@ export const Blog: React.FC = () => {
 
   useEffect(() => {
     loadPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeCategory, currentPage]);
 
   const loadInitialData = async () => {
@@ -83,16 +83,15 @@ export const Blog: React.FC = () => {
         limit: postsPerPage
       });
 
-      const { posts, total } = await blogService.getPosts({
+      const { posts } = await blogService.getPosts({
         category: activeCategory === 'All' ? undefined : activeCategory,
         page: currentPage,
         limit: postsPerPage
       });
 
-      console.log('Loaded posts:', { posts, total });
+      console.log('Loaded posts:', { posts });
 
       setPosts(posts);
-      setTotalPosts(total);
     } catch (error) {
       console.error('Error in loadPosts:', error);
       setError('Failed to load blog posts. Please try again later.');

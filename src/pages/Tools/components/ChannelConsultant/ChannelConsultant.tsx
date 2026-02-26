@@ -29,10 +29,10 @@ export const ChannelConsultant: React.FC = () => {
 
   const getChannelId = async (url: string): Promise<string> => {
     const patterns = {
-      channelId: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/channel\/([^\/\s]+)/,
-      user: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/user\/([^\/\s]+)/,
-      handle: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/@([^\/\s]+)/,
-      customUrl: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|)([^\/\s]+)/
+      channelId: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/channel\/([^/\s]+)/,
+      user: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/user\/([^/\s]+)/,
+      handle: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/@([^/\s]+)/,
+      customUrl: /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|)([^/\s]+)/
     };
 
     for (const [type, pattern] of Object.entries(patterns)) {

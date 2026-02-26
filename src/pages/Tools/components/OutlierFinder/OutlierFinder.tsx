@@ -27,6 +27,7 @@ export const OutlierFinder: React.FC = () => {
       setIsShorts(type === 'shorts');
       handleAnalyze(decodedQuery, type === 'shorts');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, type]);
 
   const handleSearch = () => {
