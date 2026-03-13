@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
     },
     {
       name: 'After Effects',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_After_Effects_CC_icon.svg/2101px-Adobe_After_Effects_CC_icon.svg.png'
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_After_Effects_CC_icon.svg/3840px-Adobe_After_Effects_CC_icon.svg.png'
     },
     {
       name: 'Photoshop',
