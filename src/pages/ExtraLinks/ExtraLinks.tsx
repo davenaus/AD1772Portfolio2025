@@ -88,8 +88,8 @@ export const ExtraLinks: React.FC = () => {
         <a href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
           <i className="bx bxl-tiktok"></i>
         </a>
-        <a href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
-          <i className="bx bxl-tiktok"></i>
+        <a href="https://discord.com/invite/vuKtEXJ" target="_blank" rel="noopener noreferrer">
+          <i className="bx bxl-discord-alt"></i>
         </a>
       </S.SocialIcons>
 
