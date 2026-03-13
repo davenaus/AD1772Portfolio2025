@@ -22,4 +22,14 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
     text-decoration: none;
     color: inherit;
   }
+
+  :focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.blue8};
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  button, [role="button"] {
+    cursor: pointer;
+  }
 `;

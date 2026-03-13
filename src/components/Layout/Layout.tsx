@@ -29,7 +29,6 @@ interface SocialLink {
 
 const socialLinks: SocialLink[] = [
   { url: 'https://www.youtube.com/@AustinDavenport', icon: 'bx bxl-youtube' },
-  { url: 'https://x.com/A__Davenport', icon: 'bx bxl-twitter' },
   { url: 'https://discord.com/invite/vuKtEXJ', icon: 'bx bxl-discord-alt' },
   { url: 'https://www.tiktok.com/@austindavenport_', icon: 'bx bxl-tiktok' }
 ];
@@ -46,11 +45,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const NavLink = ({ item }: { item: NavItem }) => {
     const isActive = location.pathname === item.path;
-    
+
     return (
       <S.NavLinkWrapper
         to={item.path}
-        $isActive={isActive} // Use $ prefix for transient props
+        $isActive={isActive}
+        onClick={() => setIsSidebarOpen(false)}
       >
         <i className={item.icon}></i>
         {item.label}
@@ -60,7 +60,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <S.LayoutContainer>
-      <S.MobileMenuButton onClick={toggleSidebar}>
+      <S.MobileMenuButton
+        onClick={toggleSidebar}
+        aria-label={isSidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={isSidebarOpen}
+      >
         <i className='bx bx-menu'></i>
       </S.MobileMenuButton>
 
@@ -113,7 +117,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         </S.SocialLinks>
       </S.Sidebar>
 
-      <S.MainContent>
+      <S.MainContent as="main">
         {children}
       </S.MainContent>
     </S.LayoutContainer>

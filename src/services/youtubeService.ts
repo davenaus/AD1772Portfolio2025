@@ -14,7 +14,6 @@ export interface YouTubeVideo {
 export const youtubeService = {
   async getLatestVideo(): Promise<YouTubeVideo | null> {
     try {
-      // First, get the latest videos
       const searchResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?` +
         `key=${YOUTUBE_API_KEY}&` +
@@ -27,13 +26,11 @@ export const youtubeService = {
       );
 
       const searchData = await searchResponse.json();
-      
+
       if (!searchData.items?.length) return null;
 
-      // Get the video IDs to fetch their contentDetails
       const videoIds = searchData.items.map((item: any) => item.id.videoId).join(',');
 
-      // Get video details including duration
       const videoResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/videos?` +
         `key=${YOUTUBE_API_KEY}&` +
@@ -43,10 +40,9 @@ export const youtubeService = {
 
       const videoData = await videoResponse.json();
 
-      // Find the first video that's not a Short (duration > 1 minute)
       const longFormVideo = videoData.items.find((video: any) => {
         const duration = parseDuration(video.contentDetails.duration);
-        return duration >= 60; // More than 60 seconds
+        return duration >= 60;
       });
 
       if (!longFormVideo) return null;
@@ -59,8 +55,7 @@ export const youtubeService = {
         publishedAt: longFormVideo.snippet.publishedAt,
         duration: longFormVideo.contentDetails.duration
       };
-    } catch (error) {
-      console.error('Error fetching latest video:', error);
+    } catch {
       return null;
     }
   },
@@ -82,21 +77,19 @@ export const youtubeService = {
         title: video.snippet.title,
         thumbnail: video.snippet.thumbnails.maxres?.url || video.snippet.thumbnails.high.url
       };
-    } catch (error) {
-      console.error('Error fetching video details:', error);
+    } catch {
       return null;
     }
   }
 };
 
-// Helper function to parse ISO 8601 duration to seconds
 function parseDuration(duration: string): number {
   const matches = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  
+
   if (!matches) return 0;
 
   const [, hours, minutes, seconds] = matches;
-  
+
   return (
     (parseInt(hours || '0') * 3600) +
     (parseInt(minutes || '0') * 60) +

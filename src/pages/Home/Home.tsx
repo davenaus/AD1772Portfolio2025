@@ -122,11 +122,11 @@ export const Home: React.FC = () => {
     },
     {
       name: 'Photoshop',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/512px-Adobe_Photoshop_CC_icon.svg.png'
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/3840px-Adobe_Photoshop_CC_icon.svg.png'
     },
     {
       name: 'Lightroom',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Adobe_Photoshop_Lightroom_CC_logo.svg/2101px-Adobe_Photoshop_Lightroom_CC_logo.svg.png'
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Adobe_Photoshop_Lightroom_CC_logo.svg/500px-Adobe_Photoshop_Lightroom_CC_logo.svg.png'
     },
     {
       name: 'DaVinci Resolve',
@@ -138,6 +138,10 @@ export const Home: React.FC = () => {
     }
   ];
 
+  useEffect(() => {
+    document.title = 'Austin Davenport - Video Editor & Developer';
+  }, []);
+
   return (
     <S.Container>
       <S.GlobalStyle />
@@ -148,7 +152,7 @@ export const Home: React.FC = () => {
           <S.HeroCardContent>
             <S.HeroContent>
               <S.ProfileImageContainer>
-                <S.ProfileImage src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj" alt="Austin Davenport" />
+                <S.ProfileImage src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj" alt="Austin Davenport" fetchPriority="high" />
               </S.ProfileImageContainer>
               <S.HeroTextContent>
                 <S.HeroHeadline>Austin Davenport</S.HeroHeadline>
@@ -197,7 +201,7 @@ export const Home: React.FC = () => {
                 <br /><br />
                 With a background in creating systems for both video production and post production, I understand the unique challenges creators face and build solutions that address real needs.
               </S.AboutText>
-              <S.Button onClick={() => window.open('https://youtube.com/@AustinDavenport', '_blank')}>
+              <S.Button onClick={() => window.open('https://youtube.com/@AustinDavenport', '_blank', 'noopener,noreferrer')}>
                 Visit My YouTube
                 <i className='bx bx-right-arrow-alt'></i>
               </S.Button>
@@ -210,7 +214,7 @@ export const Home: React.FC = () => {
               <S.TechGrid>
                 {techStack.map((tech, index) => (
                   <S.TechItem key={index}>
-                    <S.TechLogo src={tech.logo} alt={tech.name} />
+                    <S.TechLogo src={tech.logo} alt={tech.name} loading="lazy" />
                     <S.TechName>{tech.name}</S.TechName>
                   </S.TechItem>
                 ))}
@@ -257,7 +261,7 @@ export const Home: React.FC = () => {
             <S.ClientsGrid>
               {featuredClients.map((client, index) => (
                 <S.ClientItem key={index}>
-                  <S.ClientLogo src={client.image} alt={client.name} />
+                  <S.ClientLogo src={client.image} alt={client.name} loading="lazy" />
                   <S.ClientInfo>
                     <S.ClientName>{client.name}</S.ClientName>
                     <S.ClientSubscribers>{client.subscribers}</S.ClientSubscribers>
@@ -314,11 +318,11 @@ export const Home: React.FC = () => {
       <S.Footer>
         <S.FooterText>© 2025 Austin Davenport. All rights reserved.</S.FooterText>
         <S.SocialLinks>
-          <S.SocialLink href="https://youtube.com/@AustinDavenport" target="_blank">
+          <S.SocialLink href="https://youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
             <i className='bx bxl-youtube'></i>
           </S.SocialLink>
-          <S.SocialLink href="https://x.com/A__Davenport" target="_blank">
-            <i className='bx bxl-twitter'></i>
+          <S.SocialLink href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
+            <i className='bx bxl-tiktok'></i>
           </S.SocialLink>
         </S.SocialLinks>
       </S.Footer>

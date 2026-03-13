@@ -15,10 +15,14 @@ export const Portfolio: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
+    document.title = 'Portfolio | Austin Davenport';
+  }, []);
+
+  useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -42,8 +46,8 @@ export const Portfolio: React.FC = () => {
         setVideos(videosWithDetails);
         const tags = await getUniqueTags();
         setCategories(['All', ...tags]);
-      } catch (error) {
-        console.error('Error fetching portfolio data:', error);
+      } catch {
+        // portfolio data failed to load
       } finally {
         setLoading(false);
       }
@@ -68,9 +72,23 @@ export const Portfolio: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-pulse text-lg">Loading...</div>
-      </div>
+      <S.Container>
+        <S.Hero style={{ height: '80vh' }}>
+          <S.HeroContent>
+            <S.HeroTitle>Professional Video Editor</S.HeroTitle>
+            <S.HeroSubtitle>Crafting visual stories that inspire and engage.</S.HeroSubtitle>
+          </S.HeroContent>
+        </S.Hero>
+        <S.VideoGrid>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <S.SkeletonCard key={i}>
+              <S.SkeletonThumb />
+              <S.SkeletonLine width="75%" />
+              <S.SkeletonLine width="50%" />
+            </S.SkeletonCard>
+          ))}
+        </S.VideoGrid>
+      </S.Container>
     );
   }
 
@@ -101,8 +119,10 @@ export const Portfolio: React.FC = () => {
           <S.HeroSubtitle>
             Crafting visual stories that inspire and engage.
           </S.HeroSubtitle>
-          <S.AnalyticsButton 
-            href="/tools/playlist-analyzer/PLDZjxSO4MSJoA638nQvykQaevGgc-sV2B"
+          <S.AnalyticsButton
+            href="https://www.youtool.io/tools/playlist-analyzer/PLDZjxSO4MSJoA638nQvykQaevGgc-sV2B"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <i className='bx bx-stats'></i>
             {isMobile ? 'View Analytics' : 'View My Complete Portfolio Analytics'}
@@ -161,10 +181,10 @@ export const Portfolio: React.FC = () => {
         ))}
       </S.VideoGrid>
 
-      <S.VideoModal isOpen={!!selectedVideo}>
+      <S.VideoModal isOpen={!!selectedVideo} role="dialog" aria-label="Video player" aria-modal="true">
         {selectedVideo && (
           <S.ModalContent>
-            <S.CloseButton onClick={handleCloseModal}>
+            <S.CloseButton onClick={handleCloseModal} aria-label="Close video">
               <i className='bx bx-x'></i>
             </S.CloseButton>
             <S.ResponsiveIframe

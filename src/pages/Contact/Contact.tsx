@@ -1,5 +1,5 @@
 // src/pages/Contact/Contact.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './styles';
 import { Button } from '../../components/Button/Button';
 import { sendContactForm } from '../../services/contactService';
@@ -13,6 +13,10 @@ interface ContactForm {
 }
 
 export const Contact: React.FC = () => {
+  useEffect(() => {
+    document.title = 'Contact | Austin Davenport';
+  }, []);
+
   const [formData, setFormData] = useState<ContactForm>({
     name: '',
     email: '',
@@ -47,8 +51,7 @@ export const Contact: React.FC = () => {
       });
 
       setShowSuccessModal(true);
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    } catch {
       setError('There was an error sending your message. Please try again.');
     } finally {
       setSubmitting(false);
@@ -88,8 +91,8 @@ export const Contact: React.FC = () => {
             <a href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
               <i className='bx bxl-youtube'></i>
             </a>
-            <a href="https://twitter.com/A__Davenport" target="_blank" rel="noopener noreferrer">
-              <i className='bx bxl-twitter'></i>
+            <a href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
+              <i className='bx bxl-tiktok'></i>
             </a>
             <a href="https://discord.com/invite/vuKtEXJ" target="_blank" rel="noopener noreferrer">
               <i className='bx bxl-discord-alt'></i>
@@ -101,8 +104,9 @@ export const Contact: React.FC = () => {
           {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
           
           <S.FormGroup>
-            <S.Label>Name</S.Label>
+            <S.Label htmlFor="name">Name</S.Label>
             <S.Input
+              id="name"
               type="text"
               name="name"
               value={formData.name}
@@ -112,8 +116,9 @@ export const Contact: React.FC = () => {
           </S.FormGroup>
 
           <S.FormGroup>
-            <S.Label>Email</S.Label>
+            <S.Label htmlFor="email">Email</S.Label>
             <S.Input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
@@ -123,8 +128,9 @@ export const Contact: React.FC = () => {
           </S.FormGroup>
 
           <S.FormGroup>
-            <S.Label>Project Type</S.Label>
+            <S.Label htmlFor="project">Project Type</S.Label>
             <S.Select
+              id="project"
               name="project"
               value={formData.project}
               onChange={handleChange}
@@ -140,8 +146,9 @@ export const Contact: React.FC = () => {
           </S.FormGroup>
 
           <S.FormGroup>
-            <S.Label>Message</S.Label>
+            <S.Label htmlFor="message">Message</S.Label>
             <S.TextArea
+              id="message"
               name="message"
               value={formData.message}
               onChange={handleChange}

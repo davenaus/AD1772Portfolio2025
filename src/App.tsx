@@ -6,15 +6,18 @@ import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import { AppRoutes } from './AppRoutes';
 import { Analytics } from "@vercel/analytics/react";
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyles theme={theme} />
-        <Layout>
-          <AppRoutes />
-        </Layout>
+        <ErrorBoundary>
+          <Layout>
+            <AppRoutes />
+          </Layout>
+        </ErrorBoundary>
         <Analytics />
       </ThemeProvider>
     </BrowserRouter>

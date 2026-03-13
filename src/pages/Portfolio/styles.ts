@@ -6,6 +6,75 @@ const bounce = keyframes`
   60% { transform: translateY(-5px); }
 `;
 
+const spin = keyframes`
+  to { transform: rotate(360deg); }
+`;
+
+const shimmerAnim = keyframes`
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+`;
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+  color: ${({ theme }) => theme.colors.blue11};
+`;
+
+export const LoadingSpinner = styled.div`
+  width: 44px;
+  height: 44px;
+  border: 3px solid ${({ theme }) => theme.colors.blue3};
+  border-top-color: ${({ theme }) => theme.colors.blue8};
+  border-radius: 50%;
+  animation: ${spin} 0.8s linear infinite;
+`;
+
+export const LoadingText = styled.p`
+  font-size: 0.95rem;
+  color: ${({ theme }) => theme.colors.blue11};
+  letter-spacing: 0.05em;
+`;
+
+export const SkeletonCard = styled.div`
+  border-radius: 12px;
+  overflow: hidden;
+  background: ${({ theme }) => theme.colors.blue2};
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+`;
+
+export const SkeletonThumb = styled.div`
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(
+    90deg,
+    ${({ theme }) => theme.colors.blue2} 25%,
+    ${({ theme }) => theme.colors.blue3} 50%,
+    ${({ theme }) => theme.colors.blue2} 75%
+  );
+  background-size: 200% 100%;
+  animation: ${shimmerAnim} 1.5s infinite;
+`;
+
+export const SkeletonLine = styled.div<{ width?: string }>`
+  height: 14px;
+  border-radius: 4px;
+  margin: 0.5rem 1rem;
+  width: ${({ width }) => width || '80%'};
+  background: linear-gradient(
+    90deg,
+    ${({ theme }) => theme.colors.blue2} 25%,
+    ${({ theme }) => theme.colors.blue3} 50%,
+    ${({ theme }) => theme.colors.blue2} 75%
+  );
+  background-size: 200% 100%;
+  animation: ${shimmerAnim} 1.5s infinite;
+`;
+
 export const ScrollIndicator = styled.div`
   position: absolute;
   bottom: 2rem;
@@ -196,10 +265,15 @@ export const Hero = styled.div`
   position: relative;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.blue1};
-  
+
   @media (max-width: 768px) {
-    height: 50vh;
-    min-height: 300px;
+    height: 45vh;
+    min-height: 240px;
+  }
+
+  @media (max-width: 480px) {
+    height: 38vh;
+    min-height: 200px;
   }
 `;
 
@@ -221,11 +295,15 @@ export const HeroTitle = styled.h1`
   font-size: 3.5rem;
   color: ${({ theme }) => theme.colors.blue9};
   font-weight: 700;
-  
+
   @media (max-width: 768px) {
     font-size: 2rem;
     margin-bottom: 0.5rem;
     padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
   }
 `;
 
@@ -305,13 +383,13 @@ export const VideoOverlay = styled.div`
   justify-content: center;
   opacity: 0;
   transition: all 0.3s ease;
-  
+
   i {
     font-size: 3rem;
     color: white;
     transform: scale(0.9);
     transition: transform 0.2s ease;
-    
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
@@ -320,9 +398,15 @@ export const VideoOverlay = styled.div`
   &:hover {
     background: rgba(0, 0, 0, 0.7);
 
-    i {
-      transform: scale(1);
-    }
+    i { transform: scale(1); }
+  }
+
+  /* Always show play icon on touch devices */
+  @media (hover: none) {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.3);
+
+    i { transform: scale(1); }
   }
 `;
 

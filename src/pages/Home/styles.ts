@@ -161,13 +161,13 @@ const HeroHeadline = styled.h1`
   font-weight: 700;
   margin: 0 0 0.5rem;
   color: var(--blue9);
-  
+
   @media (max-width: 768px) {
-    font-size: 1.4rem;
+    font-size: 2rem;
   }
-  
+
   @media (max-width: 480px) {
-    font-size: 1rem;
+    font-size: 1.75rem;
   }
 `;
 
@@ -534,19 +534,20 @@ const ClientsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  
+
   @media (max-width: 992px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
-  
+
   @media (max-width: 480px) {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 `;
 

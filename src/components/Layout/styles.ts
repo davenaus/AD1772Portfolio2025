@@ -32,8 +32,13 @@ const MainContent = styled.main`
 
   @media (max-width: 1100px) {
     margin-left: 0;
-    padding: 1.5rem;
-    margin-top: 70px;
+    padding: 1.25rem;
+    margin-top: 64px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    margin-top: 60px;
   }
 `;
 
@@ -44,18 +49,28 @@ const MobileMenuButton = styled.button`
   right: 1rem;
   z-index: 1000;
   background: ${({ theme }) => theme.colors.blue3};
-  border: none;
-  padding: 0.5rem;
-  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.blue4};
+  padding: 0.625rem;
+  border-radius: 10px;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.blue9};
+  min-width: 44px;
+  min-height: 44px;
+  display: none;
+  align-items: center;
+  justify-content: center;
 
   i {
     font-size: 24px;
+    display: block;
+  }
+
+  &:active {
+    background: ${({ theme }) => theme.colors.blue4};
   }
 
   @media (max-width: 1100px) {
-    display: block;
+    display: flex;
   }
 `;
 

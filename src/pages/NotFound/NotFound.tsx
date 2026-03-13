@@ -5,24 +5,28 @@ import * as S from './styles';
 
 export const NotFound: React.FC = () => {
   const navigate = useNavigate();
-  
+
   return (
     <S.Container>
+      <S.ScanLine />
       <S.ContentWrapper>
+        <S.TimecodeBar>
+          <S.TimecodeSegment>00:00:04</S.TimecodeSegment>
+          <S.TimecodeSegment>|</S.TimecodeSegment>
+          <S.TimecodeSegment highlight>ERR</S.TimecodeSegment>
+          <S.TimecodeSegment>|</S.TimecodeSegment>
+          <S.TimecodeSegment>FRAME MISSING</S.TimecodeSegment>
+        </S.TimecodeBar>
+
         <S.ErrorCode>404</S.ErrorCode>
-        
-        <S.IllustrationWrapper>
-          <S.TimelineBar>
-            <S.TimelineCursor />
-          </S.TimelineBar>
-          <S.MissingClipText>Missing Clip</S.MissingClipText>
-        </S.IllustrationWrapper>
-        
-        <S.ErrorTitle>Page Not Found</S.ErrorTitle>
+
+        <S.StatusBadge>Clip Not Found</S.StatusBadge>
+
+        <S.ErrorTitle>This frame isn't in the timeline.</S.ErrorTitle>
         <S.ErrorDescription>
-          This frame wasn't in the timeline. Let's get you back to a sequence that exists.
+          Looks like this page got cut from the final edit. Let's get you back to a sequence that actually exists.
         </S.ErrorDescription>
-        
+
         <S.ButtonGroup>
           <S.PrimaryButton onClick={() => navigate('/')}>
             <i className='bx bx-home'></i>
@@ -33,16 +37,18 @@ export const NotFound: React.FC = () => {
             Go Back
           </S.SecondaryButton>
         </S.ButtonGroup>
-        
+
+        <S.Divider />
+
         <S.SuggestedLinks>
-          <S.SuggestedTitle>Looking for something?</S.SuggestedTitle>
+          <S.SuggestedTitle>Or jump to</S.SuggestedTitle>
           <S.SuggestedGrid>
             <S.SuggestedLink to="/portfolio">
               <i className='bx bx-book-alt'></i>
               Portfolio
             </S.SuggestedLink>
             <S.SuggestedLink to="/projects">
-              <i className='bx bx-layer'></i> 
+              <i className='bx bx-layer'></i>
               Projects
             </S.SuggestedLink>
             <S.SuggestedLink to="/blog">

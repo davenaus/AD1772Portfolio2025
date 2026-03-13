@@ -12,7 +12,7 @@ export const BlogPostPage: React.FC = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const iframeKey = useRef(Date.now()); // Unique key for iframe refresh
+  const iframeKey = useRef(Date.now());
 
   useEffect(() => {
     const loadPost = async () => {
@@ -21,16 +21,16 @@ export const BlogPostPage: React.FC = () => {
           setError('No slug provided');
           return;
         }
-        
+
         const postData = await blogService.getPostBySlug(slug);
         if (!postData) {
           setError('Post not found');
           return;
         }
-        
+
         setPost(postData);
-      } catch (err) {
-        console.error('Error loading post:', err);
+        document.title = `${postData.title} | Austin Davenport`;
+      } catch {
         setError('Failed to load blog post');
       } finally {
         setLoading(false);
@@ -38,6 +38,10 @@ export const BlogPostPage: React.FC = () => {
     };
 
     loadPost();
+
+    return () => {
+      document.title = 'Austin Davenport - Video Editor & Developer';
+    };
   }, [slug]);
 
   const formatDate = (dateString: string) => {
@@ -47,8 +51,7 @@ export const BlogPostPage: React.FC = () => {
         month: 'long',
         day: 'numeric'
       }).format(new Date(dateString));
-    } catch (err) {
-      console.error('Error formatting date:', err);
+    } catch {
       return dateString;
     }
   };
@@ -104,11 +107,10 @@ export const BlogPostPage: React.FC = () => {
         </S.VideoContainer>
       )}
 
-      {/* Interactive Code Section - New Addition */}
       {post.html_code && (
         <S.IframeContainer>
           <S.IframeWrapper>
-            <iframe 
+            <iframe
               key={iframeKey.current}
               title={post.title}
               srcDoc={post.html_code}

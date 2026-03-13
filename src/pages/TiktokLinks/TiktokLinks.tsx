@@ -99,9 +99,9 @@ export const TiktokLinks: React.FC = () => {
               <i className="bx bxl-youtube"></i>
               <span>YouTube</span>
             </S.SocialButton>
-            <S.SocialButton href="https://x.com/A__Davenport" target="_blank">
-              <i className="bx bxl-twitter"></i>
-              <span>Twitter</span>
+            <S.SocialButton href="https://discord.com/invite/vuKtEXJ" target="_blank">
+              <i className="bx bxl-discord-alt"></i>
+              <span>Discord</span>
             </S.SocialButton>
             <S.SocialButton href="https://www.tiktok.com/@austindavenport_" target="_blank">
               <i className="bx bxl-tiktok"></i>

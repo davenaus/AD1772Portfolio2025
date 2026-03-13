@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button/Button';
 import { blogService } from '../../services/blogService';
 import { BlogPost, BlogCategory } from '../../types/blog';
-import { supabase } from '../../utils/supabase';
 import * as S from './styles';
 
 export const Blog: React.FC = () => {
@@ -17,22 +16,8 @@ export const Blog: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 50;
 
-  // Debug Supabase connection on mount
   useEffect(() => {
-    const checkConnection = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('count')
-          .single();
-        
-        console.log('Supabase connection test:', { data, error });
-      } catch (err) {
-        console.error('Supabase connection error:', err);
-      }
-    };
-
-    checkConnection();
+    document.title = 'Blog | Austin Davenport';
   }, []);
 
   useEffect(() => {
@@ -48,25 +33,15 @@ export const Blog: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Loading initial data...');
 
       const [featuredPost, categories] = await Promise.all([
-        blogService.getFeaturedPost().catch(err => {
-          console.error('Error loading featured post:', err);
-          return null;
-        }),
-        blogService.getCategories().catch(err => {
-          console.error('Error loading categories:', err);
-          return [];
-        })
+        blogService.getFeaturedPost().catch(() => null),
+        blogService.getCategories().catch(() => [])
       ]);
-      
-      console.log('Loaded initial data:', { featuredPost, categories });
-      
+
       setFeaturedPost(featuredPost);
       setCategories(categories);
-    } catch (error) {
-      console.error('Error in loadInitialData:', error);
+    } catch {
       setError('Failed to load blog data. Please try again later.');
     } finally {
       setLoading(false);
@@ -77,11 +52,6 @@ export const Blog: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Loading posts with params:', {
-        category: activeCategory,
-        page: currentPage,
-        limit: postsPerPage
-      });
 
       const { posts } = await blogService.getPosts({
         category: activeCategory === 'All' ? undefined : activeCategory,
@@ -89,11 +59,8 @@ export const Blog: React.FC = () => {
         limit: postsPerPage
       });
 
-      console.log('Loaded posts:', { posts });
-
       setPosts(posts);
-    } catch (error) {
-      console.error('Error in loadPosts:', error);
+    } catch {
       setError('Failed to load blog posts. Please try again later.');
     } finally {
       setLoading(false);
@@ -101,13 +68,11 @@ export const Blog: React.FC = () => {
   };
 
   const handleCategoryChange = (category: string) => {
-    console.log('Changing category to:', category);
     setActiveCategory(category);
     setCurrentPage(1);
   };
 
   const handlePostClick = (slug: string) => {
-    console.log('Navigating to post:', slug);
     navigate(`/blog/${slug}`);
   };
 
@@ -118,8 +83,7 @@ export const Blog: React.FC = () => {
         month: 'long',
         day: 'numeric'
       }).format(new Date(dateString));
-    } catch (err) {
-      console.error('Error formatting date:', err);
+    } catch {
       return dateString;
     }
   };
@@ -160,6 +124,7 @@ export const Blog: React.FC = () => {
           <S.FilterButton
             active={activeCategory === 'All'}
             onClick={() => handleCategoryChange('All')}
+            aria-pressed={activeCategory === 'All'}
           >
             All Posts
           </S.FilterButton>
@@ -168,6 +133,7 @@ export const Blog: React.FC = () => {
               key={category.id}
               active={activeCategory === category.name}
               onClick={() => handleCategoryChange(category.name)}
+              aria-pressed={activeCategory === category.name}
             >
               {category.name}
             </S.FilterButton>
@@ -181,7 +147,6 @@ export const Blog: React.FC = () => {
     <S.FeaturedContent>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <S.CategoryBadge>{featuredPost.category}</S.CategoryBadge>
-        {/* Add this conditional rendering for the code badge */}
         {featuredPost.html_code && (
           <S.CodeBadge>
             <i className='bx bx-code-alt' />
@@ -214,7 +179,6 @@ export const Blog: React.FC = () => {
         <S.BlogContent>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <S.CategoryBadge>{post.category}</S.CategoryBadge>
-            {/* Add this conditional rendering for the code badge */}
             {post.html_code && (
               <S.CodeBadge>
                 <i className='bx bx-code-alt' />

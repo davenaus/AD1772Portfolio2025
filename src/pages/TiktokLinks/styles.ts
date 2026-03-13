@@ -35,11 +35,12 @@ const Container = styled.div`
   overflow: hidden;
   padding: 2rem 1rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 0.75rem 0.75rem 2rem;
+    align-items: flex-start;
   }
 `;
 
@@ -94,6 +95,10 @@ const ContentWrapper = styled.div`
   max-width: 480px;
   z-index: 1;
   animation: ${slideIn} 0.8s ease-out;
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+  }
 `;
 
 const ProfileCard = styled.div`
@@ -101,9 +106,9 @@ const ProfileCard = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   border-radius: 24px;
   padding: 2.5rem 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   text-align: center;
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.08),
     0 2px 8px rgba(0, 0, 0, 0.04);
   backdrop-filter: blur(20px);
@@ -112,16 +117,26 @@ const ProfileCard = styled.div`
   &:hover {
     border-color: ${({ theme }) => theme.colors.blue4};
     transform: translateY(-2px);
-    box-shadow: 
+    box-shadow:
       0 12px 40px rgba(0, 0, 0, 0.12),
       0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1.25rem;
+    border-radius: 18px;
+    margin-bottom: 1rem;
   }
 `;
 
 const AvatarContainer = styled.div`
   position: relative;
   display: inline-block;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+
+  @media (max-width: 480px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const Avatar = styled.div`
@@ -151,6 +166,11 @@ const Avatar = styled.div`
     z-index: -1;
     animation: ${shimmer} 3s ease-in-out infinite;
   }
+
+  @media (max-width: 480px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 const StatusDot = styled.div`
@@ -166,7 +186,11 @@ const StatusDot = styled.div`
 `;
 
 const ProfileInfo = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 480px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const Username = styled.h1`
@@ -174,6 +198,10 @@ const Username = styled.h1`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.blue9};
   margin-bottom: 0.5rem;
+
+  @media (max-width: 480px) {
+    font-size: 1.4rem;
+  }
 `;
 
 const JobTitle = styled.div`
@@ -215,6 +243,13 @@ const SocialButton = styled.a`
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  min-height: 64px;
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 0.5rem;
+    border-radius: 12px;
+    min-height: 56px;
+  }
 
   &:hover {
     transform: translateY(-3px);
@@ -252,17 +287,26 @@ const SocialButton = styled.a`
 const LinksGrid = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 480px) {
+    gap: 0.625rem;
+  }
 `;
 
 const CardContent = styled.div`
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
 `;
 
 const IconWrapper = styled.div`
@@ -285,6 +329,16 @@ const IconWrapper = styled.div`
     background: ${({ theme }) => theme.colors.blue5};
     border-color: ${({ theme }) => theme.colors.blue6};
   }
+
+  @media (max-width: 480px) {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+
+    i {
+      font-size: 18px;
+    }
+  }
 `;
 
 const TextContent = styled.div`
@@ -298,6 +352,10 @@ const CardTitle = styled.h3`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.blue9};
   margin: 0 0 0.25rem 0;
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+  }
 `;
 
 const CardDescription = styled.p`
@@ -305,6 +363,10 @@ const CardDescription = styled.p`
   color: ${({ theme }) => theme.colors.blue11};
   margin: 0;
   line-height: 1.4;
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const ActionIcon = styled.div`
@@ -341,6 +403,10 @@ const LinkCard = styled.button`
   overflow: hidden;
   width: 100%;
   animation: ${slideIn} 0.6s ease-out calc(var(--index) * 0.1s) both;
+
+  @media (max-width: 480px) {
+    border-radius: 16px;
+  }
 
   &:hover {
     transform: translateY(-5px);
