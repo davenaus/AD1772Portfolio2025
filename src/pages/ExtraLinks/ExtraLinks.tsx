@@ -1,7 +1,8 @@
 // src/pages/ExtraLinks/ExtraLinks.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LinkItem } from './types';
 import { S } from './styles';
+import { useCanonical } from '../../utils/useCanonical';
 
 const linkItems: LinkItem[] = [
   {
@@ -56,6 +57,8 @@ const linkItems: LinkItem[] = [
 ];
 
 export const ExtraLinks: React.FC = () => {
+  useCanonical('/extra-links');
+  useEffect(() => { document.title = 'Extra Links | Austin Davenport'; }, []);
   const handleExternalClick = (url: string, isInternalLink = false) => {
     if (isInternalLink) {
       // Handle internal navigation

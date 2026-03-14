@@ -650,6 +650,66 @@ const ClientsShowMore = styled.div`
   }
 `;
 
+// Stats Strip
+const StatsStrip = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+`;
+
+const StatCard = styled.div`
+  background-color: var(--blue2);
+  border-radius: 12px;
+  border: 1px solid var(--blue3);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: var(--blue6);
+  }
+`;
+
+const StatIcon = styled.div`
+  i {
+    font-size: 1.5rem;
+    color: var(--blue11);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+`;
+
+const StatNumber = styled.div`
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--blue9);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+
+  @media (max-width: 480px) {
+    font-size: 1.4rem;
+  }
+`;
+
+const StatLabel = styled.div`
+  font-size: 0.75rem;
+  color: var(--blue11);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+`;
+
 // About Section & Tech Stack
 const TwoColumnGrid = styled.div`
   display: grid;
@@ -975,6 +1035,11 @@ export const Styles = {
   HeroStats,
   StatItem,
   HeroActions,
+  StatsStrip,
+  StatCard,
+  StatIcon,
+  StatNumber,
+  StatLabel,
   Button,
   PrimaryButton,
   SecondaryButton,

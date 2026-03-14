@@ -4,6 +4,7 @@ import * as S from './styles';
 import { Button } from '../../components/Button/Button';
 import { sendContactForm } from '../../services/contactService';
 import { SuccessModal } from '../../components/SuccessModal/SuccessModal';
+import { useCanonical } from '../../utils/useCanonical';
 
 interface ContactForm {
   name: string;
@@ -13,6 +14,7 @@ interface ContactForm {
 }
 
 export const Contact: React.FC = () => {
+  useCanonical('/contact');
   useEffect(() => {
     document.title = 'Contact | Austin Davenport';
   }, []);

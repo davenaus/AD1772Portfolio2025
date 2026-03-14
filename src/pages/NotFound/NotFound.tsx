@@ -1,10 +1,19 @@
 // src/pages/NotFound/NotFound.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
 export const NotFound: React.FC = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = '404 - Page Not Found | Austin Davenport';
+    const robots = document.querySelector('meta[name="robots"]');
+    if (robots) robots.setAttribute('content', 'noindex, nofollow');
+    return () => {
+      if (robots) robots.setAttribute('content', 'index, follow');
+    };
+  }, []);
 
   return (
     <S.Container>

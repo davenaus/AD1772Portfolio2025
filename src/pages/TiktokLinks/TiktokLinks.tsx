@@ -1,7 +1,8 @@
 // src/pages/TiktokLinks/TiktokLinks.tsx - Glass/Neumorphism Version with Theme Colors
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinkItem } from './types';
 import { S } from './styles';
+import { useCanonical } from '../../utils/useCanonical';
 
 const linkItems: LinkItem[] = [
   {
@@ -46,6 +47,8 @@ const linkItems: LinkItem[] = [
 ];
 
 export const TiktokLinks: React.FC = () => {
+  useCanonical('/links');
+  useEffect(() => { document.title = 'Links | Austin Davenport'; }, []);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleLinkClick = (url: string, isCopyable = false, isInternalLink = false) => {

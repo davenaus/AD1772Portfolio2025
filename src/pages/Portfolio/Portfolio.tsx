@@ -4,6 +4,7 @@ import * as S from './styles';
 import { getPortfolioVideos, getUniqueTags } from '../../services/supabaseService';
 import { youtubeService } from '../../services/youtubeService';
 import type { PortfolioVideo } from '../../types/portfolio';
+import { useCanonical } from '../../utils/useCanonical';
 
 export const Portfolio: React.FC = () => {
   const [videos, setVideos] = useState<PortfolioVideo[]>([]);
@@ -14,6 +15,7 @@ export const Portfolio: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  useCanonical('/portfolio');
   useEffect(() => {
     document.title = 'Portfolio | Austin Davenport';
   }, []);

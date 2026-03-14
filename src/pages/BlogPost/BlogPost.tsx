@@ -30,6 +30,14 @@ export const BlogPostPage: React.FC = () => {
 
         setPost(postData);
         document.title = `${postData.title} | Austin Davenport`;
+        // Set canonical per post
+        let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+        if (!link) {
+          link = document.createElement('link');
+          link.setAttribute('rel', 'canonical');
+          document.head.appendChild(link);
+        }
+        link.setAttribute('href', `https://austindavenport.com/blog/${postData.slug}`);
       } catch {
         setError('Failed to load blog post');
       } finally {

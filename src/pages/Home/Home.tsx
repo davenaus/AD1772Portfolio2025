@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Styles as S } from './styles';
+import { useCanonical } from '../../utils/useCanonical';
 
 export const Home: React.FC = () => {
   // For video modal
@@ -20,33 +21,40 @@ export const Home: React.FC = () => {
     };
   }, []);
 
-  // Featured videos data (used in commented-out section below)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const featuredVideos = [
+  // Key stats
+  const keyStats = [
+    { value: '145M+', label: 'Total Views Edited', icon: 'bx bxl-youtube' },
+    { value: '300+', label: 'Videos Produced', icon: 'bx bx-video' },
+    { value: '10+', label: 'Years Experience', icon: 'bx bx-time-five' },
+    { value: '20+', label: 'Creators Worked With', icon: 'bx bx-user-check' },
+  ];
+
+  // Featured work (edit showcases)
+  const featuredWork = [
     {
       id: 'oDWONMrEM5M',
       thumbnail: 'https://64.media.tumblr.com/c100639c89a1290e59ffbd3b6bc006cb/33a93a42223d1da0-ad/s2048x3072/69d049a19dd0121d677cd97edb6ae5b382166df2.jpg',
-      title: 'YouTube SEO Masterclass',
-      subtext: 'Growth Tactics'
+      title: 'YouTube Growth Masterclass',
+      subtext: 'Strategy & Growth'
     },
     {
       id: 'yRFSX7X4ku0',
       thumbnail: 'https://64.media.tumblr.com/dda6d6f2208b9d7bdce146f0d9d93f20/33a93a42223d1da0-c4/s2048x3072/4f82b8914ff1a70e403b18c0b662a5c33510c264.jpg',
-      title: 'Premiere Pro Masterclass',
-      subtext: 'Video Editing'
-    },
-    {
-      id: 'oDWONMrEM5M',
-      thumbnail: 'https://64.media.tumblr.com/be3088e4ac1bb9819de9216261d1d5a6/33a93a42223d1da0-6a/s2048x3072/81b2124240524b5d10b30c5f96cf178bf37973cd.jpg',
-      title: 'OBS Masterclass',
-      subtext: 'Streaming Skills'
+      title: 'Premiere Pro Deep Dive',
+      subtext: 'Video Editing Tutorial'
     },
     {
       id: 'EqhGFf4zBUA',
       thumbnail: 'https://64.media.tumblr.com/7fe5e7aa0c3c42aea766681fe948d88b/33a93a42223d1da0-a6/s2048x3072/8720e8e843b92ecdaace8c569d05c4bf2834bd1c.jpg',
-      title: 'Creator Tech Tips',
-      subtext: 'Productivity Hacks'
-    }
+      title: 'Creator Tech Stack',
+      subtext: 'Tools & Workflow'
+    },
+    {
+      id: 'QPRYfLCxA1g',
+      thumbnail: 'https://64.media.tumblr.com/be3088e4ac1bb9819de9216261d1d5a6/33a93a42223d1da0-6a/s2048x3072/81b2124240524b5d10b30c5f96cf178bf37973cd.jpg',
+      title: 'Editor Demo Reel',
+      subtext: 'Showreel 2025'
+    },
   ];
 
   // Editing services data
@@ -123,8 +131,9 @@ export const Home: React.FC = () => {
     }
   ];
 
+  useCanonical('/');
   useEffect(() => {
-    document.title = 'Austin Davenport - Video Editor & Developer';
+    document.title = 'Austin Davenport - Professional Video Editor';
   }, []);
 
   return (
@@ -175,6 +184,17 @@ export const Home: React.FC = () => {
         </S.HeroCard>
       </S.HeroSection>
 
+      {/* Stats Strip */}
+      <S.StatsStrip>
+        {keyStats.map((stat, index) => (
+          <S.StatCard key={index}>
+            <S.StatIcon><i className={stat.icon}></i></S.StatIcon>
+            <S.StatNumber>{stat.value}</S.StatNumber>
+            <S.StatLabel>{stat.label}</S.StatLabel>
+          </S.StatCard>
+        ))}
+      </S.StatsStrip>
+
       {/* About Section with Tech Stack */}
       <S.Section>
         <S.TwoColumnGrid>
@@ -209,18 +229,18 @@ export const Home: React.FC = () => {
         </S.TwoColumnGrid>
       </S.Section>
 
-      {/* Featured Videos Section 
+      {/* Featured Work Section */}
       <S.Section>
         <S.SectionHeader>
           <h2>Featured Work</h2>
-          <S.ViewAllButton href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
-            View All
+          <S.ViewAllButton href="/portfolio">
+            Full Portfolio
             <i className='bx bx-right-arrow-alt'></i>
           </S.ViewAllButton>
         </S.SectionHeader>
         <S.VideoGrid>
-          {featuredVideos.map(video => (
-            <S.VideoCard key={video.id} onClick={() => setSelectedVideo(video)}>
+          {featuredWork.map((video, index) => (
+            <S.VideoCard key={index} onClick={() => setSelectedVideo(video)}>
               <S.VideoThumbnail style={{ backgroundImage: `url(${video.thumbnail})` }}>
                 <S.VideoOverlay>
                   <i className='bx bx-play-circle'></i>
@@ -233,7 +253,7 @@ export const Home: React.FC = () => {
             </S.VideoCard>
           ))}
         </S.VideoGrid>
-      </S.Section> */}
+      </S.Section>
 
       {/* NEW: Redesigned Clients Section */}
       <S.Section>
@@ -297,7 +317,7 @@ export const Home: React.FC = () => {
 
       {/* Footer */}
       <S.Footer>
-        <S.FooterText>© 2025 Austin Davenport. All rights reserved.</S.FooterText>
+        <S.FooterText>© 2026 Austin Davenport. All rights reserved.</S.FooterText>
         <S.SocialLinks>
           <S.SocialLink href="https://youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
             <i className='bx bxl-youtube'></i>

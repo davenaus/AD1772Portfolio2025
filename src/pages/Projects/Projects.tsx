@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../utils/supabase';
 import * as S from './styles';
+import { useCanonical } from '../../utils/useCanonical';
 
 interface Project {
   id: number;
@@ -18,6 +19,8 @@ export const Projects: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const projectRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useCanonical('/projects');
 
   useEffect(() => {
     fetchProjects();

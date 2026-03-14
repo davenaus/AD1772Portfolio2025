@@ -4,6 +4,7 @@ import { Button } from '../../components/Button/Button';
 import { blogService } from '../../services/blogService';
 import { BlogPost, BlogCategory } from '../../types/blog';
 import * as S from './styles';
+import { useCanonical } from '../../utils/useCanonical';
 
 export const Blog: React.FC = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const Blog: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 50;
 
+  useCanonical('/blog');
   useEffect(() => {
     document.title = 'Blog | Austin Davenport';
   }, []);
