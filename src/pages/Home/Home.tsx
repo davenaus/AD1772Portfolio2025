@@ -1,61 +1,104 @@
 import React, { useState, useEffect } from 'react';
 import { Styles as S } from './styles';
 import { useCanonical } from '../../utils/useCanonical';
+import { useCountUp } from '../../utils/useCountUp';
+import { fetchPortfolioStats } from '../../services/statsService';
+import { getPortfolioVideos } from '../../services/supabaseService';
+import { youtubeService } from '../../services/youtubeService';
+
+interface FeaturedVideo {
+  id: string;
+  title: string;
+  thumbnail: string;
+  tag: string;
+}
+
+const formatStatNumber = (n: number): string => {
+  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
+  return n.toString();
+};
 
 export const Home: React.FC = () => {
-  // For video modal
   const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string } | null>(null);
 
-  // Close modal when ESC key is pressed
+  // Stats state
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [totalViews, setTotalViews] = useState(0);
+  const [totalVideos, setTotalVideos] = useState(0);
+  const [totalChannels, setTotalChannels] = useState(0);
+  const [totalLikes, setTotalLikes] = useState(0);
+
+  // Animated counters
+  const animatedViews = useCountUp(totalViews);
+  const animatedVideos = useCountUp(totalVideos);
+  const animatedChannels = useCountUp(totalChannels);
+  const animatedLikes = useCountUp(totalLikes);
+
+  // Featured portfolio work
+  const [featuredWork, setFeaturedWork] = useState<FeaturedVideo[]>([]);
+  const [workLoading, setWorkLoading] = useState(true);
+
+  // Fetch real stats from YouTube API
   useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setSelectedVideo(null);
-      }
-    };
-
-    window.addEventListener('keydown', handleEsc);
-
-    return () => {
-      window.removeEventListener('keydown', handleEsc);
-    };
+    fetchPortfolioStats()
+      .then(stats => {
+        setTotalViews(stats.totalViews);
+        setTotalVideos(stats.totalVideos);
+        setTotalChannels(stats.totalChannels);
+        setTotalLikes(stats.totalLikes);
+      })
+      .catch(() => {
+        // Fall back to static estimates on error
+        setTotalViews(145_000_000);
+        setTotalVideos(300);
+        setTotalChannels(20);
+        setTotalLikes(2_000_000);
+      })
+      .finally(() => setStatsLoading(false));
   }, []);
 
-  // Key stats
-  const keyStats = [
-    { value: '145M+', label: 'Total Views Edited', icon: 'bx bxl-youtube' },
-    { value: '300+', label: 'Videos Produced', icon: 'bx bx-video' },
-    { value: '10+', label: 'Years Experience', icon: 'bx bx-time-five' },
-    { value: '20+', label: 'Creators Worked With', icon: 'bx bx-user-check' },
-  ];
+  // Fetch 4 portfolio entries from Supabase + enrich with YouTube titles/thumbnails
+  useEffect(() => {
+    const loadWork = async () => {
+      try {
+        const videos = await getPortfolioVideos();
+        const top4 = videos.slice(0, 4);
+        const enriched = await Promise.all(
+          top4.map(async (v) => {
+            const details = await youtubeService.getVideoDetails(v.video_id);
+            return {
+              id: v.video_id,
+              title: details?.title || v.description,
+              thumbnail: details?.thumbnail || '',
+              tag: v.tag,
+            };
+          })
+        );
+        setFeaturedWork(enriched.filter(v => v.thumbnail));
+      } catch {
+        // Silently fail — section just won't show
+      } finally {
+        setWorkLoading(false);
+      }
+    };
+    loadWork();
+  }, []);
 
-  // Featured work (edit showcases)
-  const featuredWork = [
-    {
-      id: 'oDWONMrEM5M',
-      thumbnail: 'https://64.media.tumblr.com/c100639c89a1290e59ffbd3b6bc006cb/33a93a42223d1da0-ad/s2048x3072/69d049a19dd0121d677cd97edb6ae5b382166df2.jpg',
-      title: 'YouTube Growth Masterclass',
-      subtext: 'Strategy & Growth'
-    },
-    {
-      id: 'yRFSX7X4ku0',
-      thumbnail: 'https://64.media.tumblr.com/dda6d6f2208b9d7bdce146f0d9d93f20/33a93a42223d1da0-c4/s2048x3072/4f82b8914ff1a70e403b18c0b662a5c33510c264.jpg',
-      title: 'Premiere Pro Deep Dive',
-      subtext: 'Video Editing Tutorial'
-    },
-    {
-      id: 'EqhGFf4zBUA',
-      thumbnail: 'https://64.media.tumblr.com/7fe5e7aa0c3c42aea766681fe948d88b/33a93a42223d1da0-a6/s2048x3072/8720e8e843b92ecdaace8c569d05c4bf2834bd1c.jpg',
-      title: 'Creator Tech Stack',
-      subtext: 'Tools & Workflow'
-    },
-    {
-      id: 'QPRYfLCxA1g',
-      thumbnail: 'https://64.media.tumblr.com/be3088e4ac1bb9819de9216261d1d5a6/33a93a42223d1da0-6a/s2048x3072/81b2124240524b5d10b30c5f96cf178bf37973cd.jpg',
-      title: 'Editor Demo Reel',
-      subtext: 'Showreel 2025'
-    },
-  ];
+  // Close modal on ESC
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedVideo(null);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
+
+  useCanonical('/');
+  useEffect(() => {
+    document.title = 'Austin Davenport - Professional Video Editor';
+  }, []);
 
   // Editing services data
   const editingServices = [
@@ -87,11 +130,11 @@ export const Home: React.FC = () => {
     {
       icon: 'bx bx-trophy',
       title: 'Brand Storytelling',
-      description: 'Editorial work that communicates your brand\'s story and converts viewers into long-term fans and customers.'
+      description: "Editorial work that communicates your brand's story and converts viewers into long-term fans and customers."
     }
   ];
 
-  // Clients data - Show top 8 most prominent clients in grid
+  // Clients data
   const featuredClients = [
     { name: 'Ben Shapiro', subscribers: '7.16M subscribers', image: 'https://yt3.ggpht.com/IwzYq-xS_iXyxcilUGmrrhP2AMTAi1F2siYICQVvE_35j-BX657pww-fZk1baN8TyyTtn6Zg=s88-c-k-c0x00ffffff-no-rj' },
     { name: 'Jordan Peterson', subscribers: '8.8M subscribers', image: 'https://yt3.ggpht.com/EjQNRQGTldnH7kUHaRRWa_yOa6Po-GODJN0xqJEmsji96cAVBdLggAgHlw2DbKSvomyo3xm2CX0=s800-c-k-c0x00ffffff-no-rj' },
@@ -105,36 +148,20 @@ export const Home: React.FC = () => {
 
   // Tech stack data
   const techStack = [
-    {
-      name: 'Premiere Pro',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Adobe_Premiere_Pro_CC_icon.svg/1200px-Adobe_Premiere_Pro_CC_icon.svg.png'
-    },
-    {
-      name: 'After Effects',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_After_Effects_CC_icon.svg/3840px-Adobe_After_Effects_CC_icon.svg.png'
-    },
-    {
-      name: 'Photoshop',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/3840px-Adobe_Photoshop_CC_icon.svg.png'
-    },
-    {
-      name: 'Lightroom',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Adobe_Photoshop_Lightroom_CC_logo.svg/500px-Adobe_Photoshop_Lightroom_CC_logo.svg.png'
-    },
-    {
-      name: 'DaVinci Resolve',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/DaVinci_Resolve_Studio.png'
-    },
-    {
-      name: 'OBS',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/1/13/OBS_Studio_logo.png'
-    }
+    { name: 'Premiere Pro', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Adobe_Premiere_Pro_CC_icon.svg/1200px-Adobe_Premiere_Pro_CC_icon.svg.png' },
+    { name: 'After Effects', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Adobe_After_Effects_CC_icon.svg/3840px-Adobe_After_Effects_CC_icon.svg.png' },
+    { name: 'Photoshop', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/3840px-Adobe_Photoshop_CC_icon.svg.png' },
+    { name: 'Lightroom', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Adobe_Photoshop_Lightroom_CC_logo.svg/500px-Adobe_Photoshop_Lightroom_CC_logo.svg.png' },
+    { name: 'DaVinci Resolve', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/DaVinci_Resolve_Studio.png' },
+    { name: 'OBS', logo: 'https://upload.wikimedia.org/wikipedia/commons/1/13/OBS_Studio_logo.png' }
   ];
 
-  useCanonical('/');
-  useEffect(() => {
-    document.title = 'Austin Davenport - Professional Video Editor';
-  }, []);
+  const statTiles = [
+    { count: animatedViews, label: 'Views Edited', icon: 'bx bxl-youtube' },
+    { count: animatedVideos, label: 'Videos Produced', icon: 'bx bx-video' },
+    { count: animatedChannels, label: 'Channels Served', icon: 'bx bx-user-check' },
+    { count: animatedLikes, label: 'Total Likes', icon: 'bx bx-like' },
+  ];
 
   return (
     <S.Container>
@@ -146,28 +173,18 @@ export const Home: React.FC = () => {
           <S.HeroCardContent>
             <S.HeroContent>
               <S.ProfileImageContainer>
-                <S.ProfileImage src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj" alt="Austin Davenport" fetchPriority="high" />
+                <S.ProfileImage
+                  src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s1280x1920/61ad282235a57094aec8b8068662f9225a4f5a14.pnj"
+                  alt="Austin Davenport"
+                  fetchPriority="high"
+                />
               </S.ProfileImageContainer>
               <S.HeroTextContent>
                 <S.HeroHeadline>Austin Davenport</S.HeroHeadline>
                 <S.HeroTagline>Professional Video Editor</S.HeroTagline>
                 <S.HeroDescription>
-                  I'm a video editor with over 10 years of experience working with top creators, I've edited content with over 145M+ views.
+                  Video editor with 10+ years of experience working with top creators — delivering content that has accumulated over 145M views.
                 </S.HeroDescription>
-                <S.HeroStats>
-                  <S.StatItem>
-                    <i className='bx bxl-youtube'></i>
-                    <span>145M+ views</span>
-                  </S.StatItem>
-                  <S.StatItem>
-                    <i className='bx bx-video'></i>
-                    <span>300+ videos</span>
-                  </S.StatItem>
-                  <S.StatItem>
-                    <i className='bx bx-user'></i>
-                    <span>20+ creators</span>
-                  </S.StatItem>
-                </S.HeroStats>
                 <S.HeroActions>
                   <S.PrimaryButton onClick={() => setSelectedVideo({ id: 'QPRYfLCxA1g', title: 'Austin Davenport Showreel' })}>
                     <i className='bx bx-play-circle'></i>
@@ -184,12 +201,16 @@ export const Home: React.FC = () => {
         </S.HeroCard>
       </S.HeroSection>
 
-      {/* Stats Strip */}
+      {/* Stats Strip — live from YouTube API */}
       <S.StatsStrip>
-        {keyStats.map((stat, index) => (
+        {statTiles.map((stat, index) => (
           <S.StatCard key={index}>
             <S.StatIcon><i className={stat.icon}></i></S.StatIcon>
-            <S.StatNumber>{stat.value}</S.StatNumber>
+            {statsLoading ? (
+              <S.StatSkeleton />
+            ) : (
+              <S.StatNumber>{formatStatNumber(stat.count)}</S.StatNumber>
+            )}
             <S.StatLabel>{stat.label}</S.StatLabel>
           </S.StatCard>
         ))}
@@ -202,9 +223,9 @@ export const Home: React.FC = () => {
             <S.CardContent>
               <S.SectionTitle>About Me</S.SectionTitle>
               <S.AboutText>
-                Skilled professional video editor. I've also found a liking for building tools to make creating content faster. I blend technical expertise with creative vision to deliver compelling content that resonates with audiences.
+                Skilled professional video editor. I blend technical expertise with creative vision to deliver compelling content that resonates with audiences.
                 <br /><br />
-                With a background in creating systems for both video production and post production, I understand the unique challenges creators face and build solutions that address real needs.
+                With a background in both video production and post production, I understand the unique challenges creators face and deliver results that address real needs.
               </S.AboutText>
               <S.Button onClick={() => window.open('https://youtube.com/@AustinDavenport', '_blank', 'noopener,noreferrer')}>
                 Visit My YouTube
@@ -229,7 +250,7 @@ export const Home: React.FC = () => {
         </S.TwoColumnGrid>
       </S.Section>
 
-      {/* Featured Work Section */}
+      {/* Featured Work — from Supabase portfolio */}
       <S.Section>
         <S.SectionHeader>
           <h2>Featured Work</h2>
@@ -239,23 +260,34 @@ export const Home: React.FC = () => {
           </S.ViewAllButton>
         </S.SectionHeader>
         <S.VideoGrid>
-          {featuredWork.map((video, index) => (
-            <S.VideoCard key={index} onClick={() => setSelectedVideo(video)}>
-              <S.VideoThumbnail style={{ backgroundImage: `url(${video.thumbnail})` }}>
-                <S.VideoOverlay>
-                  <i className='bx bx-play-circle'></i>
-                </S.VideoOverlay>
-              </S.VideoThumbnail>
-              <S.VideoInfo>
-                <S.VideoTitle>{video.title}</S.VideoTitle>
-                <S.VideoViews>{video.subtext}</S.VideoViews>
-              </S.VideoInfo>
-            </S.VideoCard>
-          ))}
+          {workLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <S.VideoCardSkeleton key={i}>
+                  <S.VideoThumbnailSkeleton />
+                  <S.VideoInfoSkeleton>
+                    <S.VideoTitleSkeleton />
+                    <S.VideoSubSkeleton />
+                  </S.VideoInfoSkeleton>
+                </S.VideoCardSkeleton>
+              ))
+            : featuredWork.map((video) => (
+                <S.VideoCard key={video.id} onClick={() => setSelectedVideo({ id: video.id, title: video.title })}>
+                  <S.VideoThumbnail style={{ backgroundImage: `url(${video.thumbnail})` }}>
+                    <S.VideoOverlay>
+                      <i className='bx bx-play-circle'></i>
+                    </S.VideoOverlay>
+                  </S.VideoThumbnail>
+                  <S.VideoInfo>
+                    <S.VideoTitle>{video.title}</S.VideoTitle>
+                    <S.VideoViews>{video.tag}</S.VideoViews>
+                  </S.VideoInfo>
+                </S.VideoCard>
+              ))
+          }
         </S.VideoGrid>
       </S.Section>
 
-      {/* NEW: Redesigned Clients Section */}
+      {/* Clients Section */}
       <S.Section>
         <S.ClientsCard>
           <S.ClientsCardContent>
@@ -303,7 +335,7 @@ export const Home: React.FC = () => {
         </S.ServicesGrid>
       </S.Section>
 
-      {/* Contact CTA Section */}
+      {/* Contact CTA */}
       <S.CtaSection>
         <S.CtaContent>
           <S.CtaTitle>Ready to work together?</S.CtaTitle>

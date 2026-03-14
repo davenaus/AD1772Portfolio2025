@@ -860,6 +860,72 @@ const ServiceDescription = styled.p`
   line-height: 1.6;
 `;
 
+// Skeleton / shimmer loaders
+const shimmerKeyframes = `
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+`;
+
+const StatSkeleton = styled.div`
+  ${shimmerKeyframes}
+  height: 1.75rem;
+  background: linear-gradient(90deg, var(--blue3) 25%, var(--blue4) 50%, var(--blue3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  width: 65%;
+  margin: 0 auto 0.35rem;
+
+  @media (max-width: 480px) {
+    height: 1.4rem;
+  }
+`;
+
+const VideoCardSkeleton = styled.div`
+  background-color: var(--blue2);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--blue3);
+`;
+
+const VideoThumbnailSkeleton = styled.div`
+  ${shimmerKeyframes}
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(90deg, var(--blue3) 25%, var(--blue4) 50%, var(--blue3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+`;
+
+const VideoInfoSkeleton = styled.div`
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const VideoTitleSkeleton = styled.div`
+  ${shimmerKeyframes}
+  height: 1rem;
+  background: linear-gradient(90deg, var(--blue3) 25%, var(--blue4) 50%, var(--blue3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  width: 80%;
+`;
+
+const VideoSubSkeleton = styled.div`
+  ${shimmerKeyframes}
+  height: 0.75rem;
+  background: linear-gradient(90deg, var(--blue3) 25%, var(--blue4) 50%, var(--blue3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  width: 50%;
+`;
+
 // CTA Section
 const CtaSection = styled.section`
   margin-bottom: 5rem;
@@ -1098,5 +1164,11 @@ export const Styles = {
   ModalBackdrop,
   ModalContent,
   CloseButton,
-  VideoIframe
+  VideoIframe,
+  StatSkeleton,
+  VideoCardSkeleton,
+  VideoThumbnailSkeleton,
+  VideoInfoSkeleton,
+  VideoTitleSkeleton,
+  VideoSubSkeleton,
 };
