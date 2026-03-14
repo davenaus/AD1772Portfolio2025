@@ -10,27 +10,15 @@ interface NavItem {
   label: string;
 }
 
-const menuItems: NavItem[] = [
+const navItems: NavItem[] = [
   { path: '/', icon: 'bx bx-home', label: 'Home' },
   { path: '/portfolio', icon: 'bx bx-book-alt', label: 'Portfolio' },
-  { path: '/projects', icon: 'bx bx-layer', label: 'Projects' }, 
-];
-
-const resourceItems: NavItem[] = [
+  { path: '/projects', icon: 'bx bx-layer', label: 'Projects' },
   { path: '/blog', icon: 'bx bx-pen', label: 'Blog' },
-  { path: '/contact', icon: 'bx bx-phone', label: 'Contact' }
+  { path: '/contact', icon: 'bx bx-phone', label: 'Contact' },
 ];
 
-interface SocialLink {
-  url: string;
-  icon: string;
-}
-
-const socialLinks: SocialLink[] = [
-  { url: 'https://www.youtube.com/@AustinDavenport', icon: 'bx bxl-youtube' },
-  { url: 'https://discord.com/invite/vuKtEXJ', icon: 'bx bxl-discord-alt' },
-  { url: 'https://www.tiktok.com/@austindavenport_', icon: 'bx bxl-tiktok' }
-];
+const youtubeUrl = 'https://www.youtube.com/@AustinDavenport';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -81,38 +69,22 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         </S.Profile>
 
         <nav>
-          <S.NavSection>
-            <S.NavTitle>Menu</S.NavTitle>
-            <S.NavLinks>
-              {menuItems.map((item) => (
-                <NavLink key={item.path} item={item} />
-              ))}
-            </S.NavLinks>
-          </S.NavSection>
-
-          <S.NavSection>
-            <S.NavTitle>Resources</S.NavTitle>
-            <S.NavLinks>
-              {resourceItems.map((item) => (
-                <NavLink key={item.path} item={item} />
-              ))}
-            </S.NavLinks>
-          </S.NavSection>
+          <S.NavLinks>
+            {navItems.map((item) => (
+              <NavLink key={item.path} item={item} />
+            ))}
+          </S.NavLinks>
         </nav>
 
         <S.SocialLinks>
-          <S.SocialGrid>
-            {socialLinks.map((link) => (
-              <S.SocialLink
-                key={link.url}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i className={link.icon}></i>
-              </S.SocialLink>
-            ))}
-          </S.SocialGrid>
+          <S.YouTubeLink
+            href={youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i className='bx bxl-youtube'></i>
+            YouTube
+          </S.YouTubeLink>
         </S.SocialLinks>
       </S.Sidebar>
 

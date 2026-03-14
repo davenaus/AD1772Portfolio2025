@@ -115,19 +115,6 @@ const ProfileInfo = styled.div`
   }
 `;
 
-const NavSection = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const NavTitle = styled.div`
-  color: ${({ theme }) => theme.colors.blue11};
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
-  font-weight: 500;
-`;
-
 const NavLinks = styled.div`
   display: flex;
   flex-direction: column;
@@ -138,29 +125,6 @@ const SocialLinks = styled.div`
   margin-top: auto;
   padding-top: 1.5rem;
   border-top: 1px solid ${({ theme }) => theme.colors.blue3};
-`;
-
-const SocialGrid = styled.div`
-  display: flex;
-  gap: 0.75rem;
-
-  a {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--blue-3);
-    border-radius: 8px;
-    color: var(--blue-11);
-    transition: all 0.2s ease;
-
-    &:hover {
-      background-color: var(--blue-4);
-      color: var(--blue-9);
-      transform: translateY(-2px);
-    }
-  }
 `;
 
 const NavLinkWrapper = styled(RouterLink)<{ $isActive: boolean }>`
@@ -191,15 +155,19 @@ const NavLinkWrapper = styled(RouterLink)<{ $isActive: boolean }>`
   }
 `;
 
-const SocialLink = styled.a`
-  width: 40px;
-  height: 40px;
+const YouTubeLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
   background-color: ${({ theme }) => theme.colors.blue3};
   border-radius: 8px;
   color: ${({ theme }) => theme.colors.blue11};
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
   transition: all 0.2s ease;
 
   i {
@@ -217,7 +185,6 @@ const SocialLink = styled.a`
   }
 `;
 
-// Fix the exports object (add comma after SocialGrid)
 export const Styles = {
   LayoutContainer,
   Sidebar,
@@ -227,11 +194,8 @@ export const Styles = {
   Profile,
   ProfileImage,
   ProfileInfo,
-  NavSection,
-  NavTitle,
   NavLinks,
   SocialLinks,
-  SocialGrid,  // Add comma here
   NavLinkWrapper,
-  SocialLink
+  YouTubeLink,
 };

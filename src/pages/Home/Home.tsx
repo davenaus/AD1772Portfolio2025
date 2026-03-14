@@ -302,9 +302,6 @@ export const Home: React.FC = () => {
           <S.SocialLink href="https://youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
             <i className='bx bxl-youtube'></i>
           </S.SocialLink>
-          <S.SocialLink href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
-            <i className='bx bxl-tiktok'></i>
-          </S.SocialLink>
         </S.SocialLinks>
       </S.Footer>
 
