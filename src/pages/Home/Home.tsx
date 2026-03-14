@@ -5,9 +5,6 @@ export const Home: React.FC = () => {
   // For video modal
   const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string } | null>(null);
 
-  // Add window width state to track screen size
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 992);
-
   // Close modal when ESC key is pressed
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
@@ -20,19 +17,6 @@ export const Home: React.FC = () => {
 
     return () => {
       window.removeEventListener('keydown', handleEsc);
-    };
-  }, []);
-
-  // Add window resize listener to update window width state
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -65,38 +49,39 @@ export const Home: React.FC = () => {
     }
   ];
 
-  // Featured projects data
-  const featuredProjects = [
+  // Editing services data
+  const editingServices = [
     {
-      title: 'Clipboard It',
-      description: 'Premiere Pro plugin for easy copy-paste',
-      background: 'https://imgproxy.fourthwall.com/NSD2usD9hYTysLDRn1nsl2le1Wj4LLGV3f-bqk1H1X0/w:720/sm:1/enc/OTk0NmI0NjQ1Yzli/YTczNN7v8sTooFr_/69APhnk512swjQmE/LU9wZ_gIvt3bh8II/9lan9TDd1fgslTKJ/_rVZKHQCjnTmPrYM/UTZavpQa9yN10avg/fBm3bDJjQOw1jAVI/S4jsp4uU7ius6dKQ/D20X9SLihVh0HP6e/8hBCkYiyyD_uUslv/E8aUFXGNSvdoX8no/KeRqwkLy-Jf2qmDF/OG5FrQ.webp',
-      color: 'var(--project5)',
-      url: 'https://clipboard.it.com'
+      icon: 'bx bx-film',
+      title: 'YouTube Video Editing',
+      description: 'Long-form and short-form content optimized for retention, with custom graphics, transitions, and color grading.'
     },
     {
-      title: 'Link-In-Bio Page Maker',
-      description: 'A better alternative to LinkTree',
-      background: 'https://imgproxy.fourthwall.com/-sRNLeEHYub1Mu4_xFNuPc95aDsiehM3lx357-MSABA/w:720/sm:1/enc/MzNhNjY2ZDQxNTgw/MTFjOOWDEr73rTRg/jwnx6r_nJ5Q8_Q4i/ON0Gp-3RzRCwFgkV/1sJ8rfpnzD8j-hv_/owsCCRovJvvByk81/45hia7fp97fjLYLh/OqcUnH2RioER1EPb/DqyBl2UODmnwBUiM/nXAeCzvDqreP605T/ag5EijuzGACLixFm/CnRSPj53pkbblXYN/Qrgts9LR--shPaga/z8WyYg.webp',
-      color: 'var(--project6)',
-      url: 'https://shop.austindavenport.com/products/link-in-bio-page-maker'
+      icon: 'bx bx-trending-up',
+      title: 'Short-Form & Reels',
+      description: 'Fast-paced, engaging edits for TikTok, Instagram Reels, and YouTube Shorts that drive views and follows.'
     },
     {
-      title: 'YouTool.io',
-      description: 'Free YouTube Tools for Creators',
-      background: 'https://64.media.tumblr.com/377e88f933f314338ba9608900174dc9/7c0180d0d1212074-5a/s1280x1920/a048ccb1bec91251584811a90d7551c9f7b4ceb7.pnj',
-      color: 'var(--project1)',
-      url: 'https://www.youtool.io'
+      icon: 'bx bx-palette',
+      title: 'Motion Graphics',
+      description: 'Custom animations, lower thirds, intros/outros, and visual effects using After Effects and Premiere Pro.'
+    },
+    {
+      icon: 'bx bx-sun',
+      title: 'Color Grading',
+      description: 'Professional color correction and grading to establish mood and visual consistency across your content.'
+    },
+    {
+      icon: 'bx bx-headphone',
+      title: 'Audio Mixing',
+      description: 'Clean, balanced audio with noise reduction, music mixing, and sound design that keeps viewers engaged.'
+    },
+    {
+      icon: 'bx bx-trophy',
+      title: 'Brand Storytelling',
+      description: 'Editorial work that communicates your brand\'s story and converts viewers into long-term fans and customers.'
     }
   ];
-
-  // Filter projects based on screen width for mobile
-  const displayedProjects = windowWidth <= 768 ? featuredProjects.slice(0, 2) : featuredProjects;
-
-  // Function to handle project card clicks
-  const handleProjectClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
 
   // Clients data - Show top 8 most prominent clients in grid
   const featuredClients = [
@@ -276,30 +261,26 @@ export const Home: React.FC = () => {
         </S.ClientsCard>
       </S.Section>
 
-      {/* Projects Section */}
+      {/* Editing Services Section */}
       <S.Section>
         <S.SectionHeader>
-          <h2>My Projects & Tools</h2>
-          <S.ViewAllButton href="/projects">
-            View All
+          <h2>What I Do</h2>
+          <S.ViewAllButton href="/portfolio">
+            See My Work
             <i className='bx bx-right-arrow-alt'></i>
           </S.ViewAllButton>
         </S.SectionHeader>
-        <S.ProjectsGrid>
-          {displayedProjects.map((project, index) => (
-            <S.ProjectCard 
-              key={index} 
-              style={{ borderTopColor: project.color, cursor: 'pointer' }}
-              onClick={() => handleProjectClick(project.url)}
-            >
-              <S.ProjectImage style={{ backgroundImage: `url(${project.background})` }} />
-              <S.ProjectInfo>
-                <S.ProjectTitle>{project.title}</S.ProjectTitle>
-                <S.ProjectDescription>{project.description}</S.ProjectDescription>
-              </S.ProjectInfo>
-            </S.ProjectCard>
+        <S.ServicesGrid>
+          {editingServices.map((service, index) => (
+            <S.ServiceCard key={index}>
+              <S.ServiceIcon>
+                <i className={service.icon}></i>
+              </S.ServiceIcon>
+              <S.ServiceTitle>{service.title}</S.ServiceTitle>
+              <S.ServiceDescription>{service.description}</S.ServiceDescription>
+            </S.ServiceCard>
           ))}
-        </S.ProjectsGrid>
+        </S.ServicesGrid>
       </S.Section>
 
       {/* Contact CTA Section */}

@@ -1,6 +1,3 @@
-// src/services/contactService.ts
-import { supabase } from './supabaseClient';
-
 interface ContactFormData {
   name: string;
   email: string;
@@ -8,28 +5,27 @@ interface ContactFormData {
   message: string;
 }
 
-export const sendContactForm = async (formData: ContactFormData) => {
-  try {
-    const { error } = await supabase
-      .from('contact_messages')
-      .insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          project_type: formData.project,
-          message: formData.message,
-          created_at: new Date().toISOString()
-        }
-      ]);
+const FORMSPARK_FORM_ID = '1m9zol5tO';
+const FORMSPARK_URL = `https://submit-form.com/${FORMSPARK_FORM_ID}`;
 
-    if (error) throw error;
-    
-    // Trigger email notification via Supabase Database webhook
-    // We'll set this up in the Supabase dashboard
-    
-    return { success: true };
-  } catch (error) {
-    console.error('Error sending contact form:', error);
-    throw error;
+export const sendContactForm = async (formData: ContactFormData) => {
+  const response = await fetch(FORMSPARK_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      name: formData.name,
+      email: formData.email,
+      project_type: formData.project,
+      message: formData.message,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Form submission failed: ${response.status}`);
   }
+
+  return { success: true };
 };

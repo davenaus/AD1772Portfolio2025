@@ -737,6 +737,69 @@ const TechName = styled.span`
   text-align: center;
 `;
 
+// Editing Services Grid
+const ServicesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ServiceCard = styled.div`
+  background-color: var(--blue2);
+  border-radius: 12px;
+  border: 1px solid var(--blue3);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue6);
+    background-color: var(--blue3);
+  }
+`;
+
+const ServiceIcon = styled.div`
+  width: 48px;
+  height: 48px;
+  background-color: var(--blue3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  i {
+    font-size: 1.5rem;
+    color: var(--blue9);
+  }
+
+  ${ServiceCard}:hover & {
+    background-color: var(--blue4);
+  }
+`;
+
+const ServiceTitle = styled.h3`
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--blue9);
+`;
+
+const ServiceDescription = styled.p`
+  font-size: 0.875rem;
+  color: var(--blue11);
+  margin: 0;
+  line-height: 1.6;
+`;
+
 // CTA Section
 const CtaSection = styled.section`
   margin-bottom: 5rem;
@@ -961,6 +1024,11 @@ export const Styles = {
   FooterText,
   SocialLinks,
   SocialLink,
+  ServicesGrid,
+  ServiceCard,
+  ServiceIcon,
+  ServiceTitle,
+  ServiceDescription,
   VideoModal,
   ModalBackdrop,
   ModalContent,

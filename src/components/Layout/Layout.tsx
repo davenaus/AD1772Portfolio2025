@@ -17,7 +17,6 @@ const menuItems: NavItem[] = [
 ];
 
 const resourceItems: NavItem[] = [
-  { path: '/store', icon: 'bx bx-package', label: 'Store' },
   { path: '/blog', icon: 'bx bx-pen', label: 'Blog' },
   { path: '/contact', icon: 'bx bx-phone', label: 'Contact' }
 ];
