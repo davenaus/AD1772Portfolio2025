@@ -349,13 +349,14 @@ const VideoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  
+
   @media (max-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
   }
 `;
 
@@ -406,6 +407,10 @@ const VideoOverlay = styled.div`
 
 const VideoInfo = styled.div`
   padding: 1rem;
+
+  @media (max-width: 480px) {
+    padding: 0.625rem 0.75rem;
+  }
 `;
 
 const VideoTitle = styled.h3`
@@ -413,11 +418,20 @@ const VideoTitle = styled.h3`
   font-size: 1rem;
   font-weight: 500;
   color: var(--blue9);
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
 `;
 
 const VideoViews = styled.span`
   font-size: 0.85rem;
   color: var(--blue11);
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
 `;
 
 // Projects Grid
