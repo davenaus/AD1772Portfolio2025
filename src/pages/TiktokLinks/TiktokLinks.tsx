@@ -1,5 +1,5 @@
 // src/pages/TiktokLinks/TiktokLinks.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LinkItem } from './types';
 import { S } from './styles';
 import { useCanonical } from '../../utils/useCanonical';
@@ -33,9 +33,12 @@ const linkItems: LinkItem[] = [
   }
 ];
 
+const VIDEO_ID = '3a8-PfYVLgo';
+
 export const TiktokLinks: React.FC = () => {
   useCanonical('/links');
   useEffect(() => { document.title = 'Links | Austin Davenport'; }, []);
+  const [videoActive, setVideoActive] = useState(false);
 
   const handleLinkClick = (url: string, isInternalLink = false) => {
     if (isInternalLink) {
@@ -47,12 +50,6 @@ export const TiktokLinks: React.FC = () => {
 
   return (
     <S.Container>
-      <S.BackgroundShapes>
-        <S.Shape className="shape-1" />
-        <S.Shape className="shape-2" />
-        <S.Shape className="shape-3" />
-      </S.BackgroundShapes>
-
       <S.ContentWrapper>
         <S.ProfileCard>
           <S.AvatarContainer>
@@ -69,18 +66,26 @@ export const TiktokLinks: React.FC = () => {
             <S.Username>Austin Davenport</S.Username>
             <S.JobTitle>Video Editor & Creator</S.JobTitle>
           </S.ProfileInfo>
-
-          <S.SocialGrid>
-            <S.SocialButton href="https://www.youtube.com/@AustinDavenport" target="_blank">
-              <i className="bx bxl-youtube"></i>
-              <span>YouTube</span>
-            </S.SocialButton>
-            <S.SocialButton href="https://discord.com/invite/vuKtEXJ" target="_blank">
-              <i className="bx bxl-discord-alt"></i>
-              <span>Discord</span>
-            </S.SocialButton>
-          </S.SocialGrid>
         </S.ProfileCard>
+
+        <S.VideoFeature>
+          {videoActive ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${VIDEO_ID}?rel=0&modestbranding=1&autoplay=1`}
+              title="Austin Davenport - Featured Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <S.VideoThumbnail onClick={() => setVideoActive(true)}>
+              <img
+                src={`https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
+                alt="Watch Austin Davenport on YouTube"
+              />
+              <S.PlayButton />
+            </S.VideoThumbnail>
+          )}
+        </S.VideoFeature>
 
         <S.LinksGrid>
           {linkItems.map((item, index) => (
@@ -105,6 +110,15 @@ export const TiktokLinks: React.FC = () => {
             </S.LinkCard>
           ))}
         </S.LinksGrid>
+
+        <S.BottomSocials>
+          <S.SocialIconLink href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
+            <i className="bx bxl-youtube" />
+          </S.SocialIconLink>
+          <S.SocialIconLink href="https://discord.com/invite/vuKtEXJ" target="_blank" rel="noopener noreferrer">
+            <i className="bx bxl-discord-alt" />
+          </S.SocialIconLink>
+        </S.BottomSocials>
       </S.ContentWrapper>
     </S.Container>
   );

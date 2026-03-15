@@ -13,12 +13,6 @@ const linkItems: LinkItem[] = [
     isCopyable: true
   },
   {
-    href: "https://youtool.io",
-    icon: "bx-search-alt",
-    title: "YouTool.io",
-    description: "Free tools to optimize your content"
-  },
-  {
     href: "https://open.spotify.com/playlist/0YCHie7xPtBwavLn8SbBNb",
     icon: "bx-music",
     title: "DMCA Safe Streaming Music",
@@ -59,13 +53,6 @@ const linkItems: LinkItem[] = [
     icon: "bx-brush",
     title: "FREE Transition Download",
     description: "Professional streaming transitions to enhance your content"
-  },
-  {
-    href: "/links",
-    icon: "bx-chevron-left",
-    title: "Back to Main Links",
-    description: "Return to the main links page",
-    isInternalLink: true
   }
 ];
 
@@ -74,7 +61,7 @@ export const ExtraLinks: React.FC = () => {
   useEffect(() => { document.title = 'Extra Links | Austin Davenport'; }, []);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  const handleClick = (url: string, isCopyable = false, isInternalLink = false) => {
+  const handleClick = (url: string, isCopyable = false) => {
     if (isCopyable) {
       navigator.clipboard.writeText(url).then(() => {
         setCopiedLink(true);
@@ -82,15 +69,16 @@ export const ExtraLinks: React.FC = () => {
       });
       return;
     }
-    if (isInternalLink) {
-      window.location.href = url;
-      return;
-    }
     window.open(url, '_blank', 'noopener noreferrer');
   };
 
   return (
     <S.Container>
+      <S.BackButton onClick={() => { window.location.href = '/links'; }}>
+        <i className="bx bx-chevron-left" />
+        <span>Back</span>
+      </S.BackButton>
+
       <S.Profile>
         <S.ProfileImage>
           <img
@@ -99,29 +87,17 @@ export const ExtraLinks: React.FC = () => {
           />
         </S.ProfileImage>
         <S.ProfileInfo>
-          <h1>Austin's Extra Resources</h1>
+          <h1>Extra Resources</h1>
           <p>Additional tools and resources for content creators</p>
         </S.ProfileInfo>
       </S.Profile>
-
-      <S.VideoFeature>
-        <iframe
-          src="https://www.youtube.com/embed/3a8-PfYVLgo"
-          title="Austin Davenport - Featured Video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </S.VideoFeature>
 
       <S.LinksGrid>
         {linkItems.map((item, index) => (
           <S.LinkTile
             key={index}
-            onClick={() => handleClick(item.href, item.isCopyable, item.isInternalLink)}
-            className={[
-              item.isInternalLink ? 'back-tile' : '',
-              item.isCopyable && copiedLink ? 'copied' : ''
-            ].join(' ').trim()}
+            onClick={() => handleClick(item.href, item.isCopyable)}
+            className={item.isCopyable && copiedLink ? 'copied' : ''}
           >
             <S.TileIcon>
               <i className={`bx ${item.isCopyable ? (copiedLink ? 'bx-check' : 'bx-copy') : item.icon}`} />

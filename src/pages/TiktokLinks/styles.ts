@@ -1,11 +1,6 @@
 // src/pages/TiktokLinks/styles.ts - Glass/Neumorphism Version with Theme Colors
 import styled, { keyframes } from 'styled-components';
 
-const float = keyframes`
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-20px) rotate(1deg); }
-  66% { transform: translateY(10px) rotate(-1deg); }
-`;
 
 const slideIn = keyframes`
   from {
@@ -32,7 +27,7 @@ const Container = styled.div`
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.blue1 || '#f8f9fa'};
   position: relative;
-  overflow-x: hidden;
+  overflow: clip;
   padding: 2rem 1rem;
   display: flex;
   align-items: flex-start;
@@ -44,51 +39,6 @@ const Container = styled.div`
   }
 `;
 
-const BackgroundShapes = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const Shape = styled.div`
-  position: absolute;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.blue3};
-  opacity: 0.3;
-  animation: ${float} 20s ease-in-out infinite;
-
-  &.shape-1 {
-    width: 300px;
-    height: 300px;
-    top: -150px;
-    left: -150px;
-    animation-delay: 0s;
-  }
-
-  &.shape-2 {
-    width: 200px;
-    height: 200px;
-    top: 50%;
-    right: -100px;
-    animation-delay: 7s;
-  }
-
-  &.shape-3 {
-    width: 150px;
-    height: 150px;
-    bottom: -75px;
-    left: 30%;
-    animation-delay: 14s;
-  }
-`;
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -105,7 +55,7 @@ const ProfileCard = styled.div`
   background-color: ${({ theme }) => theme.colors.blue2};
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   border-radius: 24px;
-  padding: 2.5rem 2rem;
+  padding: 1.5rem 2rem;
   margin-bottom: 1.25rem;
   text-align: center;
   box-shadow:
@@ -123,7 +73,7 @@ const ProfileCard = styled.div`
   }
 
   @media (max-width: 480px) {
-    padding: 1.5rem 1.25rem;
+    padding: 1.25rem 1.25rem;
     border-radius: 18px;
     margin-bottom: 1rem;
   }
@@ -132,16 +82,12 @@ const ProfileCard = styled.div`
 const AvatarContainer = styled.div`
   position: relative;
   display: inline-block;
-  margin-bottom: 1.25rem;
-
-  @media (max-width: 480px) {
-    margin-bottom: 1rem;
-  }
+  margin-bottom: 0.875rem;
 `;
 
 const Avatar = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid ${({ theme }) => theme.colors.blue4};
@@ -168,8 +114,8 @@ const Avatar = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 80px;
-    height: 80px;
+    width: 68px;
+    height: 68px;
   }
 `;
 
@@ -186,21 +132,17 @@ const StatusDot = styled.div`
 `;
 
 const ProfileInfo = styled.div`
-  margin-bottom: 1.5rem;
-
-  @media (max-width: 480px) {
-    margin-bottom: 1rem;
-  }
+  margin-bottom: 0;
 `;
 
 const Username = styled.h1`
-  font-size: 1.75rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.blue9};
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 
   @media (max-width: 480px) {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 `;
 
@@ -208,81 +150,14 @@ const JobTitle = styled.div`
   display: inline-block;
   background: ${({ theme }) => theme.colors.blue3};
   color: ${({ theme }) => theme.colors.blue9};
-  padding: 0.5rem 1rem;
+  padding: 0.35rem 0.875rem;
   border-radius: 20px;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   border: 1px solid ${({ theme }) => theme.colors.blue4};
 `;
 
-const Bio = styled.p`
-  color: ${({ theme }) => theme.colors.blue11};
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-`;
-
-const SocialGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-`;
-
-const SocialButton = styled.a`
-  background: ${({ theme }) => theme.colors.blue3};
-  border: 1px solid ${({ theme }) => theme.colors.blue4};
-  border-radius: 16px;
-  padding: 1rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  color: ${({ theme }) => theme.colors.blue9};
-  text-decoration: none;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  min-height: 64px;
-
-  @media (max-width: 480px) {
-    padding: 0.75rem 0.5rem;
-    border-radius: 12px;
-    min-height: 56px;
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-    background: ${({ theme }) => theme.colors.blue4};
-    border-color: ${({ theme }) => theme.colors.blue6};
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.blue5}, transparent);
-    opacity: 0.3;
-    transition: left 0.5s ease;
-  }
-
-  &:hover::before {
-    left: 100%;
-  }
-
-  i {
-    font-size: 20px;
-  }
-
-  span {
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-`;
 
 const LinksGrid = styled.div`
   display: flex;
@@ -378,6 +253,7 @@ const LinkCard = styled.button`
   border-radius: 20px;
   padding: 0;
   cursor: pointer;
+  font-family: inherit;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -453,13 +329,18 @@ const VideoFeature = styled.div`
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   margin-bottom: 1.25rem;
-  background: ${({ theme }) => theme.colors.blue2};
+  background: #000;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  position: relative;
+  aspect-ratio: 16 / 9;
 
   iframe {
     display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 100%;
     border: none;
   }
 
@@ -469,10 +350,95 @@ const VideoFeature = styled.div`
   }
 `;
 
+const VideoThumbnail = styled.div`
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+`;
+
+const PlayButton = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  &::after {
+    content: '';
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 40px;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 40px;
+    transition: transform 0.2s ease;
+
+    @media (max-width: 480px) {
+      width: 52px;
+      height: 52px;
+      mask-size: 32px;
+      -webkit-mask-size: 32px;
+    }
+  }
+
+  &:hover::after {
+    transform: scale(1.08);
+  }
+`;
+
+const BottomSocials = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-bottom: 1.5rem;
+`;
+
+const SocialIconLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.blue2};
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  color: ${({ theme }) => theme.colors.blue9};
+  text-decoration: none;
+  transition: all 0.25s ease;
+
+  i {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue3};
+    border-color: ${({ theme }) => theme.colors.blue5};
+    transform: translateY(-2px);
+  }
+`;
+
 export const S = {
   Container,
-  BackgroundShapes,
-  Shape,
   ContentWrapper,
   ProfileCard,
   AvatarContainer,
@@ -481,9 +447,9 @@ export const S = {
   ProfileInfo,
   Username,
   JobTitle,
-  SocialGrid,
-  SocialButton,
   VideoFeature,
+  VideoThumbnail,
+  PlayButton,
   LinksGrid,
   LinkCard,
   CardGlow,
@@ -494,4 +460,6 @@ export const S = {
   CardDescription,
   ActionIcon,
   CopiedOverlay,
+  BottomSocials,
+  SocialIconLink,
 };

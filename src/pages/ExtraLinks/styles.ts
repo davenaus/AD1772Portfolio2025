@@ -11,6 +11,7 @@ const Container = styled.div`
   max-width: 640px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     padding: 1rem 0.75rem 2rem;
@@ -62,25 +63,37 @@ const ProfileInfo = styled.div`
   }
 `;
 
-const VideoFeature = styled.div`
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.blue3};
-  margin-bottom: 1.25rem;
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   background: ${({ theme }) => theme.colors.blue2};
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  animation: ${slideIn} 0.7s ease-out;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  border-radius: 12px;
+  padding: 0.6rem 1rem 0.6rem 0.75rem;
+  color: ${({ theme }) => theme.colors.blue9};
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.25rem;
 
-  iframe {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: none;
+  i {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.blue3};
+    border-color: ${({ theme }) => theme.colors.blue5};
+    transform: translateX(-2px);
   }
 
   @media (max-width: 480px) {
-    border-radius: 16px;
     margin-bottom: 1rem;
+    padding: 0.55rem 0.875rem 0.55rem 0.625rem;
+    font-size: 0.875rem;
   }
 `;
 
@@ -95,6 +108,7 @@ const TileIcon = styled.div`
   flex-shrink: 0;
   border: 1px solid ${({ theme }) => theme.colors.blue4};
   transition: background-color 0.2s ease;
+  margin-bottom: 0.75rem;
 
   i {
     font-size: 20px;
@@ -104,28 +118,22 @@ const TileIcon = styled.div`
 `;
 
 const TileContent = styled.div`
-  flex: 1;
   min-width: 0;
-  text-align: left;
+  text-align: center;
 
   h3 {
     color: ${({ theme }) => theme.colors.blue9};
-    font-size: 0.975rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    margin: 0 0 0.15rem 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
   }
 
   p {
     color: ${({ theme }) => theme.colors.blue10};
-    font-size: 0.775rem;
-    line-height: 1.3;
+    font-size: 0.725rem;
+    line-height: 1.35;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 `;
 
@@ -133,17 +141,20 @@ const LinkTile = styled.div`
   background-color: ${({ theme }) => theme.colors.blue2};
   border: 1px solid ${({ theme }) => theme.colors.blue3};
   border-radius: 16px;
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  text-align: center;
+  overflow: hidden;
+  min-width: 0;
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.blue5};
     background-color: ${({ theme }) => theme.colors.blue3};
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
 
@@ -160,20 +171,15 @@ const LinkTile = styled.div`
     }
   }
 
-  &.back-tile {
-    grid-column: 1 / -1;
-  }
-
   @media (max-width: 480px) {
-    padding: 0.875rem 1rem;
-    gap: 0.75rem;
+    padding: 1rem 0.75rem;
     border-radius: 14px;
   }
 `;
 
 const LinksGrid = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   margin-bottom: 2rem;
 
@@ -184,10 +190,10 @@ const LinksGrid = styled.div`
 
 export const S = {
   Container,
+  BackButton,
   Profile,
   ProfileImage,
   ProfileInfo,
-  VideoFeature,
   LinksGrid,
   LinkTile,
   TileIcon,

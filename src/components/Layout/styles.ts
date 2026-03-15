@@ -29,6 +29,7 @@ const MainContent = styled.main`
   flex: 1;
   margin-left: 260px;
   padding: 2rem;
+  overflow-x: hidden;
 
   @media (max-width: 1100px) {
     margin-left: 0;
