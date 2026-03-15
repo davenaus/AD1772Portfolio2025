@@ -51,10 +51,10 @@ export const Home: React.FC = () => {
       })
       .catch(() => {
         // Fall back to static estimates on error
-        setTotalViews(145_000_000);
-        setTotalVideos(300);
-        setTotalChannels(20);
-        setTotalLikes(2_000_000);
+        setTotalViews(146_800_000);
+        setTotalVideos(424);
+        setTotalChannels(14);
+        setTotalLikes(6_400_000);
       })
       .finally(() => setStatsLoading(false));
   }, []);

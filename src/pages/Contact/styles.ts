@@ -2,12 +2,17 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 3rem 1rem; // Reduced side padding on mobile
+  padding: 3rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem 2rem;
+    min-height: unset;
+  }
 `;
 
 export const ContactGrid = styled.div`
@@ -18,7 +23,11 @@ export const ContactGrid = styled.div`
 
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1.25rem;
   }
 `;
 
@@ -27,8 +36,8 @@ export const ContactInfo = styled.div`
   top: 2rem;
 
   @media (max-width: 968px) {
-    position: static; // Remove sticky positioning on mobile
-    margin-bottom: 2rem;
+    position: static;
+    margin-bottom: 0;
   }
 `;
 
@@ -36,9 +45,14 @@ export const Title = styled.h1`
   font-size: 2.5rem;
   color: ${({ theme }) => theme.colors.blue9};
   margin-bottom: 1rem;
-  
+
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
   }
 `;
 
@@ -47,9 +61,11 @@ export const Description = styled.p`
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 2rem;
-  
+
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
   }
 `;
 
@@ -58,6 +74,11 @@ export const InfoItems = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
 `;
 
 export const InfoItem = styled.div`
@@ -71,7 +92,7 @@ export const InfoItem = styled.div`
     background: ${({ theme }) => theme.colors.blue3};
     padding: 0.75rem;
     border-radius: 12px;
-    min-width: 3rem; // Ensure consistent width
+    min-width: 3rem;
     text-align: center;
   }
 
@@ -84,6 +105,26 @@ export const InfoItem = styled.div`
   p {
     color: ${({ theme }) => theme.colors.blue11};
     font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    gap: 0.75rem;
+
+    i {
+      font-size: 1.25rem;
+      padding: 0.6rem;
+      min-width: 2.5rem;
+      border-radius: 10px;
+    }
+
+    h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.125rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
   }
 `;
 
@@ -118,14 +159,27 @@ export const ContactForm = styled.form`
   padding: 2rem;
   border-radius: 16px;
   border: 1px solid ${({ theme }) => theme.colors.blue3};
-  
+
   @media (max-width: 768px) {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    border-radius: 14px;
+  }
+
+  @media (max-width: 480px) {
+    /* Make submit button full-width on small screens */
+    > button {
+      width: 100%;
+      justify-content: center;
+    }
   }
 `;
 
 export const FormGroup = styled.div`
   margin-bottom: 1.5rem;
+
+  @media (max-width: 480px) {
+    margin-bottom: 1.125rem;
+  }
 `;
 
 export const Label = styled.label`
