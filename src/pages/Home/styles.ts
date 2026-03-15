@@ -833,6 +833,10 @@ const ServiceCard = styled.div`
   padding: 1.5rem;
   transition: all 0.3s ease;
 
+  @media (max-width: 480px) {
+    padding: 1.125rem;
+  }
+
   &:hover {
     transform: translateY(-5px);
     border-color: var(--blue6);
@@ -847,6 +851,12 @@ const ServiceIcon = styled.div`
   border-radius: 10px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
   justify-content: center;
   margin-bottom: 1rem;
 
@@ -865,6 +875,10 @@ const ServiceTitle = styled.h3`
   font-weight: 600;
   margin: 0 0 0.5rem;
   color: var(--blue9);
+
+  @media (max-width: 480px) {
+    font-size: 0.875rem;
+  }
 `;
 
 const ServiceDescription = styled.p`
@@ -872,6 +886,11 @@ const ServiceDescription = styled.p`
   color: var(--blue11);
   margin: 0;
   line-height: 1.6;
+
+  @media (max-width: 480px) {
+    font-size: 0.775rem;
+    line-height: 1.5;
+  }
 `;
 
 // Skeleton / shimmer loaders
