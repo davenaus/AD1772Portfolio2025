@@ -82,21 +82,11 @@ export const TiktokLinks: React.FC = () => {
           </S.SocialGrid>
         </S.ProfileCard>
 
-        <S.VideoFeature>
-          <iframe
-            src="https://www.youtube.com/embed/3a8-PfYVLgo"
-            title="Austin Davenport - Featured Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </S.VideoFeature>
-
         <S.LinksGrid>
           {linkItems.map((item, index) => (
             <S.LinkCard
               key={index}
               onClick={() => handleLinkClick(item.href, item.isInternalLink)}
-              className={item.isInternalLink ? 'more-tile' : ''}
               style={{ '--index': index } as React.CSSProperties}
             >
               <S.CardGlow />
@@ -109,7 +99,7 @@ export const TiktokLinks: React.FC = () => {
                   <S.CardDescription>{item.description}</S.CardDescription>
                 </S.TextContent>
                 <S.ActionIcon>
-                  <i className="bx bx-link-external" />
+                  <i className={item.isInternalLink ? 'bx bx-chevron-right' : 'bx bx-link-external'} />
                 </S.ActionIcon>
               </S.CardContent>
             </S.LinkCard>

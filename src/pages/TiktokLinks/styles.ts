@@ -296,23 +296,23 @@ const LinksGrid = styled.div`
 `;
 
 const CardContent = styled.div`
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.875rem;
   position: relative;
   z-index: 1;
 
   @media (max-width: 480px) {
-    padding: 1rem;
+    padding: 0.875rem 1rem;
     gap: 0.75rem;
   }
 `;
 
 const IconWrapper = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: ${({ theme }) => theme.colors.blue3};
   display: flex;
   align-items: center;
@@ -323,21 +323,7 @@ const IconWrapper = styled.div`
 
   i {
     font-size: 20px;
-  }
-
-  .featured & {
-    background: ${({ theme }) => theme.colors.blue5};
-    border-color: ${({ theme }) => theme.colors.blue6};
-  }
-
-  @media (max-width: 480px) {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-
-    i {
-      font-size: 18px;
-    }
+    line-height: 1;
   }
 `;
 
@@ -348,37 +334,31 @@ const TextContent = styled.div`
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1.1rem;
+  font-size: 0.975rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.blue9};
-  margin: 0 0 0.25rem 0;
-
-  @media (max-width: 480px) {
-    font-size: 0.95rem;
-  }
+  margin: 0 0 0.15rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CardDescription = styled.p`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.blue11};
+  font-size: 0.775rem;
+  color: ${({ theme }) => theme.colors.blue10};
   margin: 0;
-  line-height: 1.4;
-
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
-  }
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ActionIcon = styled.div`
-  color: ${({ theme }) => theme.colors.blue8};
+  color: ${({ theme }) => theme.colors.blue7};
   font-size: 18px;
+  line-height: 1;
   flex-shrink: 0;
   transition: all 0.3s ease;
-
-  .copied & {
-    color: ${({ theme }) => theme.colors.blue9};
-    transform: scale(1.2);
-  }
 `;
 
 const CardGlow = styled.div`
@@ -444,37 +424,6 @@ const LinkCard = styled.button`
   &.copied {
     background: ${({ theme }) => theme.colors.blue5};
     border-color: ${({ theme }) => theme.colors.blue7};
-  }
-
-  &.more-tile {
-    ${CardContent} {
-      padding: 1.25rem 1.5rem;
-      justify-content: space-between;
-    }
-
-    ${IconWrapper} {
-      margin-right: 0;
-    }
-
-    ${TextContent} {
-      display: flex;
-      align-items: center;
-      flex: 1;
-      margin: 0 1rem;
-
-      ${CardTitle}, ${CardDescription} {
-        margin: 0;
-        margin-right: 1rem;
-      }
-
-      ${CardDescription} {
-        flex: 1;
-      }
-    }
-
-    ${ActionIcon} {
-      font-size: 24px;
-    }
   }
 `;
 

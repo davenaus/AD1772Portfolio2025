@@ -93,21 +93,13 @@ const TileIcon = styled.div`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid ${({ theme }) => theme.colors.blue4};
   transition: background-color 0.2s ease;
 
   i {
-    font-size: 22px;
+    font-size: 20px;
+    line-height: 1;
     color: ${({ theme }) => theme.colors.blue9};
-  }
-
-  @media (max-width: 480px) {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-
-    i {
-      font-size: 18px;
-    }
   }
 `;
 
@@ -118,24 +110,22 @@ const TileContent = styled.div`
 
   h3 {
     color: ${({ theme }) => theme.colors.blue9};
-    font-size: 1rem;
+    font-size: 0.975rem;
     font-weight: 600;
-    margin: 0 0 0.2rem 0;
-
-    @media (max-width: 480px) {
-      font-size: 0.9rem;
-    }
+    margin: 0 0 0.15rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   p {
-    color: ${({ theme }) => theme.colors.blue11};
-    font-size: 0.825rem;
-    line-height: 1.4;
+    color: ${({ theme }) => theme.colors.blue10};
+    font-size: 0.775rem;
+    line-height: 1.3;
     margin: 0;
-
-    @media (max-width: 480px) {
-      font-size: 0.775rem;
-    }
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
