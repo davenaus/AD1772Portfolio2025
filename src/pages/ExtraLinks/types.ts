@@ -4,5 +4,6 @@ export interface LinkItem {
   icon: string;
   title: string;
   description: string;
+  isCopyable?: boolean;
   isInternalLink?: boolean;
 }

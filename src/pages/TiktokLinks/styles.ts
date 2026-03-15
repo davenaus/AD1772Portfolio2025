@@ -32,7 +32,7 @@ const Container = styled.div`
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.blue1 || '#f8f9fa'};
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   padding: 2rem 1rem;
   display: flex;
   align-items: flex-start;
@@ -225,7 +225,7 @@ const Bio = styled.p`
 
 const SocialGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
 `;
 
@@ -499,6 +499,27 @@ const CopiedOverlay = styled.div`
   }
 `;
 
+const VideoFeature = styled.div`
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  margin-bottom: 1.25rem;
+  background: ${({ theme }) => theme.colors.blue2};
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+  iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+  }
+
+  @media (max-width: 480px) {
+    border-radius: 16px;
+    margin-bottom: 1rem;
+  }
+`;
+
 export const S = {
   Container,
   BackgroundShapes,
@@ -511,9 +532,9 @@ export const S = {
   ProfileInfo,
   Username,
   JobTitle,
-  Bio,
   SocialGrid,
   SocialButton,
+  VideoFeature,
   LinksGrid,
   LinkCard,
   CardGlow,

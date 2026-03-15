@@ -1,14 +1,19 @@
 // src/pages/ExtraLinks/styles.ts
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const slideIn = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 1rem;
 
   @media (max-width: 768px) {
-    padding: 1rem;
+    padding: 1rem 0.75rem 2rem;
   }
 `;
 
@@ -17,15 +22,17 @@ const Profile = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  animation: ${slideIn} 0.6s ease-out;
 `;
 
 const ProfileImage = styled.div`
   width: 72px;
   height: 72px;
-  border-radius: 1rem;
+  border-radius: 50%;
   overflow: hidden;
+  border: 2px solid ${({ theme }) => theme.colors.blue4};
 
   img {
     width: 100%;
@@ -37,123 +44,151 @@ const ProfileImage = styled.div`
 const ProfileInfo = styled.div`
   h1 {
     color: ${({ theme }) => theme.colors.blue9};
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 700;
     margin-bottom: 0.25rem;
+
+    @media (max-width: 480px) {
+      font-size: 1.2rem;
+    }
   }
 
   p {
     color: ${({ theme }) => theme.colors.blue11};
     font-size: 0.875rem;
     line-height: 1.4;
-    max-width: 400px;
+    max-width: 360px;
+    margin: 0 auto;
   }
 `;
 
-const SocialIcons = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: ${({ theme }) => theme.colors.blue3};
-    color: ${({ theme }) => theme.colors.blue9};
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.blue4};
-      transform: translateY(-2px);
-    }
-    
-    i {
-      font-size: 20px;
-    }
+const VideoFeature = styled.div`
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.blue3};
+  margin-bottom: 1.25rem;
+  background: ${({ theme }) => theme.colors.blue2};
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  animation: ${slideIn} 0.7s ease-out;
+
+  iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+  }
+
+  @media (max-width: 480px) {
+    border-radius: 16px;
+    margin-bottom: 1rem;
   }
 `;
 
 const TileIcon = styled.div`
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   background-color: ${({ theme }) => theme.colors.blue3};
-  border-radius: 0.75rem;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
 
   i {
-    font-size: 24px;
+    font-size: 22px;
     color: ${({ theme }) => theme.colors.blue9};
+  }
+
+  @media (max-width: 480px) {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+
+    i {
+      font-size: 18px;
+    }
   }
 `;
 
 const TileContent = styled.div`
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+
   h3 {
     color: ${({ theme }) => theme.colors.blue9};
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.2rem 0;
+
+    @media (max-width: 480px) {
+      font-size: 0.9rem;
+    }
   }
 
   p {
     color: ${({ theme }) => theme.colors.blue11};
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: 0.825rem;
+    line-height: 1.4;
+    margin: 0;
+
+    @media (max-width: 480px) {
+      font-size: 0.775rem;
+    }
   }
 `;
 
 const LinkTile = styled.div`
   background-color: ${({ theme }) => theme.colors.blue2};
   border: 1px solid ${({ theme }) => theme.colors.blue3};
-  border-radius: 1rem;
-  padding: 1.5rem;
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.blue4};
+    border-color: ${({ theme }) => theme.colors.blue5};
+    background-color: ${({ theme }) => theme.colors.blue3};
     transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
-  
-  &.back-tile {
-    grid-column: 1 / -1;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    
+
+  &.copied {
+    border-color: ${({ theme }) => theme.colors.blue6};
+    background-color: ${({ theme }) => theme.colors.blue4};
+
     ${TileIcon} {
-      margin-bottom: 0;
-      margin-right: 1rem;
-    }
-    
-    ${TileContent} {
-      display: flex;
-      align-items: center;
-      
-      h3, p {
-        margin-bottom: 0;
-        margin-right: 1rem;
+      background-color: ${({ theme }) => theme.colors.blue6};
+
+      i {
+        color: ${({ theme }) => theme.colors.blue1};
       }
     }
+  }
+
+  &.back-tile {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+    border-radius: 14px;
   }
 `;
 
 const LinksGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 2rem;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 480px) {
+    gap: 0.625rem;
   }
 `;
 
@@ -162,7 +197,7 @@ export const S = {
   Profile,
   ProfileImage,
   ProfileInfo,
-  SocialIcons,
+  VideoFeature,
   LinksGrid,
   LinkTile,
   TileIcon,

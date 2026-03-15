@@ -1,12 +1,25 @@
 // src/pages/ExtraLinks/ExtraLinks.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LinkItem } from './types';
 import { S } from './styles';
 import { useCanonical } from '../../utils/useCanonical';
 
 const linkItems: LinkItem[] = [
   {
-    href: "https://spoti.fi/3GNAwkd",
+    href: "https://www.youtool.io/link-in-bio-page-maker",
+    icon: "bx-link",
+    title: "My Linktree Alternative",
+    description: "Tap to copy link — build your free link-in-bio page",
+    isCopyable: true
+  },
+  {
+    href: "https://youtool.io",
+    icon: "bx-search-alt",
+    title: "YouTool.io",
+    description: "Free tools to optimize your content"
+  },
+  {
+    href: "https://open.spotify.com/playlist/0YCHie7xPtBwavLn8SbBNb",
     icon: "bx-music",
     title: "DMCA Safe Streaming Music",
     description: "80-hour playlist of copyright-free music for your streams"
@@ -15,7 +28,7 @@ const linkItems: LinkItem[] = [
     href: "https://shop.austindavenport.com/products/the-youtube-blueprint-ebook",
     icon: "bx-book-open",
     title: "The YouTube Blueprint",
-    description: "Complete guide to growing your YouTube channel and optimizing your content"
+    description: "Complete guide to growing your YouTube channel"
   },
   {
     href: "https://discord.com/template/CnvsmH38kruM",
@@ -27,19 +40,19 @@ const linkItems: LinkItem[] = [
     href: "https://www.youtube.com/watch?v=d50kxEBrcNA",
     icon: "bx-target-lock",
     title: "FREE Fortnite Custom Healthbar",
-    description: "Download our custom Fortnite healthbar template and enhance your gaming streams"
+    description: "Download our custom Fortnite healthbar template"
   },
   {
     href: "https://www.youtube.com/watch?v=IpPc1be2PWY",
     icon: "bx-target-lock",
     title: "FREE Apex Legends Custom Banner",
-    description: "Get our professionally designed Apex Legends banner templates"
+    description: "Professionally designed Apex Legends banner templates"
   },
   {
     href: "https://www.youtube.com/watch?v=IliDU2wBgOs",
     icon: "bx-target-lock",
     title: "FREE Warzone 2.0 Custom Banner",
-    description: "Download our custom Warzone banner template for your streams"
+    description: "Custom Warzone banner template for your streams"
   },
   {
     href: "https://www.youtube.com/watch?v=q_KqhytxBAs",
@@ -59,13 +72,20 @@ const linkItems: LinkItem[] = [
 export const ExtraLinks: React.FC = () => {
   useCanonical('/extra-links');
   useEffect(() => { document.title = 'Extra Links | Austin Davenport'; }, []);
-  const handleExternalClick = (url: string, isInternalLink = false) => {
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleClick = (url: string, isCopyable = false, isInternalLink = false) => {
+    if (isCopyable) {
+      navigator.clipboard.writeText(url).then(() => {
+        setCopiedLink(true);
+        setTimeout(() => setCopiedLink(false), 3000);
+      });
+      return;
+    }
     if (isInternalLink) {
-      // Handle internal navigation
       window.location.href = url;
       return;
     }
-    
     window.open(url, '_blank', 'noopener noreferrer');
   };
 
@@ -73,9 +93,9 @@ export const ExtraLinks: React.FC = () => {
     <S.Container>
       <S.Profile>
         <S.ProfileImage>
-          <img 
-            src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s2048x3072/cd2e6fdd67cb4fe3ad30bf06ef4b75c42291e2f6.pnj" 
-            alt="Austin Davenport" 
+          <img
+            src="https://64.media.tumblr.com/44ab51b7b5c73d1a68f728d92becd3b3/029f5263603a04c1-96/s2048x3072/cd2e6fdd67cb4fe3ad30bf06ef4b75c42291e2f6.pnj"
+            alt="Austin Davenport"
           />
         </S.ProfileImage>
         <S.ProfileInfo>
@@ -84,31 +104,31 @@ export const ExtraLinks: React.FC = () => {
         </S.ProfileInfo>
       </S.Profile>
 
-      <S.SocialIcons>
-        <a href="https://www.youtube.com/@AustinDavenport" target="_blank" rel="noopener noreferrer">
-          <i className="bx bxl-youtube"></i>
-        </a>
-        <a href="https://www.tiktok.com/@austindavenport_" target="_blank" rel="noopener noreferrer">
-          <i className="bx bxl-tiktok"></i>
-        </a>
-        <a href="https://discord.com/invite/vuKtEXJ" target="_blank" rel="noopener noreferrer">
-          <i className="bx bxl-discord-alt"></i>
-        </a>
-      </S.SocialIcons>
+      <S.VideoFeature>
+        <iframe
+          src="https://www.youtube.com/embed/3a8-PfYVLgo"
+          title="Austin Davenport - Featured Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </S.VideoFeature>
 
       <S.LinksGrid>
         {linkItems.map((item, index) => (
-          <S.LinkTile 
+          <S.LinkTile
             key={index}
-            onClick={() => handleExternalClick(item.href, item.isInternalLink)}
-            className={item.isInternalLink ? 'back-tile' : ''}
+            onClick={() => handleClick(item.href, item.isCopyable, item.isInternalLink)}
+            className={[
+              item.isInternalLink ? 'back-tile' : '',
+              item.isCopyable && copiedLink ? 'copied' : ''
+            ].join(' ').trim()}
           >
             <S.TileIcon>
-              <i className={`bx ${item.icon}`} />
+              <i className={`bx ${item.isCopyable ? (copiedLink ? 'bx-check' : 'bx-copy') : item.icon}`} />
             </S.TileIcon>
             <S.TileContent>
               <h3>{item.title}</h3>
-              <p>{item.description}</p>
+              <p>{item.isCopyable && copiedLink ? 'Copied to clipboard!' : item.description}</p>
             </S.TileContent>
           </S.LinkTile>
         ))}
